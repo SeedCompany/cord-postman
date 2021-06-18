@@ -37,7 +37,6 @@ newman run Cord_API_V3_Story.postman_collection.json -e integration.postman_envi
 >> FileUpload
 newman run Cord_API_V3_FileUpload.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
 
-
 >> Song
 newman run Cord_API_V3_Song.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
 
@@ -46,3 +45,27 @@ newman run Cord_API_V3_Unavailability.postman_collection.json -e integration.pos
 
 >> ChangePassword
 newman run Cord_API_V3_ChangePassword.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+
+>> Search_Language
+newman run Cord_API_V3_Search_Language.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> Search_Film
+newman run Cord_API_V3_Search_Film.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> Search_LiteracyMaterial
+newman run Cord_API_V3_Search_LiteracyMaterial.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> Search_Location
+newman run Cord_API_V3_Search_Location.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> Search_Song
+newman run Cord_API_V3_Search_Song.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> Search_Story
+newman run Cord_API_V3_Search_Story.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> Search_User
+newman run Cord_API_V3_Search_User.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+

@@ -70,3 +70,37 @@ newman run Cord_API_V3_FieldZone.postman_collection.json -e local.postman_enviro
 
 >> FundingAccount
 newman run Cord_API_V3_FundingAccount.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> Search_Language
+newman run Cord_API_V3_Search_Language.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> Search_Film
+newman run Cord_API_V3_Search_Film.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> Search_LiteracyMaterial
+newman run Cord_API_V3_Search_LiteracyMaterial.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> Search_Location
+newman run Cord_API_V3_Search_Location.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> Search_Song
+newman run Cord_API_V3_Search_Song.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> Search_Story
+newman run Cord_API_V3_Search_Story.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> Search_User
+newman run Cord_API_V3_Search_User.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -177,6 +177,9 @@
 									"var id = jsonData.data.login.user.id;",
 									"pm.globals.set(\"userid\", id);",
 									"",
+									"var user = JSON.stringify(jsonData.data.login.user);",
+									"pm.globals.set(\"user_data\", user);",
+									"",
 									"var email = jsonData.data.login.user.email.value;",
 									"pm.globals.set(\"email\", email);",
 									""

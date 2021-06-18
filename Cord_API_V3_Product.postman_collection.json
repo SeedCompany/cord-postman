@@ -2035,7 +2035,6 @@
 							"script": {
 								"exec": [
 									"var jsonData = pm.response.json();\r",
-									"const moment = require('moment');\r",
 									"\r",
 									"//Common Verification\r",
 									"pm.test(\"Status code is 200\", function () {\r",
