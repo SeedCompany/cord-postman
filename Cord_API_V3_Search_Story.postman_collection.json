@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "4325ebc5-771a-44a2-a099-f6d2cc3adab5",
+		"_postman_id": "2815a2d3-f8d9-4dd8-9cc5-bd0f6fe9ecff",
 		"name": "Cord_API_V3_Search_Story",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -226,7 +226,7 @@
 					"response": []
 				},
 				{
-					"name": "Create Story Success - Diffrent Book",
+					"name": "Pre - req for create  story ( Create Story Success - Diffrent Book )",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -268,7 +268,16 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"var id = jsonData.data.createStory.story.id;\r",
+									"\r",
+									"// Saving data for future use\r",
+									"pm.globals.set(\"storyId\", id);\r",
+									"\r",
+									"// Saving whole Story Object to globals for future use\r",
+									"var story = JSON.stringify(jsonData.data.createStory.story);\r",
+									"pm.globals.set(\"story_data\", story);"
 								],
 								"type": "text/javascript"
 							}
@@ -332,7 +341,7 @@
 			"name": "Search - Story",
 			"item": [
 				{
-					"name": "Search Query Story Success",
+					"name": "Search Story Success",
 					"event": [
 						{
 							"listen": "test",
@@ -340,13 +349,15 @@
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"const moment = require('moment');",
+									"var story_data = JSON.parse(pm.variables.get(\"story_data\"));",
+									"var lodash = require('lodash');",
 									"",
 									"//Common Verification",
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -354,6 +365,14 @@
 									"pm.test(\"Verify that Story ID is not blank or null\", function () {",
 									"    var id = jsonData.data.search.items.id;",
 									"    pm.expect(id).to.not.eql(null);",
+									"    pm.expect(id).to.not.eql(\"\");",
+									"});",
+									"",
+									"var myStory = lodash.find(jsonData.data.search.items, ['id', story_data.id]);",
+									"",
+									"pm.test(\"Verifying Film ID\", function () {",
+									"    var id = myStory.id;",
+									"    pm.expect(id).to.eql(story_data.id);",
 									"});",
 									"",
 									"pm.test(\"Verify that Story's createdAt is in Specific time format\", function () {",
@@ -371,7 +390,11 @@
 									"    var storyType = jsonData.data.search.items[0].__typename;",
 									"    pm.expect(storyType).to.eql(pm.globals.get('storyType'));",
 									"});",
-									""
+									"",
+									"pm.test(\"Verify that only one stor is returned\", function () {",
+									"    var total = jsonData.data.search.items.length;",
+									"    pm.expect(total).to.be.equal(1);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -423,7 +446,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Story name with short query name",
+					"name": "Search Story name with short query name",
 					"event": [
 						{
 							"listen": "test",
@@ -437,7 +460,7 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -509,83 +532,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Story Mandatory Field Blank - Count",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = pm.response.json();",
-									"",
-									"//Common Verification",
-									"pm.test(\"Status code is 400\", function () {",
-									"    pm.response.to.have.status(400);",
-									"});",
-									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
-									"});",
-									"",
-									"//Test Specific",
-									"pm.test(\"Verify that count error message is correct\", function () {",
-									"    var invalid_count = jsonData.errors[0].message;",
-									"    pm.expect(invalid_count).to.eql( \"Variable \\\"$input\\\" got invalid value \\\"\\\" at \\\"input.count\\\"; Int cannot represent non-integer value: \\\"\\\"\");",
-									"});",
-									"",
-									"pm.test(\"Verify that internal server error message is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\");",
-									"",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ...on Story{\r\n      id\r\n      createdAt\r\n      scriptureReferences {\r\n        value {\r\n          start {\r\n            book\r\n            chapter\r\n            verse\r\n            label\r\n          }\r\n          end {\r\n            book\r\n            chapter\r\n            verse\r\n            label\r\n          }\r\n          label\r\n          totalVerses\r\n        }\r\n        canEdit\r\n        canRead\r\n      }\r\n      name {\r\n        value\r\n        canEdit\r\n        canRead\r\n      }\r\n    }\r\n      }\r\n    }\r\n  }\r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"count\":\"\",\r\n        \"page\": {{page}},\r\n        \"query\": \"{{storyName}}\",\r\n        \"type\": \"{{storyType}}\"\r\n    }\r\n}"
-							}
-						},
-						"url": {
-							"raw": "{{env}}/graphql",
-							"host": [
-								"{{env}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Search Query Story Mandatory Field Removed -  Count",
+					"name": "Search Story Not Mandatory Field Removed -  Count",
 					"event": [
 						{
 							"listen": "test",
@@ -598,7 +545,7 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -658,7 +605,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Story Mandatory Field Blank - Page",
+					"name": "Search Story Mandatory Field Removed - Query",
 					"event": [
 						{
 							"listen": "test",
@@ -671,83 +618,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
-									"});",
-									"",
-									"//Test Specific",
-									"pm.test(\"Verify that page error message is correct\", function () {",
-									"    var page = jsonData.errors[0].message;",
-									"    pm.expect(page).to.eql(\"Variable \\\"$input\\\" got invalid value \\\"\\\" at \\\"input.page\\\"; Int cannot represent non-integer value: \\\"\\\"\")",
-									"});",
-									"",
-									"pm.test(\"Verify that internal server error message is correct\", function () {",
-									"    var page= jsonData.errors[0].extensions.code;",
-									"    pm.expect(page).to.eql(\"INTERNAL_SERVER_ERROR\")",
-									"",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ...on Story{\r\n      id\r\n      createdAt\r\n      scriptureReferences {\r\n        value {\r\n          start {\r\n            book\r\n            chapter\r\n            verse\r\n            label\r\n          }\r\n          end {\r\n            book\r\n            chapter\r\n            verse\r\n            label\r\n          }\r\n          label\r\n          totalVerses\r\n        }\r\n        canEdit\r\n        canRead\r\n      }\r\n      name {\r\n        value\r\n        canEdit\r\n        canRead\r\n      }\r\n    }\r\n      }\r\n    }\r\n  }\r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"count\": {{itemCount}},\r\n        \"page\": \"\",\r\n        \"query\": \"{{storyName}}\",\r\n        \"type\":\" {{storyType}}\"\r\n    }\r\n}\r\n"
-							}
-						},
-						"url": {
-							"raw": "{{env}}/graphql",
-							"host": [
-								"{{env}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Search Query Story Mandatory Field Removed - Query",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = pm.response.json();",
-									"",
-									"//Common Verification",
-									"pm.test(\"Status code is 400\", function () {",
-									"    pm.response.to.have.status(400);",
-									"});",
-									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -758,7 +629,7 @@
 									"});",
 									"",
 									"pm.test(\"Verify that internal server error message is correct\", function () {",
-									"    var page= jsonData.errors[0].extensions.code;",
+									"    var page = jsonData.errors[0].extensions.code;",
 									"    pm.expect(page).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});",
@@ -811,7 +682,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Story Mandatory Field Blank - Type",
+					"name": "Search Story Not Mandatory Field Blank - Type",
 					"event": [
 						{
 							"listen": "test",
@@ -824,7 +695,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -835,7 +706,7 @@
 									"});",
 									"",
 									"pm.test(\"Verify that internal server error message is correct\", function () {",
-									"    var page= jsonData.errors[0].extensions.code;",
+									"    var page = jsonData.errors[0].extensions.code;",
 									"    pm.expect(page).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});",
@@ -887,7 +758,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Story Not Mandatory Field Removed - Type",
+					"name": "Search Story Not Mandatory Field Removed - Type",
 					"event": [
 						{
 							"listen": "test",
@@ -900,13 +771,13 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that story type name is equal to previous value\", function () {",
-									"    var type_name= jsonData.data.search.items[0].__typename;",
+									"    var type_name = jsonData.data.search.items[0].__typename;",
 									"    pm.expect(type_name).to.eql(pm.globals.get('storyType'));",
 									"",
 									"});",
@@ -958,7 +829,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Story Parameter Mismatch   - Count",
+					"name": "Search Story Parameter Mismatch   - Count",
 					"event": [
 						{
 							"listen": "test",
@@ -971,18 +842,18 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that count parameter mismatch error message is correct\", function () {",
 									"    var invalid_count = jsonData.errors[0].message;",
-									"    pm.expect(invalid_count).to.include( \"Field \\\"count1\\\" is not defined by type \\\"SearchInput\\\". Did you mean \\\"count\\\"?\")",
+									"    pm.expect(invalid_count).to.include(\"Field \\\"count1\\\" is not defined by type \\\"SearchInput\\\". Did you mean \\\"count\\\"?\")",
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
+									"    var count = jsonData.errors[0].extensions.code;",
 									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
@@ -1033,7 +904,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Story Parameter Mismatch   -  Page",
+					"name": "Search Story Parameter Mismatch   -  Page",
 					"event": [
 						{
 							"listen": "test",
@@ -1046,7 +917,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -1057,7 +928,7 @@
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is displayed\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
+									"    var count = jsonData.errors[0].extensions.code;",
 									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
@@ -1108,7 +979,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Story Parameter Mismatch   -  Query",
+					"name": "Search Story Parameter Mismatch   -  Query",
 					"event": [
 						{
 							"listen": "test",
@@ -1121,7 +992,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -1132,7 +1003,7 @@
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
+									"    var count = jsonData.errors[0].extensions.code;",
 									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
@@ -1189,7 +1060,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Story Parameter Mismatch   -  Type",
+					"name": "Search Story Parameter Mismatch   -  Type",
 					"event": [
 						{
 							"listen": "test",
@@ -1202,7 +1073,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -1264,7 +1135,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Story  Invalid Value -  Count",
+					"name": "Search Story  Invalid Value -  Count",
 					"event": [
 						{
 							"listen": "test",
@@ -1277,7 +1148,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -1339,7 +1210,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Story Invalid Value -  Page",
+					"name": "Search Story Invalid Value -  Page",
 					"event": [
 						{
 							"listen": "test",
@@ -1352,19 +1223,19 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that page invalid value error message is correct\", function () {",
-									"    var page= jsonData.errors[0].message;",
+									"    var page = jsonData.errors[0].message;",
 									"    pm.expect(page).to.include(\"Int cannot represent non-integer value: \\\"exff\\\"\");",
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"    var page = jsonData.errors[0].extensions.code;",
+									"    pm.expect(page).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
 								],
@@ -1414,7 +1285,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Story Invalid Value -  Type",
+					"name": "Search  Story Invalid Value -  Type",
 					"event": [
 						{
 							"listen": "test",
@@ -1427,19 +1298,19 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that type invalid value error message is correct\", function () {",
-									"    var type= jsonData.errors[0].message;",
+									"    var type = jsonData.errors[0].message;",
 									"    pm.expect(type).to.include(\"Value \\\"#$ESD\\\" does not exist in \\\"SearchType\\\" enum.\")",
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"    var type = jsonData.errors[0].extensions.code;",
+									"    pm.expect(type).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
 								],
@@ -1489,7 +1360,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Story invalid Value Count - Min",
+					"name": "Search Story invalid Value Count - Min",
 					"event": [
 						{
 							"listen": "test",
@@ -1501,19 +1372,19 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verifying count min error is correct\", function () {",
-									"var count_errormsg =jsonData.errors[0].message;",
-									" pm.expect(count_errormsg).eql(\"Input validation failed\");",
+									"    var count_errormsg = jsonData.errors[0].message;",
+									"    pm.expect(count_errormsg).eql(\"Input validation failed\");",
 									"});",
 									"",
 									"pm.test(\"Verifying count must not be less than 1 error is correct\", function () {",
-									"var count_errormsg2 =jsonData.errors[0].extensions.errors['count'].min;",
-									" pm.expect(count_errormsg2).eql(\"count must not be less than 1\");",
+									"    var error = jsonData.errors[0].extensions.errors['count'].min;",
+									"    pm.expect(error).eql(\"count must not be less than 1\");",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1562,7 +1433,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Story invalid Value Count - Max",
+					"name": "Search Story invalid Value Count - Max",
 					"event": [
 						{
 							"listen": "test",
@@ -1574,19 +1445,19 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verifying count max error is correct\", function () {",
-									"var count_errormsg =jsonData.errors[0].message;",
-									" pm.expect(count_errormsg).eql(\"Input validation failed\");",
+									"    var count_errormsg = jsonData.errors[0].message;",
+									"    pm.expect(count_errormsg).eql(\"Input validation failed\");",
 									"});",
 									"",
 									"pm.test(\"Verifying count must not be greater than 100 error is correct\", function () {",
-									"var count_errormsg2 =jsonData.errors[0].extensions.errors['count'].max;",
-									" pm.expect(count_errormsg2).eql(\"count must not be greater than 100\");",
+									"    var error = jsonData.errors[0].extensions.errors['count'].max;",
+									"    pm.expect(error).eql(\"count must not be greater than 100\");",
 									"});"
 								],
 								"type": "text/javascript"

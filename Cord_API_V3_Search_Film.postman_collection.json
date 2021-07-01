@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f673c030-17cc-4d23-bad8-7d56cdb0caf9",
+		"_postman_id": "700073d1-4f9e-472a-a609-7f86bdf73dee",
 		"name": "Cord_API_V3_Search_Film",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -450,7 +450,7 @@
 					"response": []
 				},
 				{
-					"name": "Create Film Success - Diifrent Book",
+					"name": "Pre-req for create film ( Create Film Success - Diifrent Book )",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -490,7 +490,16 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"var id = jsonData.data.createFilm.film.id;\r",
+									"\r",
+									"// Saving data for future use\r",
+									"pm.globals.set(\"filmId\", id);\r",
+									"\r",
+									"// Saving whole Film Object to globals for future use\r",
+									"var film = JSON.stringify(jsonData.data.createFilm.film);\r",
+									"pm.globals.set(\"film_data\", film);"
 								],
 								"type": "text/javascript"
 							}
@@ -554,7 +563,7 @@
 			"name": "Search - Film",
 			"item": [
 				{
-					"name": "Search Query Film Success",
+					"name": "Search Film Success",
 					"event": [
 						{
 							"listen": "test",
@@ -562,13 +571,15 @@
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"const moment = require('moment');",
+									"var film_data = JSON.parse(pm.variables.get(\"film_data\"));",
+									"var lodash = require('lodash');",
 									"",
 									"//Common Verification",
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -576,6 +587,16 @@
 									"pm.test(\"Verify that film ID is not blank or null\", function () {",
 									"    var id = jsonData.data.search.items.id;",
 									"    pm.expect(id).to.not.eql(null);",
+									"    pm.expect(id).to.not.eql(\"\");",
+									"});",
+									"",
+									"var myFilm = lodash.find(jsonData.data.search.items, ['id', film_data.id]);",
+									"",
+									"console.log('film_data', film_data)",
+									"",
+									"pm.test(\"Verifying Film ID\", function () {",
+									"    var id = myFilm.id;",
+									"    pm.expect(id).to.eql(film_data.id);",
 									"});",
 									"",
 									"pm.test(\"Verify that Film's createdAt is in Specific time format\", function () {",
@@ -592,6 +613,12 @@
 									"pm.test(\"Verify that typename name is same as requested\", function () {",
 									"    var film = jsonData.data.search.items[0].__typename;",
 									"    pm.expect(film).to.eql(pm.globals.get('filmType'));",
+									"});",
+									"",
+									"pm.test(\"Verify that only one film is returned\", function () {",
+									"    var total = jsonData.data.search.items.length;",
+									"    pm.expect(total).to.be.equal(1);",
+									"",
 									"});",
 									""
 								],
@@ -645,7 +672,7 @@
 					"response": []
 				},
 				{
-					"name": "Create Film Success - Diifrent Book",
+					"name": "Pre-req for search film ( Create Film Success - Diifrent Book )",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -685,7 +712,16 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"var id = jsonData.data.createFilm.film.id;\r",
+									"\r",
+									"// Saving data for future use\r",
+									"pm.globals.set(\"filmId\", id);\r",
+									"\r",
+									"// Saving whole Film Object to globals for future use\r",
+									"var film = JSON.stringify(jsonData.data.createFilm.film);\r",
+									"pm.globals.set(\"film_data\", film);"
 								],
 								"type": "text/javascript"
 							}
@@ -724,7 +760,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Film name with short query name",
+					"name": "Search Film name with short query name",
 					"event": [
 						{
 							"listen": "test",
@@ -739,7 +775,7 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -755,10 +791,9 @@
 									"    pm.expect(isValidTime).to.eql(true);",
 									"});",
 									"",
-									"pm.test(\"Verify that number of film\", function () {",
+									"pm.test(\"Verify that film is displayed\", function () {",
 									"    var total = jsonData.data.search.items.length;",
 									"    pm.expect(total).to.be.above(1);",
-									"",
 									"});",
 									"",
 									"",
@@ -780,11 +815,9 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"pm.globals.set(\"filmType\",'Film');\r",
-									"\r",
-									"pm.globals.set(\"itemCount\",25);\r",
-									"\r",
-									"pm.globals.set(\"page\",1);"
+									"pm.globals.set(\"filmType\", 'Film');\r",
+									"pm.globals.set(\"itemCount\", 25);\r",
+									"pm.globals.set(\"page\", 1);"
 								],
 								"type": "text/javascript"
 							}
@@ -823,83 +856,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Film Mandatory Field Blank - Count",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = pm.response.json();",
-									"",
-									"//Common Verification",
-									"pm.test(\"Status code is 400\", function () {",
-									"    pm.response.to.have.status(400);",
-									"});",
-									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
-									"});",
-									"",
-									"//Test Specific",
-									"pm.test(\"Verify that count error message is correct\", function () {",
-									"    var invalid_count = jsonData.errors[0].message;",
-									"    pm.expect(invalid_count).to.eql( \"Variable \\\"$input\\\" got invalid value \\\"\\\" at \\\"input.count\\\"; Int cannot represent non-integer value: \\\"\\\"\")",
-									"});",
-									"",
-									"pm.test(\"Verify that internal server error message is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
-									"",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ... on Film {\r\n        id\r\n        createdAt\r\n        canDelete\r\n        scriptureReferences {\r\n          value {\r\n            start {\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            end {\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            label\r\n            totalVerses\r\n          }\r\n          canRead\r\n          canEdit\r\n        }\r\n        name {\r\n          value\r\n          canRead\r\n          canEdit\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"count\": \"\",\r\n        \"page\": {{page}},\r\n        \"query\": \"{{filmName}}\",\r\n        \"type\": \"{{filmType}}\"\r\n    }\r\n}"
-							}
-						},
-						"url": {
-							"raw": "{{env}}/graphql",
-							"host": [
-								"{{env}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Search Query Film Mandatory Field Removed -  Count",
+					"name": "Search Film Not Mandatory Field Removed -  Count",
 					"event": [
 						{
 							"listen": "test",
@@ -912,7 +869,7 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -972,7 +929,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Film Mandatory Field Blank - Page",
+					"name": "Search Film Mandatory Field Removed - Query",
 					"event": [
 						{
 							"listen": "test",
@@ -985,83 +942,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
-									"});",
-									"",
-									"//Test Specific",
-									"pm.test(\"Verify that page error message is correct\", function () {",
-									"    var page = jsonData.errors[0].message;",
-									"    pm.expect(page).to.eql(\"Variable \\\"$input\\\" got invalid value \\\"\\\" at \\\"input.page\\\"; Int cannot represent non-integer value: \\\"\\\"\")",
-									"});",
-									"",
-									"pm.test(\"Verify that internal server error message is correct\", function () {",
-									"    var page= jsonData.errors[0].extensions.code;",
-									"    pm.expect(page).to.eql(\"INTERNAL_SERVER_ERROR\")",
-									"",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ... on Film {\r\n        id\r\n        createdAt\r\n        canDelete\r\n        scriptureReferences {\r\n          value {\r\n            start {\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            end {\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            label\r\n            totalVerses\r\n          }\r\n          canRead\r\n          canEdit\r\n        }\r\n        name {\r\n          value\r\n          canRead\r\n          canEdit\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"count\": {{itemCount}},\r\n        \"page\": \"\",\r\n        \"query\": \"{{filmName}}\",\r\n        \"type\": \"{{filmType}}\"\r\n    }\r\n}"
-							}
-						},
-						"url": {
-							"raw": "{{env}}/graphql",
-							"host": [
-								"{{env}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Search Query Film Mandatory Field Removed - Query",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = pm.response.json();",
-									"",
-									"//Common Verification",
-									"pm.test(\"Status code is 400\", function () {",
-									"    pm.response.to.have.status(400);",
-									"});",
-									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -1072,8 +953,8 @@
 									"});",
 									"",
 									"pm.test(\"Verify that internal server error message is correct\", function () {",
-									"    var page= jsonData.errors[0].extensions.code;",
-									"    pm.expect(page).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"    var query= jsonData.errors[0].extensions.code;",
+									"    pm.expect(query).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});",
 									"",
@@ -1125,7 +1006,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Film Mandatory Field Blank - Type",
+					"name": "Search Film Not Mandatory Field Blank - Type",
 					"event": [
 						{
 							"listen": "test",
@@ -1138,7 +1019,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -1149,8 +1030,8 @@
 									"});",
 									"",
 									"pm.test(\"Verify that internal server error message is correct\", function () {",
-									"    var page= jsonData.errors[0].extensions.code;",
-									"    pm.expect(page).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"    var type = jsonData.errors[0].extensions.code;",
+									"    pm.expect(type).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});",
 									""
@@ -1201,7 +1082,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Film Not Mandatory Field Removed - Type",
+					"name": "Search  Film Not Mandatory Field Removed - Type",
 					"event": [
 						{
 							"listen": "test",
@@ -1214,13 +1095,13 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that language type name is equal to previous value\", function () {",
-									"    var type_name= jsonData.data.search.items[0].__typename;",
+									"    var type_name = jsonData.data.search.items[0].__typename;",
 									"    pm.expect(type_name).to.eql(pm.globals.get('filmType'));",
 									"",
 									"});",
@@ -1272,7 +1153,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Film Parameter Mismatch   - Count",
+					"name": "Search Film Parameter Mismatch   - Count",
 					"event": [
 						{
 							"listen": "test",
@@ -1285,18 +1166,18 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that count parameter mismatch error message is correct\", function () {",
 									"    var invalid_count = jsonData.errors[0].message;",
-									"    pm.expect(invalid_count).to.include( \"Field \\\"count1\\\" is not defined by type \\\"SearchInput\\\". Did you mean \\\"count\\\"?\")",
+									"    pm.expect(invalid_count).to.include(\"Field \\\"count1\\\" is not defined by type \\\"SearchInput\\\". Did you mean \\\"count\\\"?\")",
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
+									"    var count = jsonData.errors[0].extensions.code;",
 									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
@@ -1347,7 +1228,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Film Parameter Mismatch   -  Page",
+					"name": "Search Film Parameter Mismatch   -  Page",
 					"event": [
 						{
 							"listen": "test",
@@ -1360,7 +1241,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -1371,8 +1252,8 @@
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"    var page= jsonData.errors[0].extensions.code;",
+									"    pm.expect(page).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
 								],
@@ -1422,7 +1303,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Film Parameter Mismatch   -  Query",
+					"name": "Search Film Parameter Mismatch   -  Query",
 					"event": [
 						{
 							"listen": "test",
@@ -1435,7 +1316,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -1446,8 +1327,8 @@
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"    var query= jsonData.errors[0].extensions.code;",
+									"    pm.expect(query).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
 								],
@@ -1503,7 +1384,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Film Parameter Mismatch   -  Type",
+					"name": "Search Film Parameter Mismatch   -  Type",
 					"event": [
 						{
 							"listen": "test",
@@ -1516,7 +1397,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -1527,8 +1408,8 @@
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count = jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"    var type = jsonData.errors[0].extensions.code;",
+									"    pm.expect(type).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
 								],
@@ -1578,7 +1459,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Film Invalid Value -  Count",
+					"name": "Search Film Invalid Value -  Count",
 					"event": [
 						{
 							"listen": "test",
@@ -1591,7 +1472,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -1653,7 +1534,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Film Invalid Value -  Page",
+					"name": "Search Film Invalid Value -  Page",
 					"event": [
 						{
 							"listen": "test",
@@ -1666,7 +1547,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -1677,8 +1558,8 @@
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"    var page= jsonData.errors[0].extensions.code;",
+									"    pm.expect(page).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
 								],
@@ -1728,7 +1609,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Film Invalid Value -  Type",
+					"name": "Search Film Invalid Value -  Type",
 					"event": [
 						{
 							"listen": "test",
@@ -1741,7 +1622,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -1752,8 +1633,8 @@
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"    var type= jsonData.errors[0].extensions.code;",
+									"    pm.expect(type).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
 								],
@@ -1803,7 +1684,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Film invalid Value Count - Min",
+					"name": "Search Film invalid Value Count - Min",
 					"event": [
 						{
 							"listen": "test",
@@ -1815,8 +1696,8 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
@@ -1826,8 +1707,8 @@
 									"});",
 									"",
 									"pm.test(\"Verifying count min error is correct\", function () {",
-									"var count_errormsg2 =jsonData.errors[0].extensions.errors['count'].min;",
-									" pm.expect(count_errormsg2).eql(\"count must not be less than 1\");",
+									"var error =jsonData.errors[0].extensions.errors['count'].min;",
+									" pm.expect(error).eql(\"count must not be less than 1\");",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1876,7 +1757,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Film invalid Value Count - Max",
+					"name": "Search Film invalid Value Count - Max",
 					"event": [
 						{
 							"listen": "test",
@@ -1888,20 +1769,22 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify input validation message is correct \", function () {",
-									"var count_errormsg =jsonData.errors[0].message;",
-									" pm.expect(count_errormsg).eql(\"Input validation failed\");",
+									"    var count_errormsg = jsonData.errors[0].message;",
+									"    pm.expect(count_errormsg).eql(\"Input validation failed\");",
 									"});",
 									"",
 									"pm.test(\"Verifying count max error is correct\", function () {",
-									"var count_errormsg2 =jsonData.errors[0].extensions.errors['count'].max;",
-									" pm.expect(count_errormsg2).eql(\"count must not be greater than 100\");",
-									"});"
+									"    var error = jsonData.errors[0].extensions.errors['count'].max;",
+									"    pm.expect(error).eql(\"count must not be greater than 100\");",
+									"});",
+									"",
+									""
 								],
 								"type": "text/javascript"
 							}

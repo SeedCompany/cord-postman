@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "986364a2-4042-4f90-b338-ad6757245036",
+		"_postman_id": "ff4a1f92-af6d-4a2f-9ece-38b213cbfad5",
 		"name": "Cord_API_V3_Search_Location",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -227,7 +227,7 @@
 					"response": []
 				},
 				{
-					"name": "Create fieldZone",
+					"name": "Pre-req for search location ( Create fieldZone )",
 					"event": [
 						{
 							"listen": "test",
@@ -298,7 +298,7 @@
 					"response": []
 				},
 				{
-					"name": "Create Funding Account",
+					"name": "Pre-req for search location ( Create Funding Account )",
 					"event": [
 						{
 							"listen": "test",
@@ -367,7 +367,7 @@
 					"response": []
 				},
 				{
-					"name": "Create fieldRegion",
+					"name": "Pre-req for search location ( Create fieldRegion )",
 					"event": [
 						{
 							"listen": "test",
@@ -435,142 +435,24 @@
 					"response": []
 				},
 				{
-					"name": "Create Location Success",
+					"name": "Pre-req for create location ( Create Location Success )",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
 									"var jsonData = pm.response.json();",
-									"const moment = require('moment');",
 									"",
-									"var fieldRegion_data = JSON.parse(pm.variables.get(\"fieldRegion_data\"));",
-									"var fundingAccount_data = JSON.parse(pm.globals.get('fundingAccount_data'));",
-									"var fieldZone_data = JSON.parse(pm.globals.get('fieldZone_data'));",
+									"var id = jsonData.data.createLocation.location.id;",
 									"",
-									"//Common Verification",
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
-									"});",
-									"",
-									"//Test Specific",
-									"pm.test(\"Verify that location ID is not blank or null\", function () {",
-									"    var id = jsonData.data.createLocation.location.id;",
-									"    pm.expect(id).to.not.eql(null);",
-									"    pm.expect(id).to.not.eql(\"\");",
-									"",
-									"    // Saving data for future use",
-									"    pm.globals.set(\"locationid\", id);",
-									"});",
+									"// Saving data for future use",
+									"pm.globals.set(\"locationid\", id);",
 									"",
 									"// Saving whole location Object to globals for future use",
 									"var location = JSON.stringify(jsonData.data.createLocation.location);",
 									"pm.globals.set(\"location_data\", location);",
 									"",
-									"pm.test(\"Verify that location's createdAt is in Specific time format\", function () {",
-									"    var time = jsonData.data.createLocation.location.createdAt;",
-									"    var isValidTime = moment(time, \"YYYY-MM-DDTHH:mm:ss.SSSZ\", true).isValid();",
-									"    pm.expect(isValidTime).to.eql(true);",
-									"});",
-									"",
-									"pm.test(\"Verify that location Name is same as requested\", function () {",
-									"    var locationName = jsonData.data.createLocation.location.name.value;",
-									"    pm.expect(locationName).to.eql(pm.globals.get('locationName'));",
-									"});",
-									"",
-									"pm.test(\"Verify that location type is same as requested\", function () {",
-									"    var type = jsonData.data.createLocation.location.type.value;",
-									"    pm.expect(type).to.eql(pm.globals.get('locationType'));",
-									"});",
-									"",
-									"pm.test(\"Verify that location isoAlpha3 code  is same as requested\", function () {",
-									"    var isoAlpha3 = jsonData.data.createLocation.location.isoAlpha3.value;",
-									"    pm.expect(isoAlpha3).to.eql(pm.globals.get('isoAlpha3'));",
-									"});",
-									"",
-									"// Verify fundingAccount details",
-									"pm.test(\"Verifying fundingAccount ID\", function () {",
-									"    var id = jsonData.data.createLocation.location.fundingAccount.value.id;",
-									"    pm.expect(id).to.eql(fundingAccount_data.id);",
-									"});",
-									"",
-									"pm.test(\"Verifying fundingAccount createdAt\", function () {",
-									"    var createdAt = jsonData.data.createLocation.location.fundingAccount.value.createdAt;",
-									"    pm.expect(createdAt).to.eql(fundingAccount_data.createdAt);",
-									"});",
-									"",
-									"pm.test(\"Verifying fundingAccount name\", function () {",
-									"    var name = jsonData.data.createLocation.location.fundingAccount.value.name.value;",
-									"    pm.expect(name).to.eql(fundingAccount_data.name.value);",
-									"});",
-									"",
-									"pm.test(\"Verifying fundingAccount accountNumber\", function () {",
-									"    var accountNumber = jsonData.data.createLocation.location.fundingAccount.value.accountNumber.value;",
-									"    pm.expect(accountNumber).to.eql(fundingAccount_data.accountNumber.value);",
-									"});",
-									"",
-									"// Verifying defaultFieldRegion details",
-									"",
-									"pm.test(\"Verifying that defaultFieldRegion ID is not blank or null\", function () {",
-									"    var id = jsonData.data.createLocation.location.defaultFieldRegion.value.id;",
-									"    pm.expect(id).to.not.eql(null);",
-									"    pm.expect(id).to.not.eql(\"\");",
-									"});",
-									"",
-									"pm.test(\"Verifying that defaultFieldRegion createdAt is in Specific time format\", function () {",
-									"    var time = jsonData.data.createLocation.location.defaultFieldRegion.value.createdAt;",
-									"    var isValidTime = moment(time, \"YYYY-MM-DDTHH:mm:ss.SSSZ\", true).isValid();",
-									"    pm.expect(isValidTime).to.eql(true);",
-									"});",
-									"",
-									"pm.test(\"Verifying defaultFieldRegion canDelete is true\", function () {",
-									"    var canDelete = jsonData.data.createLocation.location.defaultFieldRegion.value.canDelete;",
-									"    pm.expect(canDelete).to.eql(true);",
-									"});",
-									"",
-									"pm.test(\"Verifying defaultFieldRegion name\", function () {",
-									"    var name = jsonData.data.createLocation.location.defaultFieldRegion.value.name.value;",
-									"    pm.expect(name).to.eql(fieldRegion_data.name.value);",
-									"});",
-									"",
-									"// Verifyinging User data for FieldRegion",
-									"pm.test(\"Verifying director ID is not blank or null\", function () {",
-									"    var id = jsonData.data.createLocation.location.defaultFieldRegion.value.director.value.id;",
-									"    pm.expect(id).to.not.eql(null);",
-									"    pm.expect(id).to.not.eql(\"\");",
-									"});",
-									"",
-									"pm.test(\"Verifying fieldZone ID is not blank or null\", function () {",
-									"    var id = jsonData.data.createLocation.location.defaultFieldRegion.value.fieldZone.value.id;",
-									"    pm.expect(id).to.not.eql(null);",
-									"    pm.expect(id).to.not.eql(\"\");",
-									"});",
-									"",
-									"pm.test(\"Verifying fieldZone createdAt is in Specific time format\", function () {",
-									"    var time = jsonData.data.createLocation.location.defaultFieldRegion.value.fieldZone.value.createdAt;",
-									"    var isValidTime = moment(time, \"YYYY-MM-DDTHH:mm:ss.SSSZ\", true).isValid();",
-									"    pm.expect(isValidTime).to.eql(true);",
-									"});",
-									"",
-									"pm.test(\"Verifying fieldZone canDelete is true\", function () {",
-									"    var canDelete = jsonData.data.createLocation.location.defaultFieldRegion.value.fieldZone.value.canDelete;",
-									"    pm.expect(canDelete).to.eql(true);",
-									"});",
-									"",
-									"pm.test(\"Verifying fieldZone name is same as requested\", function () {",
-									"    var name = jsonData.data.createLocation.location.defaultFieldRegion.value.fieldZone.value.name.value;",
-									"    pm.expect(name).to.eql(fieldZone_data.name.value);",
-									"});",
-									"",
-									"pm.test(\"Verifying fieldZone director ID is not blank or null\", function () {",
-									"    var id = jsonData.data.createLocation.location.defaultFieldRegion.value.fieldZone.value.director.value.id;",
-									"    pm.expect(id).to.not.eql(null);",
-									"    pm.expect(id).to.not.eql(\"\");",
-									"});"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -670,7 +552,7 @@
 			"name": "Search - Location",
 			"item": [
 				{
-					"name": "Search Query Location Success",
+					"name": "Search Location Success",
 					"event": [
 						{
 							"listen": "test",
@@ -678,13 +560,14 @@
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"const moment = require('moment');",
-									"",
+									"var location_data = JSON.parse(pm.variables.get(\"location_data\"));",
+									"var lodash = require('lodash');",
 									"//Common Verification",
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -692,7 +575,17 @@
 									"pm.test(\"Verify that Location ID is not blank or null\", function () {",
 									"    var id = jsonData.data.search.items.id;",
 									"    pm.expect(id).to.not.eql(null);",
+									"    pm.expect(id).to.not.eql(\"\");",
+									"",
 									"});",
+									"",
+									"var myLocation = lodash.find(jsonData.data.search.items, ['id', location_data.id]);",
+									"",
+									"pm.test(\"Verifying Location ID\", function () {",
+									"    var id = myLocation.id;",
+									"    pm.expect(id).to.eql(location_data.id);",
+									"});",
+									"",
 									"",
 									"pm.test(\"Verify that Location's createdAt is in Specific time format\", function () {",
 									"    var time = jsonData.data.search.items[0].createdAt;",
@@ -708,6 +601,12 @@
 									"pm.test(\"Verify that typename name is same as requested\", function () {",
 									"    var LocationType = jsonData.data.search.items[0].__typename;",
 									"    pm.expect(LocationType).to.eql(pm.globals.get('LocationType'));",
+									"});",
+									"",
+									"pm.test(\"Verify that only one location is returned\", function () {",
+									"    var total = jsonData.data.search.items.length;",
+									"    pm.expect(total).to.be.equal(1);",
+									"",
 									"});",
 									""
 								],
@@ -759,12 +658,23 @@
 					"response": []
 				},
 				{
-					"name": "Create Location Success",
+					"name": "Pre-req for search location ( Create Location Success )",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"var id = jsonData.data.createLocation.location.id;\r",
+									"\r",
+									"// Saving data for future use\r",
+									"pm.globals.set(\"locationid\", id);\r",
+									"\r",
+									"// Saving whole location Object to globals for future use\r",
+									"var location = JSON.stringify(jsonData.data.createLocation.location);\r",
+									"pm.globals.set(\"location_data\", location);\r",
+									"\r",
 									""
 								],
 								"type": "text/javascript"
@@ -840,7 +750,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Location name with short query name",
+					"name": "Search Location name with short query name",
 					"event": [
 						{
 							"listen": "test",
@@ -854,7 +764,7 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -924,83 +834,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Location Mandatory Field Blank - Count",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = pm.response.json();",
-									"",
-									"//Common Verification",
-									"pm.test(\"Status code is 400\", function () {",
-									"    pm.response.to.have.status(400);",
-									"});",
-									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
-									"});",
-									"",
-									"//Test Specific",
-									"pm.test(\"Verify that count error message is correct\", function () {",
-									"    var invalid_count = jsonData.errors[0].message;",
-									"    pm.expect(invalid_count).to.eql( \"Variable \\\"$input\\\" got invalid value \\\"\\\" at \\\"input.count\\\"; Int cannot represent non-integer value: \\\"\\\"\");",
-									"});",
-									"",
-									"pm.test(\"Verify that internal server error message is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\");",
-									"",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ... on Location {\r\n        id\r\n        createdAt\r\n        canDelete\r\n        name {\r\n          value\r\n          canEdit\r\n          canRead\r\n        }\r\n        type {\r\n          value\r\n          canEdit\r\n          canRead\r\n        }\r\n        isoAlpha3 {\r\n          value\r\n          canEdit\r\n          canRead\r\n        }\r\n        isoCountry {\r\n          country\r\n          alpha2\r\n          alpha3\r\n          numeric\r\n        }\r\n        fundingAccount {\r\n          value {\r\n            id\r\n            createdAt\r\n            canDelete\r\n            name {\r\n              value\r\n              canEdit\r\n              canRead\r\n            }\r\n            accountNumber {\r\n              value\r\n              canEdit\r\n              canRead\r\n            }\r\n          }\r\n          canEdit\r\n          canRead\r\n        }\r\n        defaultFieldRegion {\r\n          value {\r\n            id\r\n            createdAt\r\n            canDelete\r\n            name {\r\n              value\r\n              canEdit\r\n              canRead\r\n            }\r\n            director {\r\n              value {\r\n                id\r\n              }\r\n              canEdit\r\n              canRead\r\n            }\r\n            fieldZone {\r\n              value {\r\n                id\r\n                createdAt\r\n                canDelete\r\n                name {\r\n                  value\r\n                  canEdit\r\n                  canRead\r\n                }\r\n                director {\r\n                  value {\r\n                    id\r\n                  }\r\n                }\r\n              }\r\n              canEdit\r\n              canRead\r\n            }\r\n          }\r\n          canEdit\r\n          canRead\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"count\": \"\",\r\n        \"page\": {{page}},\r\n        \"query\": \"{{locationName}}\",\r\n        \"type\": \"{{LocationType}}\"\r\n    }\r\n}\r\n"
-							}
-						},
-						"url": {
-							"raw": "{{env}}/graphql",
-							"host": [
-								"{{env}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Search Query Location Mandatory Field Removed -  Count",
+					"name": "Search Location Not Mandatory Field Removed -  Count",
 					"event": [
 						{
 							"listen": "test",
@@ -1013,7 +847,7 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -1073,7 +907,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Location Mandatory Field Blank - Page",
+					"name": "Search Location Mandatory Field Removed - Query",
 					"event": [
 						{
 							"listen": "test",
@@ -1086,83 +920,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
-									"});",
-									"",
-									"//Test Specific",
-									"pm.test(\"Verify that page error message is correct\", function () {",
-									"    var page = jsonData.errors[0].message;",
-									"    pm.expect(page).to.eql(\"Variable \\\"$input\\\" got invalid value \\\"\\\" at \\\"input.page\\\"; Int cannot represent non-integer value: \\\"\\\"\")",
-									"});",
-									"",
-									"pm.test(\"Verify that internal server error message is correct\", function () {",
-									"    var page= jsonData.errors[0].extensions.code;",
-									"    pm.expect(page).to.eql(\"INTERNAL_SERVER_ERROR\")",
-									"",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ... on Location {\r\n        id\r\n        createdAt\r\n        canDelete\r\n        name {\r\n          value\r\n          canEdit\r\n          canRead\r\n        }\r\n        type {\r\n          value\r\n          canEdit\r\n          canRead\r\n        }\r\n        isoAlpha3 {\r\n          value\r\n          canEdit\r\n          canRead\r\n        }\r\n        isoCountry {\r\n          country\r\n          alpha2\r\n          alpha3\r\n          numeric\r\n        }\r\n        fundingAccount {\r\n          value {\r\n            id\r\n            createdAt\r\n            canDelete\r\n            name {\r\n              value\r\n              canEdit\r\n              canRead\r\n            }\r\n            accountNumber {\r\n              value\r\n              canEdit\r\n              canRead\r\n            }\r\n          }\r\n          canEdit\r\n          canRead\r\n        }\r\n        defaultFieldRegion {\r\n          value {\r\n            id\r\n            createdAt\r\n            canDelete\r\n            name {\r\n              value\r\n              canEdit\r\n              canRead\r\n            }\r\n            director {\r\n              value {\r\n                id\r\n              }\r\n              canEdit\r\n              canRead\r\n            }\r\n            fieldZone {\r\n              value {\r\n                id\r\n                createdAt\r\n                canDelete\r\n                name {\r\n                  value\r\n                  canEdit\r\n                  canRead\r\n                }\r\n                director {\r\n                  value {\r\n                    id\r\n                  }\r\n                }\r\n              }\r\n              canEdit\r\n              canRead\r\n            }\r\n          }\r\n          canEdit\r\n          canRead\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"count\": {{itemCount}},\r\n        \"page\": \"\",\r\n        \"query\": \"{{locationName}}\",\r\n        \"type\": \"{{LocationType}}\"\r\n    }\r\n}\r\n"
-							}
-						},
-						"url": {
-							"raw": "{{env}}/graphql",
-							"host": [
-								"{{env}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Search Query Location Mandatory Field Removed - Query",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = pm.response.json();",
-									"",
-									"//Common Verification",
-									"pm.test(\"Status code is 400\", function () {",
-									"    pm.response.to.have.status(400);",
-									"});",
-									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -1173,7 +931,7 @@
 									"});",
 									"",
 									"pm.test(\"Verify that internal server error message is correct\", function () {",
-									"    var page= jsonData.errors[0].extensions.code;",
+									"    var page = jsonData.errors[0].extensions.code;",
 									"    pm.expect(page).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});",
@@ -1226,7 +984,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Location Mandatory Field Blank - Type",
+					"name": "Search  Location Not Mandatory Field Blank - Type",
 					"event": [
 						{
 							"listen": "test",
@@ -1239,7 +997,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -1250,7 +1008,7 @@
 									"});",
 									"",
 									"pm.test(\"Verify that internal server error message is correct\", function () {",
-									"    var page= jsonData.errors[0].extensions.code;",
+									"    var page = jsonData.errors[0].extensions.code;",
 									"    pm.expect(page).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});",
@@ -1302,7 +1060,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Location Not Mandatory Field Removed - Type",
+					"name": "Search Location Not Mandatory Field Removed - Type",
 					"event": [
 						{
 							"listen": "test",
@@ -1315,13 +1073,13 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that story type name is equal to previous value\", function () {",
-									"    var type_name= jsonData.data.search.items[0].__typename;",
+									"    var type_name = jsonData.data.search.items[0].__typename;",
 									"    pm.expect(type_name).to.eql(pm.globals.get('LocationType'));",
 									"",
 									"});",
@@ -1373,7 +1131,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Location Parameter Mismatch   - Count",
+					"name": "Search Location Parameter Mismatch   - Count",
 					"event": [
 						{
 							"listen": "test",
@@ -1386,18 +1144,18 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that count parameter mismatch error message is correct\", function () {",
 									"    var invalid_count = jsonData.errors[0].message;",
-									"    pm.expect(invalid_count).to.include( \"Field \\\"count1\\\" is not defined by type \\\"SearchInput\\\". Did you mean \\\"count\\\"?\")",
+									"    pm.expect(invalid_count).to.include(\"Field \\\"count1\\\" is not defined by type \\\"SearchInput\\\". Did you mean \\\"count\\\"?\")",
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
+									"    var count = jsonData.errors[0].extensions.code;",
 									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
@@ -1448,7 +1206,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Location Parameter Mismatch   -  Page",
+					"name": "Search Location Parameter Mismatch   -  Page",
 					"event": [
 						{
 							"listen": "test",
@@ -1461,7 +1219,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -1472,8 +1230,8 @@
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is displayed\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"    var page = jsonData.errors[0].extensions.code;",
+									"    pm.expect(page).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
 								],
@@ -1523,7 +1281,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Location Parameter Mismatch   -  Query",
+					"name": "Search Location Parameter Mismatch   -  Query",
 					"event": [
 						{
 							"listen": "test",
@@ -1536,7 +1294,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -1547,8 +1305,8 @@
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"    var query = jsonData.errors[0].extensions.code;",
+									"    pm.expect(query).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
 								],
@@ -1598,7 +1356,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Location Parameter Mismatch   -  Type",
+					"name": "Search Location Parameter Mismatch   -  Type",
 					"event": [
 						{
 							"listen": "test",
@@ -1611,7 +1369,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -1622,8 +1380,8 @@
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count = jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"    var type = jsonData.errors[0].extensions.code;",
+									"    pm.expect(type).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
 								],
@@ -1673,7 +1431,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Location Invalid Value -  Count",
+					"name": "Search Location Invalid Value -  Count",
 					"event": [
 						{
 							"listen": "test",
@@ -1686,18 +1444,18 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that count invalid value error message is correct\", function () {",
-									"    var count_value= jsonData.errors[0].message;",
+									"    var count_value = jsonData.errors[0].message;",
 									"    pm.expect(count_value).to.include(\"Int cannot represent non-integer value: \\\"$R#R\\\"\")",
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
+									"    var count = jsonData.errors[0].extensions.code;",
 									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
@@ -1748,7 +1506,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Location Invalid Value -  Page",
+					"name": "Search Location Invalid Value -  Page",
 					"event": [
 						{
 							"listen": "test",
@@ -1761,19 +1519,19 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that page invalid value error message is correct\", function () {",
-									"    var page= jsonData.errors[0].message;",
+									"    var page = jsonData.errors[0].message;",
 									"    pm.expect(page).to.include(\"Int cannot represent non-integer value: \\\"$#$$R\\\"\");",
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"    var page = jsonData.errors[0].extensions.code;",
+									"    pm.expect(page).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
 								],
@@ -1823,7 +1581,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Location  Invalid Value -  Type",
+					"name": "Search Location  Invalid Value -  Type",
 					"event": [
 						{
 							"listen": "test",
@@ -1836,19 +1594,19 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that type invalid value error message is correct\", function () {",
-									"    var type= jsonData.errors[0].message;",
+									"    var type = jsonData.errors[0].message;",
 									"    pm.expect(type).to.include(\"Value \\\"$@%^^&\\\" does not exist in \\\"SearchType\\\" enum.\")",
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"    var type = jsonData.errors[0].extensions.code;",
+									"    pm.expect(type).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
 								],
@@ -1898,7 +1656,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Location invalid Value Count - Min",
+					"name": "Search Location invalid Value Count - Min",
 					"event": [
 						{
 							"listen": "test",
@@ -1910,19 +1668,19 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verifying count min error is correct\", function () {",
-									"var count_errormsg =jsonData.errors[0].message;",
-									" pm.expect(count_errormsg).eql(\"Input validation failed\");",
+									"    var count_errormsg = jsonData.errors[0].message;",
+									"    pm.expect(count_errormsg).eql(\"Input validation failed\");",
 									"});",
 									"",
 									"pm.test(\"Verifying count must not be less than 1 error is correct\", function () {",
-									"var count_errormsg2 =jsonData.errors[0].extensions.errors['count'].min;",
-									" pm.expect(count_errormsg2).eql(\"count must not be less than 1\");",
+									"    var error = jsonData.errors[0].extensions.errors['count'].min;",
+									"    pm.expect(error).eql(\"count must not be less than 1\");",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1971,7 +1729,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Location invalid Value Count - Max",
+					"name": "Search Location invalid Value Count - Max",
 					"event": [
 						{
 							"listen": "test",
@@ -1983,19 +1741,19 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verifying count max error is correct\", function () {",
-									"var count_errormsg =jsonData.errors[0].message;",
-									" pm.expect(count_errormsg).eql(\"Input validation failed\");",
+									"    var count_errormsg = jsonData.errors[0].message;",
+									"    pm.expect(count_errormsg).eql(\"Input validation failed\");",
 									"});",
 									"",
 									"pm.test(\"Verifying count must not be greater than 100 error is correct\", function () {",
-									"var count_errormsg2 =jsonData.errors[0].extensions.errors['count'].max;",
-									" pm.expect(count_errormsg2).eql(\"count must not be greater than 100\");",
+									"    var error = jsonData.errors[0].extensions.errors['count'].max;",
+									"    pm.expect(error).eql(\"count must not be greater than 100\");",
 									"});"
 								],
 								"type": "text/javascript"

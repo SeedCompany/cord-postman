@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f2a8184b-7edd-4da4-8027-006395b3336e",
+		"_postman_id": "58c087f5-3672-4e57-8684-56731239c002",
 		"name": "Cord_API_V3_Search_LiteracyMaterial",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -226,7 +226,7 @@
 					"response": []
 				},
 				{
-					"name": "Create LiteracyMaterial Success - Diffrent Book",
+					"name": "Pre - req for Search Literacymaterial ( Create LiteracyMaterial Success - Diffrent Book )",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -270,6 +270,16 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"var id = jsonData.data.createLiteracyMaterial.literacyMaterial.id;\r",
+									"\r",
+									"// Saving data for future use\r",
+									"pm.globals.set(\"literacyMaterialId\", id);\r",
+									"\r",
+									"// Saving whole literacyMaterial Object to globals for future use\r",
+									"var literacyMaterial = JSON.stringify(jsonData.data.createLiteracyMaterial.literacyMaterial);\r",
+									"pm.globals.set(\"literacyMaterial_data\", literacyMaterial);\r",
 									""
 								],
 								"type": "text/javascript"
@@ -334,7 +344,7 @@
 			"name": "Search - LiteracyMaterial",
 			"item": [
 				{
-					"name": "Search Query LiteracyMaterial Success",
+					"name": "Search LiteracyMaterial Success",
 					"event": [
 						{
 							"listen": "test",
@@ -342,13 +352,15 @@
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"const moment = require('moment');",
+									"var literacyMaterial_data = JSON.parse(pm.variables.get(\"literacyMaterial_data\"));",
+									"var lodash = require('lodash');",
 									"",
 									"//Common Verification",
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -356,6 +368,14 @@
 									"pm.test(\"Verify that LiteracyMaterial ID is not blank or null\", function () {",
 									"    var id = jsonData.data.search.items.id;",
 									"    pm.expect(id).to.not.eql(null);",
+									"    pm.expect(id).to.not.eql(\"\");",
+									"});",
+									"",
+									"var myLiteracyMaterial = lodash.find(jsonData.data.search.items, ['id', literacyMaterial_data.id]);",
+									"",
+									"pm.test(\"Verifying literacyMaterial ID\", function () {",
+									"    var id = myLiteracyMaterial.id;",
+									"    pm.expect(id).to.eql(literacyMaterial_data.id);",
 									"});",
 									"",
 									"pm.test(\"Verify that LiteracyMaterial's createdAt is in Specific time format\", function () {",
@@ -371,7 +391,13 @@
 									"",
 									"pm.test(\"Verify that typename name is same as requested\", function () {",
 									"    var LiteracyMaterialType = jsonData.data.search.items[0].__typename;",
-									"    pm.expect(LiteracyMaterialType).to.eql(pm.globals.get('LiteracyMaterialType'));",
+									"    pm.expect(LiteracyMaterialType).to.eql(pm.globals.get('literacyMaterialType'));",
+									"});",
+									"",
+									"pm.test(\"Verify that only one Literacy is returned\", function () {",
+									"    var total = jsonData.data.search.items.length;",
+									"    pm.expect(total).to.be.equal(1);",
+									"",
 									"});",
 									""
 								],
@@ -382,7 +408,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"pm.globals.set(\"LiteracyMaterialType\",'LiteracyMaterial');\r",
+									"pm.globals.set(\"literacyMaterialType\",'LiteracyMaterial');\r",
 									"pm.globals.set(\"itemCount\",25);\r",
 									"pm.globals.set(\"page\",1); "
 								],
@@ -407,7 +433,7 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ...on  LiteracyMaterial{\r\n        id\r\n        createdAt\r\n        canDelete\r\n        scriptureReferences{\r\n          value{\r\n            start{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            end{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            label\r\n            totalVerses\r\n          }\r\n          canRead\r\n          canEdit\r\n        }\r\n        name{\r\n          value\r\n          canRead\r\n          canEdit\r\n        }\r\n      }\r\n      }\r\n    }\r\n  }\r\n\r\n  \r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"count\": {{itemCount}},\r\n        \"page\": {{page}},\r\n        \"query\": \"{{literacyMaterialName}}\",\r\n        \"type\": \"{{LiteracyMaterialType}}\"\r\n    }\r\n}\r\n"
+								"variables": "{\r\n    \"input\": {\r\n        \"count\": {{itemCount}},\r\n        \"page\": {{page}},\r\n        \"query\": \"{{literacyMaterialName}}\",\r\n        \"type\": \"{{literacyMaterialType}}\"\r\n    }\r\n}\r\n"
 							}
 						},
 						"url": {
@@ -423,7 +449,7 @@
 					"response": []
 				},
 				{
-					"name": "Create LiteracyMaterial Success - Diffrent Book",
+					"name": "Pre-req for Search LiteracyMaterial ( Create LiteracyMaterial Success - Diffrent Book )",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -467,6 +493,16 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"var id = jsonData.data.createLiteracyMaterial.literacyMaterial.id;\r",
+									"\r",
+									"// Saving data for future use\r",
+									"pm.globals.set(\"literacyMaterialId\", id);\r",
+									"\r",
+									"// Saving whole literacyMaterial Object to globals for future use\r",
+									"var literacyMaterial = JSON.stringify(jsonData.data.createLiteracyMaterial.literacyMaterial);\r",
+									"pm.globals.set(\"literacyMaterial_data\", literacyMaterial);\r",
 									""
 								],
 								"type": "text/javascript"
@@ -506,7 +542,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query LiteracyMaterial  name with short query name",
+					"name": "Search LiteracyMaterial  name with short query name",
 					"event": [
 						{
 							"listen": "test",
@@ -520,7 +556,7 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -528,6 +564,7 @@
 									"pm.test(\"Verify that  LiteracyMaterial ID is not blank or null\", function () {",
 									"    var id = jsonData.data.search.items.id;",
 									"    pm.expect(id).to.not.eql(null);",
+									"    pm.expect(id).to.not.eql(\"\");",
 									"});",
 									"",
 									"pm.test(\"Verify that LiteracyMaterial's createdAt is in Specific time format\", function () {",
@@ -536,7 +573,7 @@
 									"    pm.expect(isValidTime).to.eql(true);",
 									"});",
 									"",
-									"pm.test(\"Verify that number of Story\", function () {",
+									"pm.test(\"Verify that number of LiteracyMaterial\", function () {",
 									"    var total = jsonData.data.search.items.length;",
 									"    pm.expect(total).to.be.above(1);",
 									"",
@@ -574,7 +611,7 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ... on LiteracyMaterial {\r\n        id\r\n        createdAt\r\n        canDelete\r\n        scriptureReferences {\r\n          value {\r\n            start {\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            end {\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            label\r\n            totalVerses\r\n          }\r\n          canRead\r\n          canEdit\r\n        }\r\n        name {\r\n          value\r\n          canRead\r\n          canEdit\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"count\": {{itemCount}},\r\n        \"page\": {{page}},\r\n        \"query\": \"LiteracyMaterialName\",\r\n        \"type\": \"{{LiteracyMaterialType}}\"\r\n    }\r\n}\r\n"
+								"variables": "{\r\n    \"input\": {\r\n        \"count\": {{itemCount}},\r\n        \"page\": {{page}},\r\n        \"query\": \"LiteracyMaterialName\",\r\n        \"type\": \"{{literacyMaterialType}}\"\r\n    }\r\n}\r\n"
 							}
 						},
 						"url": {
@@ -590,83 +627,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query LiteracyMaterial Mandatory Field Blank - Count",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = pm.response.json();",
-									"",
-									"//Common Verification",
-									"pm.test(\"Status code is 400\", function () {",
-									"    pm.response.to.have.status(400);",
-									"});",
-									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
-									"});",
-									"",
-									"//Test Specific",
-									"pm.test(\"Verify that count error message is correct\", function () {",
-									"    var invalid_count = jsonData.errors[0].message;",
-									"    pm.expect(invalid_count).to.eql( \"Variable \\\"$input\\\" got invalid value \\\"\\\" at \\\"input.count\\\"; Int cannot represent non-integer value: \\\"\\\"\");",
-									"});",
-									"",
-									"pm.test(\"Verify that internal server error message is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\");",
-									"",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ...on  LiteracyMaterial{\r\n        id\r\n        createdAt\r\n        canDelete\r\n        scriptureReferences{\r\n          value{\r\n            start{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            end{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            label\r\n            totalVerses\r\n          }\r\n          canRead\r\n          canEdit\r\n        }\r\n        name{\r\n          value\r\n          canRead\r\n          canEdit\r\n        }\r\n      }\r\n      }\r\n    }\r\n  }\r\n\r\n  \r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"count\": \"\",\r\n        \"page\": {{page}},\r\n        \"query\": \"{{literacyMaterialName}}\",\r\n        \"type\": \"{{LiteracyMaterialType}}\"\r\n    }\r\n}\r\n"
-							}
-						},
-						"url": {
-							"raw": "{{env}}/graphql",
-							"host": [
-								"{{env}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Search Query LiteracyMaterial Mandatory Field Removed -  Count",
+					"name": "Search LiteracyMaterial Not Mandatory Field Removed -  Count",
 					"event": [
 						{
 							"listen": "test",
@@ -679,7 +640,7 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -723,7 +684,7 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ...on  LiteracyMaterial{\r\n        id\r\n        createdAt\r\n        canDelete\r\n        scriptureReferences{\r\n          value{\r\n            start{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            end{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            label\r\n            totalVerses\r\n          }\r\n          canRead\r\n          canEdit\r\n        }\r\n        name{\r\n          value\r\n          canRead\r\n          canEdit\r\n        }\r\n      }\r\n      }\r\n    }\r\n  }",
-								"variables": "{\r\n    \"input\": {\r\n        \"page\": {{page}},\r\n        \"query\": \"{{literacyMaterialName}}\",\r\n        \"type\": \"{{LiteracyMaterialType}}\"\r\n    }\r\n}"
+								"variables": "{\r\n    \"input\": {\r\n        \"page\": {{page}},\r\n        \"query\": \"{{literacyMaterialName}}\",\r\n        \"type\": \"{{literacyMaterialType}}\"\r\n    }\r\n}"
 							}
 						},
 						"url": {
@@ -739,7 +700,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query LiteracyMaterial Mandatory Field Blank - Page",
+					"name": "Search LiteracyMaterial  Mandatory Field Removed - Query",
 					"event": [
 						{
 							"listen": "test",
@@ -752,85 +713,10 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
-									"//Test Specific",
-									"pm.test(\"Verify that page error message is correct\", function () {",
-									"    var page = jsonData.errors[0].message;",
-									"    pm.expect(page).to.eql(\"Variable \\\"$input\\\" got invalid value \\\"\\\" at \\\"input.page\\\"; Int cannot represent non-integer value: \\\"\\\"\")",
-									"});",
-									"",
-									"pm.test(\"Verify that internal server error message is correct\", function () {",
-									"    var page= jsonData.errors[0].extensions.code;",
-									"    pm.expect(page).to.eql(\"INTERNAL_SERVER_ERROR\")",
-									"",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ...on  LiteracyMaterial{\r\n        id\r\n        createdAt\r\n        canDelete\r\n        scriptureReferences{\r\n          value{\r\n            start{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            end{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            label\r\n            totalVerses\r\n          }\r\n          canRead\r\n          canEdit\r\n        }\r\n        name{\r\n          value\r\n          canRead\r\n          canEdit\r\n        }\r\n      }\r\n      }\r\n    }\r\n  }\r\n\r\n  \r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"count\": {{itemCount}},\r\n        \"page\": \"\",\r\n        \"query\": \"{{literacyMaterialName}}\",\r\n        \"type\": \"{{LiteracyMaterialType}}\"\r\n    }\r\n}\r\n"
-							}
-						},
-						"url": {
-							"raw": "{{env}}/graphql",
-							"host": [
-								"{{env}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Search Query LiteracyMaterial  Mandatory Field Removed - Query",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = pm.response.json();",
-									"",
-									"//Common Verification",
-									"pm.test(\"Status code is 400\", function () {",
-									"    pm.response.to.have.status(400);",
-									"});",
-									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
-									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that query error message is correct\", function () {",
@@ -876,7 +762,7 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ...on  LiteracyMaterial{\r\n        id\r\n        createdAt\r\n        canDelete\r\n        scriptureReferences{\r\n          value{\r\n            start{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            end{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            label\r\n            totalVerses\r\n          }\r\n          canRead\r\n          canEdit\r\n        }\r\n        name{\r\n          value\r\n          canRead\r\n          canEdit\r\n        }\r\n      }\r\n      }\r\n    }\r\n  }\r\n\r\n  \r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"count\": {{itemCount}},\r\n        \"page\": {{page}},\r\n        \"type\": \"{{LiteracyMaterialType}}\"\r\n    }\r\n}"
+								"variables": "{\r\n    \"input\": {\r\n        \"count\": {{itemCount}},\r\n        \"page\": {{page}},\r\n        \"type\": \"{{literacyMaterialType}}\"\r\n    }\r\n}"
 							}
 						},
 						"url": {
@@ -892,7 +778,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query LiteracyMaterial Mandatory Field Blank - Type",
+					"name": "Search  LiteracyMaterial Mandatory Field Blank - Type",
 					"event": [
 						{
 							"listen": "test",
@@ -905,7 +791,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -916,8 +802,8 @@
 									"});",
 									"",
 									"pm.test(\"Verify that internal server error message is correct\", function () {",
-									"    var page= jsonData.errors[0].extensions.code;",
-									"    pm.expect(page).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"    var type = jsonData.errors[0].extensions.code;",
+									"    pm.expect(type).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});",
 									""
@@ -968,7 +854,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query LiteracyMaterial Not Mandatory Field Removed - Type",
+					"name": "Search LiteracyMaterial Not Mandatory Field Removed - Type",
 					"event": [
 						{
 							"listen": "test",
@@ -981,14 +867,14 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that story type name is equal to previous value\", function () {",
-									"    var type_name= jsonData.data.search.items[0].__typename;",
-									"    pm.expect(type_name).to.eql(pm.globals.get('LiteracyMaterialType'));",
+									"    var type_name = jsonData.data.search.items[0].__typename;",
+									"    pm.expect(type_name).to.eql(pm.globals.get('literacyMaterialType'));",
 									"",
 									"});",
 									""
@@ -1039,7 +925,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query LiteracyMaterial Parameter Mismatch   - Count",
+					"name": "Search LiteracyMaterial Parameter Mismatch   - Count",
 					"event": [
 						{
 							"listen": "test",
@@ -1052,239 +938,14 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that count parameter mismatch error message is correct\", function () {",
 									"    var invalid_count = jsonData.errors[0].message;",
-									"    pm.expect(invalid_count).to.include( \"Field \\\"count1\\\" is not defined by type \\\"SearchInput\\\". Did you mean \\\"count\\\"?\")",
-									"});",
-									"",
-									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
-									"",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ...on  LiteracyMaterial{\r\n        id\r\n        createdAt\r\n        canDelete\r\n        scriptureReferences{\r\n          value{\r\n            start{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            end{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            label\r\n            totalVerses\r\n          }\r\n          canRead\r\n          canEdit\r\n        }\r\n        name{\r\n          value\r\n          canRead\r\n          canEdit\r\n        }\r\n      }\r\n      }\r\n    }\r\n  }\r\n\r\n  \r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"count1\": {{itemCount}},\r\n        \"page\": {{page}},\r\n        \"query\": \"{{literacyMaterialName}}\",\r\n        \"type\": \"{{LiteracyMaterialType}}\"\r\n    }\r\n}\r\n"
-							}
-						},
-						"url": {
-							"raw": "{{env}}/graphql",
-							"host": [
-								"{{env}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Search Query LiteracyMaterial Parameter Mismatch   -  Page",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = pm.response.json();",
-									"",
-									"//Common Verification",
-									"pm.test(\"Status code is 400\", function () {",
-									"    pm.response.to.have.status(400);",
-									"});",
-									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
-									"});",
-									"",
-									"//Test Specific",
-									"pm.test(\"Verify that page parameter mismatch error message is displayed\", function () {",
-									"    var page_count = jsonData.errors[0].message;",
-									"    pm.expect(page_count).to.include(\" Field \\\"pages\\\" is not defined by type \\\"SearchInput\\\". Did you mean \\\"page\\\"?\")",
-									"});",
-									"",
-									"pm.test(\"Verify that internal code error is displayed\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
-									"",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ...on  LiteracyMaterial{\r\n        id\r\n        createdAt\r\n        canDelete\r\n        scriptureReferences{\r\n          value{\r\n            start{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            end{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            label\r\n            totalVerses\r\n          }\r\n          canRead\r\n          canEdit\r\n        }\r\n        name{\r\n          value\r\n          canRead\r\n          canEdit\r\n        }\r\n      }\r\n      }\r\n    }\r\n  }\r\n\r\n  \r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"count\": {{itemCount}},\r\n        \"pages\": {{page}},\r\n        \"query\": \"{{literacyMaterialName}}\",\r\n        \"type\": \"{{LiteracyMaterialType}}\"\r\n    }\r\n}"
-							}
-						},
-						"url": {
-							"raw": "{{env}}/graphql",
-							"host": [
-								"{{env}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Search Query LiteracyMaterial Parameter Mismatch   -  Query",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = pm.response.json();",
-									"",
-									"//Common Verification",
-									"pm.test(\"Status code is 400\", function () {",
-									"    pm.response.to.have.status(400);",
-									"});",
-									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
-									"});",
-									"",
-									"//Test Specific",
-									"pm.test(\"Verify that query parameter mismatch error message is correct\", function () {",
-									"    var query = jsonData.errors[0].message;",
-									"    pm.expect(query).to.include(\" Field \\\"query\\\" of required type \\\"String!\\\" was not provided.\")",
-									"});",
-									"",
-									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
-									"",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ...on  LiteracyMaterial{\r\n        id\r\n        createdAt\r\n        canDelete\r\n        scriptureReferences{\r\n          value{\r\n            start{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            end{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            label\r\n            totalVerses\r\n          }\r\n          canRead\r\n          canEdit\r\n        }\r\n        name{\r\n          value\r\n          canRead\r\n          canEdit\r\n        }\r\n      }\r\n      }\r\n    }\r\n  }\r\n\r\n  \r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"count\": {{itemCount}},\r\n        \"page\": {{page}},\r\n        \"querys\": \"{{literacyMaterialName}}\",\r\n        \"type\": \"{{LiteracyMaterialType}}\"\r\n    }\r\n}\r\n"
-							}
-						},
-						"url": {
-							"raw": "{{env}}/graphql",
-							"host": [
-								"{{env}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Search Query LiteracyMaterial  Parameter Mismatch   -  Type",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = pm.response.json();",
-									"",
-									"//Common Verification",
-									"pm.test(\"Status code is 400\", function () {",
-									"    pm.response.to.have.status(400);",
-									"});",
-									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
-									"});",
-									"",
-									"//Test Specific",
-									"pm.test(\"Verify that type parameter mismatch error message is correct\", function () {",
-									"    var type = jsonData.errors[0].message;",
-									"    pm.expect(type).to.include(\"Field \\\"typeing\\\" is not defined by type \\\"SearchInput\\\". Did you mean \\\"type\\\"?\")",
+									"    pm.expect(invalid_count).to.include(\"Field \\\"count1\\\" is not defined by type \\\"SearchInput\\\". Did you mean \\\"count\\\"?\")",
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
@@ -1323,7 +984,7 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ...on  LiteracyMaterial{\r\n        id\r\n        createdAt\r\n        canDelete\r\n        scriptureReferences{\r\n          value{\r\n            start{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            end{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            label\r\n            totalVerses\r\n          }\r\n          canRead\r\n          canEdit\r\n        }\r\n        name{\r\n          value\r\n          canRead\r\n          canEdit\r\n        }\r\n      }\r\n      }\r\n    }\r\n  }\r\n\r\n  \r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"count\": {{itemCount}},\r\n        \"page\": {{page}},\r\n        \"query\": \"{{literacyMaterialName}}\",\r\n        \"typeing\": \"{{LiteracyMaterialType}}\"\r\n    }\r\n}\r\n"
+								"variables": "{\r\n    \"input\": {\r\n        \"count1\": {{itemCount}},\r\n        \"page\": {{page}},\r\n        \"query\": \"{{literacyMaterialName}}\",\r\n        \"type\": \"{{literacyMaterialType}}\"\r\n    }\r\n}\r\n"
 							}
 						},
 						"url": {
@@ -1339,7 +1000,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query LiteracyMaterial Invalid Value -  Count",
+					"name": "Search LiteracyMaterial Parameter Mismatch   -  Page",
 					"event": [
 						{
 							"listen": "test",
@@ -1352,18 +1013,243 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
+									"});",
+									"",
+									"//Test Specific",
+									"pm.test(\"Verify that page parameter mismatch error message is displayed\", function () {",
+									"    var page_count = jsonData.errors[0].message;",
+									"    pm.expect(page_count).to.include(\" Field \\\"pages\\\" is not defined by type \\\"SearchInput\\\". Did you mean \\\"page\\\"?\")",
+									"});",
+									"",
+									"pm.test(\"Verify that internal code error is displayed\", function () {",
+									"    var page= jsonData.errors[0].extensions.code;",
+									"    pm.expect(page).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ...on  LiteracyMaterial{\r\n        id\r\n        createdAt\r\n        canDelete\r\n        scriptureReferences{\r\n          value{\r\n            start{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            end{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            label\r\n            totalVerses\r\n          }\r\n          canRead\r\n          canEdit\r\n        }\r\n        name{\r\n          value\r\n          canRead\r\n          canEdit\r\n        }\r\n      }\r\n      }\r\n    }\r\n  }\r\n\r\n  \r\n",
+								"variables": "{\r\n    \"input\": {\r\n        \"count\": {{itemCount}},\r\n        \"pages\": {{page}},\r\n        \"query\": \"{{literacyMaterialName}}\",\r\n        \"type\": \"{{literacyMaterialType}}\"\r\n    }\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{env}}/graphql",
+							"host": [
+								"{{env}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search LiteracyMaterial Parameter Mismatch   -  Query",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"//Common Verification",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
+									"});",
+									"",
+									"//Test Specific",
+									"pm.test(\"Verify that query parameter mismatch error message is correct\", function () {",
+									"    var query = jsonData.errors[0].message;",
+									"    pm.expect(query).to.include(\" Field \\\"query\\\" of required type \\\"String!\\\" was not provided.\")",
+									"});",
+									"",
+									"pm.test(\"Verify that internal code error is correct\", function () {",
+									"    var count = jsonData.errors[0].extensions.code;",
+									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ...on  LiteracyMaterial{\r\n        id\r\n        createdAt\r\n        canDelete\r\n        scriptureReferences{\r\n          value{\r\n            start{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            end{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            label\r\n            totalVerses\r\n          }\r\n          canRead\r\n          canEdit\r\n        }\r\n        name{\r\n          value\r\n          canRead\r\n          canEdit\r\n        }\r\n      }\r\n      }\r\n    }\r\n  }\r\n\r\n  \r\n",
+								"variables": "{\r\n    \"input\": {\r\n        \"count\": {{itemCount}},\r\n        \"page\": {{page}},\r\n        \"querys\": \"{{literacyMaterialName}}\",\r\n        \"type\": \"{{literacyMaterialType}}\"\r\n    }\r\n}\r\n"
+							}
+						},
+						"url": {
+							"raw": "{{env}}/graphql",
+							"host": [
+								"{{env}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search LiteracyMaterial  Parameter Mismatch   -  Type",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"//Common Verification",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
+									"});",
+									"",
+									"//Test Specific",
+									"pm.test(\"Verify that type parameter mismatch error message is correct\", function () {",
+									"    var type = jsonData.errors[0].message;",
+									"    pm.expect(type).to.include(\"Field \\\"typeing\\\" is not defined by type \\\"SearchInput\\\". Did you mean \\\"type\\\"?\")",
+									"});",
+									"",
+									"pm.test(\"Verify that internal code error is correct\", function () {",
+									"    var type = jsonData.errors[0].extensions.code;",
+									"    pm.expect(type).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ...on  LiteracyMaterial{\r\n        id\r\n        createdAt\r\n        canDelete\r\n        scriptureReferences{\r\n          value{\r\n            start{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            end{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            label\r\n            totalVerses\r\n          }\r\n          canRead\r\n          canEdit\r\n        }\r\n        name{\r\n          value\r\n          canRead\r\n          canEdit\r\n        }\r\n      }\r\n      }\r\n    }\r\n  }\r\n\r\n  \r\n",
+								"variables": "{\r\n    \"input\": {\r\n        \"count\": {{itemCount}},\r\n        \"page\": {{page}},\r\n        \"query\": \"{{literacyMaterialName}}\",\r\n        \"typeing\": \"{{literacyMaterialType}}\"\r\n    }\r\n}\r\n"
+							}
+						},
+						"url": {
+							"raw": "{{env}}/graphql",
+							"host": [
+								"{{env}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search LiteracyMaterial Invalid Value -  Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"//Common Verification",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that count invalid value error message is correct\", function () {",
-									"    var count_value= jsonData.errors[0].message;",
+									"    var count_value = jsonData.errors[0].message;",
 									"    pm.expect(count_value).to.include(\"Int cannot represent non-integer value: \\\"#$%#$#\\\"\")",
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
+									"    var count = jsonData.errors[0].extensions.code;",
 									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
@@ -1398,7 +1284,7 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ...on  LiteracyMaterial{\r\n        id\r\n        createdAt\r\n        canDelete\r\n        scriptureReferences{\r\n          value{\r\n            start{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            end{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            label\r\n            totalVerses\r\n          }\r\n          canRead\r\n          canEdit\r\n        }\r\n        name{\r\n          value\r\n          canRead\r\n          canEdit\r\n        }\r\n      }\r\n      }\r\n    }\r\n  }\r\n\r\n  \r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"count\": \"#$%#$#\",\r\n        \"page\": {{page}},\r\n        \"query\": \"{{literacyMaterialName}}\",\r\n        \"type\": \"{{LiteracyMaterialType}}\"\r\n    }\r\n}\r\n"
+								"variables": "{\r\n    \"input\": {\r\n        \"count\": \"#$%#$#\",\r\n        \"page\": {{page}},\r\n        \"query\": \"{{literacyMaterialName}}\",\r\n        \"type\": \"{{literacyMaterialType}}\"\r\n    }\r\n}\r\n"
 							}
 						},
 						"url": {
@@ -1414,7 +1300,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query LiteracyMaterial Invalid Value -  Page",
+					"name": "Search LiteracyMaterial Invalid Value -  Page",
 					"event": [
 						{
 							"listen": "test",
@@ -1427,19 +1313,19 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that page invalid value error message is correct\", function () {",
-									"    var page= jsonData.errors[0].message;",
+									"    var page = jsonData.errors[0].message;",
 									"    pm.expect(page).to.include(\"Int cannot represent non-integer value: \\\"$#R##$\\\"\");",
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"    var page = jsonData.errors[0].extensions.code;",
+									"    pm.expect(page).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
 								],
@@ -1473,7 +1359,7 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ...on  LiteracyMaterial{\r\n        id\r\n        createdAt\r\n        canDelete\r\n        scriptureReferences{\r\n          value{\r\n            start{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            end{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            label\r\n            totalVerses\r\n          }\r\n          canRead\r\n          canEdit\r\n        }\r\n        name{\r\n          value\r\n          canRead\r\n          canEdit\r\n        }\r\n      }\r\n      }\r\n    }\r\n  }\r\n\r\n  \r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"count\": {{itemCount}},\r\n        \"page\": \"$#R##$\",\r\n        \"query\": \"{{literacyMaterialName}}\",\r\n        \"type\": \"{{LiteracyMaterialType}}\"\r\n    }\r\n}\r\n"
+								"variables": "{\r\n    \"input\": {\r\n        \"count\": {{itemCount}},\r\n        \"page\": \"$#R##$\",\r\n        \"query\": \"{{literacyMaterialName}}\",\r\n        \"type\": \"{{literacyMaterialType}}\"\r\n    }\r\n}\r\n"
 							}
 						},
 						"url": {
@@ -1489,7 +1375,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query LiteracyMaterial Invalid Value -  Type",
+					"name": "Search LiteracyMaterial Invalid Value -  Type",
 					"event": [
 						{
 							"listen": "test",
@@ -1502,19 +1388,19 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that type invalid value error message is correct\", function () {",
-									"    var type= jsonData.errors[0].message;",
+									"    var type = jsonData.errors[0].message;",
 									"    pm.expect(type).to.include(\"Value \\\"$#%TYG&^%%&^\\\" does not exist in \\\"SearchType\\\" enum.\")",
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"    var type = jsonData.errors[0].extensions.code;",
+									"    pm.expect(type).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
 								],
@@ -1564,7 +1450,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query LiteracyMaterial invalid Value Count - Min",
+					"name": "Search LiteracyMaterial invalid Value Count - Min",
 					"event": [
 						{
 							"listen": "test",
@@ -1576,8 +1462,8 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
@@ -1587,8 +1473,8 @@
 									"});",
 									"",
 									"pm.test(\"Verifying count must not be less than 1 error is correct\", function () {",
-									"var count_errormsg2 =jsonData.errors[0].extensions.errors['count'].min;",
-									" pm.expect(count_errormsg2).eql(\"count must not be less than 1\");",
+									"var error =jsonData.errors[0].extensions.errors['count'].min;",
+									" pm.expect(error).eql(\"count must not be less than 1\");",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1621,7 +1507,7 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ...on  LiteracyMaterial{\r\n        id\r\n        createdAt\r\n        canDelete\r\n        scriptureReferences{\r\n          value{\r\n            start{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            end{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            label\r\n            totalVerses\r\n          }\r\n          canRead\r\n          canEdit\r\n        }\r\n        name{\r\n          value\r\n          canRead\r\n          canEdit\r\n        }\r\n      }\r\n      }\r\n    }\r\n  }\r\n\r\n  \r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"count\": 0,\r\n        \"page\": {{page}},\r\n        \"query\": \"{{literacyMaterialName}}\",\r\n        \"type\": \"{{LiteracyMaterialType}}\"\r\n    }\r\n}\r\n"
+								"variables": "{\r\n    \"input\": {\r\n        \"count\": 0,\r\n        \"page\": {{page}},\r\n        \"query\": \"{{literacyMaterialName}}\",\r\n        \"type\": \"{{literacyMaterialType}}\"\r\n    }\r\n}\r\n"
 							}
 						},
 						"url": {
@@ -1637,7 +1523,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query LiteracyMaterial invalid Value Count - Max",
+					"name": "Search LiteracyMaterial invalid Value Count - Max",
 					"event": [
 						{
 							"listen": "test",
@@ -1649,19 +1535,19 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verifying count max error is correct\", function () {",
-									"var count_errormsg =jsonData.errors[0].message;",
-									" pm.expect(count_errormsg).eql(\"Input validation failed\");",
+									"    var count_errormsg = jsonData.errors[0].message;",
+									"    pm.expect(count_errormsg).eql(\"Input validation failed\");",
 									"});",
 									"",
 									"pm.test(\"Verifying count must not be greater than 100 error is correct\", function () {",
-									"var count_errormsg2 =jsonData.errors[0].extensions.errors['count'].max;",
-									" pm.expect(count_errormsg2).eql(\"count must not be greater than 100\");",
+									"    var error = jsonData.errors[0].extensions.errors['count'].max;",
+									"    pm.expect(error).eql(\"count must not be greater than 100\");",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1694,7 +1580,7 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ...on  LiteracyMaterial{\r\n        id\r\n        createdAt\r\n        canDelete\r\n        scriptureReferences{\r\n          value{\r\n            start{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            end{\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            label\r\n            totalVerses\r\n          }\r\n          canRead\r\n          canEdit\r\n        }\r\n        name{\r\n          value\r\n          canRead\r\n          canEdit\r\n        }\r\n      }\r\n      }\r\n    }\r\n  }\r\n\r\n  \r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"count\": 102,\r\n        \"page\": {{page}},\r\n        \"query\": \"{{literacyMaterialName}}\",\r\n        \"type\": \"{{LiteracyMaterialType}}\"\r\n    }\r\n}\r\n"
+								"variables": "{\r\n    \"input\": {\r\n        \"count\": 102,\r\n        \"page\": {{page}},\r\n        \"query\": \"{{literacyMaterialName}}\",\r\n        \"type\": \"{{literacyMaterialType}}\"\r\n    }\r\n}\r\n"
 							}
 						},
 						"url": {

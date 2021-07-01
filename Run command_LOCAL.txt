@@ -10,10 +10,6 @@ newman run Cord_API_V3_Organization.postman_collection.json -e local.postman_env
 >> Project
 newman run Cord_API_V3_Project.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
 
-newman run Cord_API_V3_Project.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r html --delay-request 1000
-
-newman run Cord_API_V3_Project.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000 --folder ProPre --folder ProjectCopy
-
 >> Partnership
 newman run Cord_API_V3_Partnership.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
 
@@ -92,6 +88,26 @@ newman run Cord_API_V3_Search_Story.postman_collection.json -e local.postman_env
 >> Search_User
 newman run Cord_API_V3_Search_User.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
 
+>> Search_FieldRegion
+newman run Cord_API_V3_Search_FieldRegion.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> Search_FieldZone
+newman run Cord_API_V3_Search_FieldZone.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> Search_FundingAccount
+newman run Cord_API_V3_Search_FundingAccount.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> Search_Internship_Project
+newman run Cord_API_V3_Search_Internship_Project.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> Search_Translation_Project
+newman run Cord_API_V3_Search_Translation_Project.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> Search_Organization
+newman run Cord_API_V3_Search_Organization.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> Search_Partner
+newman run Cord_API_V3_Search_Partner.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
 
 
 

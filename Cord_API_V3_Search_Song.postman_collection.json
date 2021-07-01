@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e01f7a3e-c370-46c3-bbb1-57574ab3125c",
+		"_postman_id": "505292d7-623b-47b2-905d-d538ade84c75",
 		"name": "Cord_API_V3_Search_Song",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -226,12 +226,22 @@
 					"response": []
 				},
 				{
-					"name": "Create Song success - Diffrent Book",
+					"name": "Pre-req for search song ( Create Song success - Diffrent Book )",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var id = jsonData.data.createSong.song.id;\r",
+									"\r",
+									"// Saving data for future use\r",
+									"pm.globals.set(\"songId\", id);\r",
+									"\r",
+									"// Saving whole Song Object to globals for future use\r",
+									"var song = JSON.stringify(jsonData.data.createSong.song);\r",
+									"pm.globals.set(\"song_data\", song);\r",
+									"\r",
 									""
 								],
 								"type": "text/javascript"
@@ -333,7 +343,7 @@
 			"name": "Search - Song",
 			"item": [
 				{
-					"name": "Search Query Song Success",
+					"name": "Search  Song Success",
 					"event": [
 						{
 							"listen": "test",
@@ -341,13 +351,15 @@
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"const moment = require('moment');",
+									"var song_data = JSON.parse(pm.variables.get(\"song_data\"));",
+									"var lodash = require('lodash');",
 									"",
 									"//Common Verification",
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -355,6 +367,14 @@
 									"pm.test(\"Verify that Song ID is not blank or null\", function () {",
 									"    var id = jsonData.data.search.items.id;",
 									"    pm.expect(id).to.not.eql(null);",
+									"    pm.expect(id).to.not.eql(\"\");",
+									"});",
+									"",
+									"var mySong = lodash.find(jsonData.data.search.items, ['id', song_data.id]);",
+									"",
+									"pm.test(\"Verifying Song ID\", function () {",
+									"    var id = mySong.id;",
+									"    pm.expect(id).to.eql(song_data.id);",
 									"});",
 									"",
 									"pm.test(\"Verify that Song's createdAt is in Specific time format\", function () {",
@@ -371,6 +391,11 @@
 									"pm.test(\"Verify that typename name is same as requested\", function () {",
 									"    var SongType = jsonData.data.search.items[0].__typename;",
 									"    pm.expect(SongType).to.eql(pm.globals.get('SongType'));",
+									"});",
+									"",
+									"pm.test(\"Verify that only one song is returned\", function () {",
+									"    var total = jsonData.data.search.items.length;",
+									"    pm.expect(total).to.be.equal(1);",
 									"});",
 									""
 								],
@@ -422,12 +447,21 @@
 					"response": []
 				},
 				{
-					"name": "Create Song success - Diffrent Book",
+					"name": "Pre-req for Search song ( Create Song success - Diffrent Book )",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var id = jsonData.data.createSong.song.id;\r",
+									"\r",
+									"// Saving data for future use\r",
+									"pm.globals.set(\"songId\", id);\r",
+									"// Saving whole Song Object to globals for future use\r",
+									"var song = JSON.stringify(jsonData.data.createSong.song);\r",
+									"pm.globals.set(\"song_data\", song);\r",
+									"\r",
 									""
 								],
 								"type": "text/javascript"
@@ -437,6 +471,34 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
+									"const moment = require('moment');\r",
+									"\r",
+									"pm.globals.set(\"songName\", \"SongName\" + moment().format(\"DDMMYYYYhhmmss\"));\r",
+									"\r",
+									"\r",
+									"// ScriptureReferences Value\r",
+									"// Static values \r",
+									"pm.globals.set('songScriptRefBookStart', \"Genesis\");\r",
+									"\r",
+									"pm.globals.set('songScriptRefChapterStart', 3);\r",
+									"\r",
+									"pm.globals.set('songScriptRefVerseStart', 4);\r",
+									"\r",
+									"let expectedLabelStart = `${pm.globals.get('songScriptRefBookStart')} ${pm.globals.get('songScriptRefChapterStart')}:${pm.globals.get('songScriptRefVerseStart')}`;\r",
+									"\r",
+									"pm.globals.set('songScriptRefLabelStart', expectedLabelStart);\r",
+									"\r",
+									"pm.globals.set('songScriptRefBookEnd', \"Genesis\");\r",
+									"\r",
+									"pm.globals.set('songScriptRefChapterEnd', 3);\r",
+									"\r",
+									"pm.globals.set('songScriptRefVerseEnd', 4);\r",
+									"\r",
+									"let expectedLabelEnd = `${pm.globals.get('songScriptRefBookEnd')} ${pm.globals.get('songScriptRefChapterEnd')}:${pm.globals.get('songScriptRefVerseEnd')}`\r",
+									"\r",
+									"pm.globals.set('songScriptRefLabelEnd', expectedLabelEnd);\r",
+									"\r",
+									"\r",
 									""
 								],
 								"type": "text/javascript"
@@ -476,7 +538,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Song  name with short query name",
+					"name": "Search Song Name With Short Query Name",
 					"event": [
 						{
 							"listen": "test",
@@ -490,7 +552,7 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -558,83 +620,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Song  Mandatory Field Blank - Count",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = pm.response.json();",
-									"",
-									"//Common Verification",
-									"pm.test(\"Status code is 400\", function () {",
-									"    pm.response.to.have.status(400);",
-									"});",
-									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
-									"});",
-									"",
-									"//Test Specific",
-									"pm.test(\"Verify that count error message is correct\", function () {",
-									"    var invalid_count = jsonData.errors[0].message;",
-									"    pm.expect(invalid_count).to.eql( \"Variable \\\"$input\\\" got invalid value \\\"\\\" at \\\"input.count\\\"; Int cannot represent non-integer value: \\\"\\\"\");",
-									"});",
-									"",
-									"pm.test(\"Verify that internal server error message is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\");",
-									"",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ... on Song {\r\n        id\r\n        createdAt\r\n        canDelete\r\n        scriptureReferences {\r\n          value {\r\n            start {\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            end {\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            label\r\n            totalVerses\r\n          }\r\n          canRead\r\n          canEdit\r\n        }\r\n        name {\r\n          value\r\n          canRead\r\n          canEdit\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n",
-								"variables": "\r\n{\r\n    \"input\": {\r\n        \"count\":\"\",\r\n        \"page\": {{page}},\r\n        \"query\": \"{{songName}}\",\r\n        \"type\": \"{{SongType}}\"\r\n    }\r\n}\r\n"
-							}
-						},
-						"url": {
-							"raw": "{{env}}/graphql",
-							"host": [
-								"{{env}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Search Query Song  Mandatory Field Removed -  Count",
+					"name": "Search  Song Not Mandatory Field Removed - Count",
 					"event": [
 						{
 							"listen": "test",
@@ -647,9 +633,9 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
-									"});",
+									"});                 ",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that number of items returned is equal to total\", function () {",
@@ -707,7 +693,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Song  Mandatory Field Blank - Page",
+					"name": "Search  Song Mandatory Field Removed - Query",
 					"event": [
 						{
 							"listen": "test",
@@ -720,83 +706,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
-									"});",
-									"",
-									"//Test Specific",
-									"pm.test(\"Verify that page error message is correct\", function () {",
-									"    var page = jsonData.errors[0].message;",
-									"    pm.expect(page).to.eql(\"Variable \\\"$input\\\" got invalid value \\\"\\\" at \\\"input.page\\\"; Int cannot represent non-integer value: \\\"\\\"\")",
-									"});",
-									"",
-									"pm.test(\"Verify that internal server error message is correct\", function () {",
-									"    var page= jsonData.errors[0].extensions.code;",
-									"    pm.expect(page).to.eql(\"INTERNAL_SERVER_ERROR\")",
-									"",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query search($input: SearchInput!) {\r\n  search(input: $input) {\r\n    items {\r\n      __typename\r\n      ... on Song {\r\n        id\r\n        createdAt\r\n        canDelete\r\n        scriptureReferences {\r\n          value {\r\n            start {\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            end {\r\n              book\r\n              chapter\r\n              verse\r\n              label\r\n            }\r\n            label\r\n            totalVerses\r\n          }\r\n          canRead\r\n          canEdit\r\n        }\r\n        name {\r\n          value\r\n          canRead\r\n          canEdit\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n",
-								"variables": "\r\n{\r\n    \"input\": {\r\n        \"count\":{{itemCount}} ,\r\n        \"page\": \"\",\r\n        \"query\": \"{{songName}}\",\r\n        \"type\": \"{{SongType}}\"\r\n    }\r\n}\r\n"
-							}
-						},
-						"url": {
-							"raw": "{{env}}/graphql",
-							"host": [
-								"{{env}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Search Query Song  Mandatory Field Removed - Query",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = pm.response.json();",
-									"",
-									"//Common Verification",
-									"pm.test(\"Status code is 400\", function () {",
-									"    pm.response.to.have.status(400);",
-									"});",
-									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -807,7 +717,7 @@
 									"});",
 									"",
 									"pm.test(\"Verify that internal server error message is correct\", function () {",
-									"    var page= jsonData.errors[0].extensions.code;",
+									"    var page = jsonData.errors[0].extensions.code;",
 									"    pm.expect(page).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});",
@@ -860,7 +770,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Song  Mandatory Field Blank - Type",
+					"name": "Search Song Not Mandatory Field Blank - Type",
 					"event": [
 						{
 							"listen": "test",
@@ -884,8 +794,8 @@
 									"});",
 									"",
 									"pm.test(\"Verify that internal server error message is correct\", function () {",
-									"    var page= jsonData.errors[0].extensions.code;",
-									"    pm.expect(page).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"    var type= jsonData.errors[0].extensions.code;",
+									"    pm.expect(type).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});",
 									""
@@ -936,7 +846,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Song  Not Mandatory Field Removed - Type",
+					"name": "Search Song Mandatory Field Removed - Type",
 					"event": [
 						{
 							"listen": "test",
@@ -949,13 +859,13 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that story type name is equal to previous value\", function () {",
-									"    var type_name= jsonData.data.search.items[0].__typename;",
+									"    var type_name = jsonData.data.search.items[0].__typename;",
 									"    pm.expect(type_name).to.eql(pm.globals.get('SongType'));",
 									"",
 									"});",
@@ -1007,7 +917,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Song  Parameter Mismatch   - Count",
+					"name": "Search Song Parameter Mismatch - Count",
 					"event": [
 						{
 							"listen": "test",
@@ -1020,18 +930,18 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that count parameter mismatch error message is correct\", function () {",
 									"    var invalid_count = jsonData.errors[0].message;",
-									"    pm.expect(invalid_count).to.include( \"Field \\\"count1\\\" is not defined by type \\\"SearchInput\\\". Did you mean \\\"count\\\"?\")",
+									"    pm.expect(invalid_count).to.include(\"Field \\\"count1\\\" is not defined by type \\\"SearchInput\\\". Did you mean \\\"count\\\"?\")",
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
+									"    var count = jsonData.errors[0].extensions.code;",
 									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
@@ -1082,7 +992,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Song  Parameter Mismatch   -  Page",
+					"name": "Search Song Parameter Mismatch - Page",
 					"event": [
 						{
 							"listen": "test",
@@ -1095,7 +1005,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -1106,8 +1016,8 @@
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is displayed\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"    var page = jsonData.errors[0].extensions.code;",
+									"    pm.expect(page).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
 								],
@@ -1157,7 +1067,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Song  Parameter Mismatch   -  Query",
+					"name": "Search  Song Parameter Mismatch - Query",
 					"event": [
 						{
 							"listen": "test",
@@ -1170,7 +1080,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -1181,8 +1091,8 @@
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"    var query = jsonData.errors[0].extensions.code;",
+									"    pm.expect(query).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
 								],
@@ -1232,7 +1142,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Song  Parameter Mismatch   -  Type",
+					"name": "Search Song Parameter Mismatch - Type",
 					"event": [
 						{
 							"listen": "test",
@@ -1245,7 +1155,7 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
@@ -1256,8 +1166,8 @@
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count = jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"    var type = jsonData.errors[0].extensions.code;",
+									"    pm.expect(type).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
 								],
@@ -1307,7 +1217,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Song  Invalid Value -  Count",
+					"name": "Search Song Parameter Invalid - Count",
 					"event": [
 						{
 							"listen": "test",
@@ -1320,18 +1230,18 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that count invalid value error message is correct\", function () {",
-									"    var count_value= jsonData.errors[0].message;",
+									"    var count_value = jsonData.errors[0].message;",
 									"    pm.expect(count_value).to.include(\"Int cannot represent non-integer value: \\\"$#$#%\\\"\")",
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
+									"    var count = jsonData.errors[0].extensions.code;",
 									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
@@ -1382,7 +1292,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Song  Invalid Value -  Page",
+					"name": "Search Song Parameter Invalid - Page",
 					"event": [
 						{
 							"listen": "test",
@@ -1395,19 +1305,19 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that page invalid value error message is correct\", function () {",
-									"    var page= jsonData.errors[0].message;",
+									"    var page = jsonData.errors[0].message;",
 									"    pm.expect(page).to.include(\"Int cannot represent non-integer value: \\\"D#$%%%#\\\"\");",
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"    var page = jsonData.errors[0].extensions.code;",
+									"    pm.expect(page).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
 								],
@@ -1457,7 +1367,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Song  Invalid Value -  Type",
+					"name": "Search Song Parameter Invalid - Type",
 					"event": [
 						{
 							"listen": "test",
@@ -1470,19 +1380,19 @@
 									"    pm.response.to.have.status(400);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that type invalid value error message is correct\", function () {",
-									"    var type= jsonData.errors[0].message;",
+									"    var type = jsonData.errors[0].message;",
 									"    pm.expect(type).to.include(\"Value \\\"%$FD#$#$#$\\\" does not exist in \\\"SearchType\\\" enum.\")",
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
-									"    var count= jsonData.errors[0].extensions.code;",
-									"    pm.expect(count).to.eql(\"INTERNAL_SERVER_ERROR\")",
+									"    var type = jsonData.errors[0].extensions.code;",
+									"    pm.expect(type).to.eql(\"INTERNAL_SERVER_ERROR\")",
 									"",
 									"});"
 								],
@@ -1532,7 +1442,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Song  invalid Value Count - Min",
+					"name": "Search Song Parameter Invalid Count - Min",
 					"event": [
 						{
 							"listen": "test",
@@ -1544,19 +1454,19 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verifying count min error is correct\", function () {",
-									"var count_errormsg =jsonData.errors[0].message;",
-									" pm.expect(count_errormsg).eql(\"Input validation failed\");",
+									"    var count_errormsg = jsonData.errors[0].message;",
+									"    pm.expect(count_errormsg).eql(\"Input validation failed\");",
 									"});",
 									"",
 									"pm.test(\"Verifying count must not be less than 1 error is correct\", function () {",
-									"var count_errormsg2 =jsonData.errors[0].extensions.errors['count'].min;",
-									" pm.expect(count_errormsg2).eql(\"count must not be less than 1\");",
+									"    var error = jsonData.errors[0].extensions.errors['count'].min;",
+									"    pm.expect(error).eql(\"count must not be less than 1\");",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1605,7 +1515,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Query Song  invalid Value Count - Max",
+					"name": "Search Song Parameter Invalid Count - Max",
 					"event": [
 						{
 							"listen": "test",
@@ -1617,19 +1527,19 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));",
 									"});",
 									"",
 									"//Test Specific",
 									"pm.test(\"Verifying count max error is correct\", function () {",
-									"var count_errormsg =jsonData.errors[0].message;",
-									" pm.expect(count_errormsg).eql(\"Input validation failed\");",
+									"    var count_errormsg = jsonData.errors[0].message;",
+									"    pm.expect(count_errormsg).eql(\"Input validation failed\");",
 									"});",
 									"",
 									"pm.test(\"Verifying count must not be greater than 100 error is correct\", function () {",
-									"var count_errormsg2 =jsonData.errors[0].extensions.errors['count'].max;",
-									" pm.expect(count_errormsg2).eql(\"count must not be greater than 100\");",
+									"    var error = jsonData.errors[0].extensions.errors['count'].max;",
+									"    pm.expect(error).eql(\"count must not be greater than 100\");",
 									"});"
 								],
 								"type": "text/javascript"
