@@ -315,13 +315,22 @@
 							"script": {
 								"exec": [
 									"const moment = require('moment');\r",
+									"\r",
 									"pm.globals.set(\"timestamp\", moment().format(\"DDMYYYYhhmmss\"));\r",
 									"\r",
 									"pm.globals.set(\"description\", \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Libero volutpat sed cras ornare arcu dui vivamus arcu. Dui nunc mattis enim ut tellus elementum sagittis vitae. Pharetra sit amet aliquam id diam maecenas ultricies mi. Quis vel eros donec ac odio tempor orci. Faucibus purus in massa tempor nec. Imperdietbbbb proin fermentum leo vel orci porta non pulvinar. Nulla facilisi nullam vehicula ipsum a arcu cursus.\" + moment().format(\"DDMYYYYhhmmss\"));\r",
 									"\r",
-									"pm.globals.set(\"unavailabilityStart\", moment().format(\"YYYY-MM-DDTHH:mm:ss.SSSZ\"));\r",
+									"pm.globals.set(\"unavailabilityStart\", moment().format(\"YYYY-MM-DDTHH:mm:ss.SSS\") + \"Z\");\r",
 									"\r",
-									"pm.globals.set(\"unavailabilityEnd\", moment().format(\"YYYY-MM-DDTHH:mm:ss.SSSZ\"))\r",
+									"// var za = (\"unavailabilityStart\", moment().format(\"YYYY-MM-DDTHH:mm:ss.SSS Z\"));\r",
+									"\r",
+									"// //  var tt=  moment().format(\"YYYY-MM-DDTHH:mm:ss.SSS'Z'\");\r",
+									"//  var tt=  moment().format(\"YYYY-MM-DDTHH:mm:ss.SSS\") + \"Z\";\r",
+									"// //  var tp=  DateTime.local();\r",
+									"\r",
+									"// console.log('tp',tt);\r",
+									"\r",
+									"pm.globals.set(\"unavailabilityEnd\", moment().format(\"YYYY-MM-DDTHH:mm:ss.SSS\") + \"Z\")\r",
 									""
 								],
 								"type": "text/javascript"

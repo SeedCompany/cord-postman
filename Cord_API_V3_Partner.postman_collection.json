@@ -7844,7 +7844,7 @@
 									"",
 									"pm.test(\"Verify that error message is correct\", function () {",
 									"    var error_message = jsonData.errors[0].message;  ",
-									"    pm.expect(error_message).to.include(\"Invalid input '@': expected an identifier, whitespace, a function name or a property key name\");",
+									"    pm.expect(error_message).to.include(\"Invalid input '@': expected whitespace or a rel type name\");",
 									"});",
 									"",
 									"pm.test(\"Verify that error code is InternalServerError\", function () {",
