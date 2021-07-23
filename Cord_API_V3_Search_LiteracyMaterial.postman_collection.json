@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "58c087f5-3672-4e57-8684-56731239c002",
+		"_postman_id": "87362327-1ae2-47e5-b143-f4e6aa2d143a",
 		"name": "Cord_API_V3_Search_LiteracyMaterial",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -304,6 +304,60 @@
 							"graphql": {
 								"query": "mutation createLiteracyMaterial($input: CreateLiteracyMaterialInput!) {\r\n  createLiteracyMaterial(input: $input) {\r\n    literacyMaterial {\r\n      id\r\n      createdAt\r\n      name {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      scriptureReferences {\r\n        canEdit\r\n        canRead\r\n        value {\r\n          start {\r\n            book\r\n            chapter\r\n            verse\r\n            label\r\n          }\r\n          end {\r\n            book\r\n            chapter\r\n            verse\r\n            label\r\n          }\r\n          label\r\n          totalVerses\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"input\": {\r\n        \"literacyMaterial\": {\r\n            \"name\": \"{{literacyMaterialName}}\",\r\n            \"scriptureReferences\": {\r\n                \"start\": {\r\n                    \"book\": \"{{literacyMaterialScriptRefBookStart}}\",\r\n                    \"chapter\": {{literacyMaterialScriptRefChapterStart}},\r\n                    \"verse\": {{literacyMaterialScriptRefVerseStart}}\r\n                },\r\n                \"end\": {\r\n                    \"book\": \"{{literacyMaterialScriptRefBookEnd}}\",\r\n                    \"chapter\": {{literacyMaterialScriptRefChapterEnd}},\r\n                    \"verse\": {{literacyMaterialScriptRefVerseEnd}}\r\n                }\r\n            }\r\n        }\r\n    }\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{env}}/graphql",
+							"host": [
+								"{{env}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Grant Power to RootAdmin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power)\r\n}\r\n",
+								"variables": "{\r\n    \"userId\": \"{{rootAdminUserid}}\",\r\n    \"power\": \"GrantPower\"\r\n}"
 							}
 						},
 						"url": {
