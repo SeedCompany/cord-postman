@@ -1195,7 +1195,7 @@
 									"//Test Specific",
 									"pm.test(\"Verify that type parameter mismatch error message is correct\", function () {",
 									"    var type = jsonData.errors[0].message;",
-									"    pm.expect(type).to.include(\"  is not defined by type \\\"SearchInput\\\". Did you mean \\\"type\\\"?\")",
+									"    pm.expect(type).to.include(\"is not defined by type \\\"SearchInput\\\". Did you mean \\\"type\\\"?\")",
 									"});",
 									"",
 									"pm.test(\"Verify that internal code error is correct\", function () {",
