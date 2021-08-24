@@ -1539,10 +1539,35 @@
 			"key": "updateLanguageEngagementid",
 			"value": "",
 			"enabled": true
+		},
+		{
+			"key": "productSteps",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "productScriptRefOverrideLabelStart",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "productScriptRefOverrideLabelEnd",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "productStepsArray",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "productMethodologyType",
+			"value": "",
+			"enabled": true
 		}
 	],
 	"name": "MyWorkspace Globals",
 	"_postman_variable_scope": "globals",
-	"_postman_exported_at": "2021-07-30T12:24:58.365Z",
-	"_postman_exported_using": "Postman/8.9.1"
+	"_postman_exported_at": "2021-08-24T06:26:59.175Z",
+	"_postman_exported_using": "Postman/8.10.0"
 }
