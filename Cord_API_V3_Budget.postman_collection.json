@@ -2436,7 +2436,7 @@
 						"body": {
 							"mode": "file",
 							"file": {
-								"src": "/C:/Users/shree/Downloads/Sample File_Test_Doc/Test.png"
+								"src": "/C:/SeedCompany/Repos/cord-api-v3/docs/TestFile/Image.png"
 							}
 						},
 						"url": {
@@ -3037,7 +3037,7 @@
 						"body": {
 							"mode": "file",
 							"file": {
-								"src": "/C:/Users/shree/Downloads/Sample File_Test_Doc/Test.png"
+								"src": "/C:/SeedCompany/Repos/cord-api-v3/docs/TestFile/Image.png"
 							}
 						},
 						"url": {
