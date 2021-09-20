@@ -694,7 +694,7 @@
 						"body": {
 							"mode": "file",
 							"file": {
-								"src": "/C:/Users/shree/Downloads/Sample File_Test_Doc/Test.png"
+								"src": "/C:/Projects/Seed Company/cord-postman/TestFile/Image.png"
 							}
 						},
 						"url": {
@@ -747,7 +747,7 @@
 						"body": {
 							"mode": "file",
 							"file": {
-								"src": "/C:/Users/shree/Downloads/Sample File_Test_Doc/Test PDF.pdf"
+								"src": "/C:/Projects/Seed Company/cord-postman/TestFile/sample.pdf"
 							}
 						},
 						"url": {
@@ -800,7 +800,7 @@
 						"body": {
 							"mode": "file",
 							"file": {
-								"src": "/C:/Users/shree/Downloads/Sample File_Test_Doc/Test Word 1 mb.doc"
+								"src": "/C:/Projects/Seed Company/cord-postman/TestFile/Test.doc"
 							}
 						},
 						"url": {
@@ -853,7 +853,7 @@
 						"body": {
 							"mode": "file",
 							"file": {
-								"src": "/C:/Users/shree/Downloads/Sample File_Test_Doc/Test Video.webm"
+								"src": "/C:/Projects/Seed Company/cord-postman/TestFile/Video.mp4"
 							}
 						},
 						"url": {
@@ -906,7 +906,7 @@
 						"body": {
 							"mode": "file",
 							"file": {
-								"src": "/C:/Users/shree/Downloads/Sample File_Test_Doc/Audio Test.mp3"
+								"src": "/C:/Projects/Seed Company/cord-postman/TestFile/Audio.mp3"
 							}
 						},
 						"url": {
@@ -959,7 +959,7 @@
 						"body": {
 							"mode": "file",
 							"file": {
-								"src": "/C:/Users/shree/Downloads/Sample File_Test_Doc/Test Text.txt"
+								"src": "/C:/Projects/Seed Company/cord-postman/TestFile/TextFile.txt"
 							}
 						},
 						"url": {
