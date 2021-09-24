@@ -1609,10 +1609,15 @@
 			"key": "pinnedProjectId",
 			"value": "",
 			"enabled": true
+		},
+		{
+			"key": "badRequestErrorCode",
+			"value": "BAD_USER_INPUT",
+			"enabled": true
 		}
 	],
 	"name": "MyWorkspace Globals",
 	"_postman_variable_scope": "globals",
-	"_postman_exported_at": "2021-09-17T13:07:23.864Z",
-	"_postman_exported_using": "Postman/9.0.1"
+	"_postman_exported_at": "2021-09-24T13:27:58.465Z",
+	"_postman_exported_using": "Postman/9.0.3"
 }

@@ -902,11 +902,11 @@
 									"    pm.expect(error_message).to.include(\"Field \\\"id\\\" of required type \\\"ID!\\\" was not provided.\");",
 									"});",
 									"",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {",
-									"    var error_code = jsonData.errors[0].extensions.code;  ",
-									"    pm.expect(error_code).to.eql(\"INTERNAL_SERVER_ERROR\");",
-									"});",
-									""
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {",
+									"    var error_code = jsonData.errors[0].extensions.code;",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));",
+									"",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -2005,9 +2005,10 @@
 									"    pm.expect(error_message).to.include(\"does not exist in \\\"UserStatus\\\" enum\");",
 									"});",
 									"",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {",
-									"    var error_code = jsonData.errors[0].extensions.code;  ",
-									"    pm.expect(error_code).to.eql(\"INTERNAL_SERVER_ERROR\");",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {",
+									"    var error_code = jsonData.errors[0].extensions.code;",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));",
+									"",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2286,9 +2287,10 @@
 									"    pm.expect(error_message).to.include(\"Field \\\"id\\\" of required type \\\"ID!\\\" was not provided\");\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {\r",
-									"    var error_message = jsonData.errors[0].extensions.code;  \r",
-									"    pm.expect(error_message).to.eql(\"INTERNAL_SERVER_ERROR\");\r",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {\r",
+									"    var error_code = jsonData.errors[0].extensions.code;\r",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));\r",
+									"\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2358,9 +2360,10 @@
 									"    pm.expect(error_message).to.include(\"is not defined by type \\\"UpdateUser\\\". Did you mean \\\"realFirstName\\\" or \\\"realLastName\\\"?\");\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {\r",
-									"    var error_message = jsonData.errors[0].extensions.code;  \r",
-									"    pm.expect(error_message).to.eql(\"INTERNAL_SERVER_ERROR\");\r",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {\r",
+									"    var error_code = jsonData.errors[0].extensions.code;\r",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));\r",
+									"\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2430,9 +2433,10 @@
 									"    pm.expect(error_message).to.include(\"is not defined by type \\\"UpdateUser\\\". Did you mean \\\"realLastName\\\" or \\\"realFirstName\\\"?\");\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {\r",
-									"    var error_message = jsonData.errors[0].extensions.code;  \r",
-									"    pm.expect(error_message).to.eql(\"INTERNAL_SERVER_ERROR\");\r",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {\r",
+									"    var error_code = jsonData.errors[0].extensions.code;\r",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));\r",
+									"\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2502,9 +2506,10 @@
 									"    pm.expect(error_message).to.include(\"is not defined by type \\\"UpdateUser\\\". Did you mean \\\"displayFirstName\\\", \\\"displayLastName\\\", or \\\"realFirstName\\\"?\");\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {\r",
-									"    var error_message = jsonData.errors[0].extensions.code;  \r",
-									"    pm.expect(error_message).to.eql(\"INTERNAL_SERVER_ERROR\");\r",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {\r",
+									"    var error_code = jsonData.errors[0].extensions.code;\r",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));\r",
+									"\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2574,9 +2579,10 @@
 									"    pm.expect(error_message).to.include(\"is not defined by type \\\"UpdateUser\\\". Did you mean \\\"displayLastName\\\", \\\"displayFirstName\\\", or \\\"realLastName\\\"?\");\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {\r",
-									"    var error_message = jsonData.errors[0].extensions.code;  \r",
-									"    pm.expect(error_message).to.eql(\"INTERNAL_SERVER_ERROR\");\r",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {\r",
+									"    var error_code = jsonData.errors[0].extensions.code;\r",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));\r",
+									"\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2646,9 +2652,10 @@
 									"    pm.expect(error_message).to.include(\"is not defined by type \\\"UpdateUser\\\". Did you mean \\\"phone\\\"?\");\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {\r",
-									"    var error_message = jsonData.errors[0].extensions.code;  \r",
-									"    pm.expect(error_message).to.eql(\"INTERNAL_SERVER_ERROR\");\r",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {\r",
+									"    var error_code = jsonData.errors[0].extensions.code;\r",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));\r",
+									"\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2718,9 +2725,10 @@
 									"    pm.expect(error_message).to.include(\"is not defined by type \\\"UpdateUser\\\". Did you mean \\\"timezone\\\"?\");\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {\r",
-									"    var error_message = jsonData.errors[0].extensions.code;  \r",
-									"    pm.expect(error_message).to.eql(\"INTERNAL_SERVER_ERROR\");\r",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {\r",
+									"    var error_code = jsonData.errors[0].extensions.code;\r",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));\r",
+									"\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2790,9 +2798,10 @@
 									"    pm.expect(error_message).to.include(\"Field \\\"about1\\\" is not defined by type \\\"UpdateUser\\\". Did you mean \\\"about\\\"?\");\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {\r",
-									"    var error_message = jsonData.errors[0].extensions.code;  \r",
-									"    pm.expect(error_message).to.eql(\"INTERNAL_SERVER_ERROR\");\r",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {\r",
+									"    var error_code = jsonData.errors[0].extensions.code;\r",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));\r",
+									"\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2862,9 +2871,10 @@
 									"    pm.expect(error_message).to.include(\"is not defined by type \\\"UpdateUser\\\". Did you mean \\\"status\\\"?\");\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {\r",
-									"    var error_message = jsonData.errors[0].extensions.code;  \r",
-									"    pm.expect(error_message).to.eql(\"INTERNAL_SERVER_ERROR\");\r",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {\r",
+									"    var error_code = jsonData.errors[0].extensions.code;\r",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));\r",
+									"\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -2934,9 +2944,10 @@
 									"    pm.expect(error_message).to.include(\"Field \\\"title1\\\" is not defined by type \\\"UpdateUser\\\". Did you mean \\\"title\\\"?\");\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {\r",
-									"    var error_message = jsonData.errors[0].extensions.code;  \r",
-									"    pm.expect(error_message).to.eql(\"INTERNAL_SERVER_ERROR\");\r",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {\r",
+									"    var error_code = jsonData.errors[0].extensions.code;\r",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));\r",
+									"\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -3006,9 +3017,10 @@
 									"    pm.expect(error_message).to.include(\"Field \\\"roles1\\\" is not defined by type \\\"UpdateUser\\\". Did you mean \\\"roles\\\"?\");\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {\r",
-									"    var error_message = jsonData.errors[0].extensions.code;  \r",
-									"    pm.expect(error_message).to.eql(\"INTERNAL_SERVER_ERROR\");\r",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {\r",
+									"    var error_code = jsonData.errors[0].extensions.code;\r",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));\r",
+									"\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -3324,9 +3336,10 @@
 									"    pm.expect(error_message).to.include(\"does not exist in \\\"UserStatus\\\" enum\");",
 									"});",
 									"",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {",
-									"    var error_code = jsonData.errors[0].extensions.code;  ",
-									"    pm.expect(error_code).to.eql(\"INTERNAL_SERVER_ERROR\");",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {",
+									"    var error_code = jsonData.errors[0].extensions.code;",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));",
+									"",
 									"});"
 								],
 								"type": "text/javascript"
@@ -3819,9 +3832,10 @@
 									"    pm.expect(error_message).to.eql(\"Variable \\\"$id\\\" of required type \\\"ID!\\\" was not provided.\");",
 									"});",
 									"",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {",
-									"    var error_message = jsonData.errors[0].extensions.code;  ",
-									"    pm.expect(error_message).to.eql(\"INTERNAL_SERVER_ERROR\");",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {",
+									"    var error_code = jsonData.errors[0].extensions.code;",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));",
+									"",
 									"});"
 								],
 								"type": "text/javascript"
@@ -3884,9 +3898,10 @@
 									"    pm.expect(error_message).to.eql(\"Variable \\\"$id\\\" of required type \\\"ID!\\\" was not provided.\");",
 									"});",
 									"",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {",
-									"    var error_message = jsonData.errors[0].extensions.code;  ",
-									"    pm.expect(error_message).to.eql(\"INTERNAL_SERVER_ERROR\");",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {",
+									"    var error_code = jsonData.errors[0].extensions.code;",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));",
+									"",
 									"});"
 								],
 								"type": "text/javascript"
@@ -5319,9 +5334,10 @@
 									"    pm.expect(error_message).to.include(\"does not exist in \\\"Order\\\" enum\");",
 									"});",
 									"",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {",
-									"    var error_code = jsonData.errors[0].extensions.code;  ",
-									"    pm.expect(error_code).to.eql(\"INTERNAL_SERVER_ERROR\");",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {",
+									"    var error_code = jsonData.errors[0].extensions.code;",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));",
+									"",
 									"});",
 									""
 								],
@@ -5394,11 +5410,11 @@
 									"    pm.expect(error_message).to.include(\"is not defined by type \\\"UserListInput\\\". Did you mean \\\"count\\\"?\");",
 									"});",
 									"",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {",
-									"    var error_code = jsonData.errors[0].extensions.code;  ",
-									"    pm.expect(error_code).to.eql(\"INTERNAL_SERVER_ERROR\");",
-									"});",
-									""
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {",
+									"    var error_code = jsonData.errors[0].extensions.code;",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));",
+									"",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -5469,9 +5485,10 @@
 									"    pm.expect(error_message).to.include(\"is not defined by type \\\"UserListInput\\\". Did you mean \\\"page\\\"?\");",
 									"});",
 									"",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {",
-									"    var error_code = jsonData.errors[0].extensions.code;  ",
-									"    pm.expect(error_code).to.eql(\"INTERNAL_SERVER_ERROR\");",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {",
+									"    var error_code = jsonData.errors[0].extensions.code;",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));",
+									"",
 									"});",
 									""
 								],
@@ -5544,9 +5561,10 @@
 									"    pm.expect(error_message).to.include(\"is not defined by type \\\"UserListInput\\\". Did you mean \\\"sort\\\"?\");",
 									"});",
 									"",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {",
-									"    var error_code = jsonData.errors[0].extensions.code;  ",
-									"    pm.expect(error_code).to.eql(\"INTERNAL_SERVER_ERROR\");",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {",
+									"    var error_code = jsonData.errors[0].extensions.code;",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));",
+									"",
 									"});",
 									""
 								],
@@ -5619,9 +5637,10 @@
 									"    pm.expect(error_message).to.include(\"is not defined by type \\\"UserListInput\\\". Did you mean \\\"order\\\"?\");",
 									"});",
 									"",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {",
-									"    var error_code = jsonData.errors[0].extensions.code;  ",
-									"    pm.expect(error_code).to.eql(\"INTERNAL_SERVER_ERROR\");",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {",
+									"    var error_code = jsonData.errors[0].extensions.code;",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));",
+									"",
 									"});",
 									""
 								],
@@ -6021,9 +6040,10 @@
 									"    pm.expect(error_message).to.include(\"does not exist in \\\"Order\\\" enum\");",
 									"});",
 									"",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {",
-									"    var error_code = jsonData.errors[0].extensions.code;  ",
-									"    pm.expect(error_code).to.eql(\"INTERNAL_SERVER_ERROR\");",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {",
+									"    var error_code = jsonData.errors[0].extensions.code;",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));",
+									"",
 									"});",
 									""
 								],
@@ -6239,9 +6259,10 @@
 									"    pm.expect(error_message).to.eql(\"Variable \\\"$id\\\" of required type \\\"ID!\\\" was not provided.\");",
 									"});",
 									"",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {",
-									"    var error_message = jsonData.errors[0].extensions.code;  ",
-									"    pm.expect(error_message).to.eql(\"INTERNAL_SERVER_ERROR\");",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {",
+									"    var error_code = jsonData.errors[0].extensions.code;",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));",
+									"",
 									"});"
 								],
 								"type": "text/javascript"
@@ -6311,9 +6332,10 @@
 									"    pm.expect(error_message).to.eql(\"Variable \\\"$id\\\" of required type \\\"ID!\\\" was not provided.\");",
 									"});",
 									"",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {",
-									"    var error_message = jsonData.errors[0].extensions.code;  ",
-									"    pm.expect(error_message).to.eql(\"INTERNAL_SERVER_ERROR\");",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {",
+									"    var error_code = jsonData.errors[0].extensions.code;",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));",
+									"",
 									"});"
 								],
 								"type": "text/javascript"
