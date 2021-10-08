@@ -1192,7 +1192,7 @@
 									"",
 									"pm.test(\"Verify that universalTemplateFile's name\", function () {",
 									"    var name = jsonData.data.createBudget.budget.universalTemplateFile.value.name;",
-									"    pm.expect(name).to.eql(\"Universal Budget Template\");",
+									"    pm.expect(name).to.eql(pm.globals.get('budgetName'));",
 									"});",
 									"",
 									"pm.test(\"Verify that universalTemplateFile createdBy ID is not blank or null\", function () {",

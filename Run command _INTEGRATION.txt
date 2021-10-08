@@ -124,4 +124,7 @@ newman run Cord_API_V3_ProjectApproval.postman_collection.json -e integration.po
 >> FileUpload
 newman run Cord_API_V3_FileUpload.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
 
+>> TogglePinned
+newman run Cord_API_V3_TogglePinned.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
 
