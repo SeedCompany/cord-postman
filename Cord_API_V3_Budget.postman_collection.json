@@ -5132,11 +5132,10 @@
 									"    pm.expect(error_message).to.include(\"does not exist in \\\"Order\\\" enum\");",
 									"});",
 									"",
-									"pm.test(\"Verify that error code is INTERNAL_SERVER_ERROR\", function () {",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {",
 									"    var error_code = jsonData.errors[0].extensions.code;  ",
-									"    pm.expect(error_code).to.eql(\"INTERNAL_SERVER_ERROR\");",
-									"});",
-									""
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -5168,7 +5167,7 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "query budgets($input: BudgetListInput!) {\r\n  budgets(input: $input) {\r\n    total\r\n    hasMore\r\n    items {\r\n      id\r\n      total\r\n      createdAt\r\n      canDelete\r\n      status\r\n      records {\r\n        id\r\n        createdAt\r\n        canDelete\r\n        fiscalYear {\r\n          value\r\n          canEdit\r\n          canRead\r\n        }\r\n        amount {\r\n          value\r\n          canEdit\r\n          canRead\r\n        }\r\n        organization {\r\n          value {\r\n            id\r\n            createdAt\r\n            canDelete\r\n            name {\r\n              value\r\n              canEdit\r\n              canRead\r\n            }\r\n            address {\r\n              value\r\n              canEdit\r\n              canRead\r\n            }\r\n            avatarLetters\r\n            locations {\r\n              canCreate\r\n              canRead\r\n              hasMore\r\n              total\r\n              items {\r\n                id\r\n                createdAt\r\n                canDelete\r\n                name {\r\n                  value\r\n                  canEdit\r\n                  canRead\r\n                }\r\n                type {\r\n                  value\r\n                  canRead\r\n                  canEdit\r\n                }\r\n\r\n                isoAlpha3 {\r\n                  value\r\n                  canEdit\r\n                  canRead\r\n                }\r\n                fundingAccount {\r\n                  value {\r\n                    id\r\n                    createdAt\r\n                    canDelete\r\n                    name {\r\n                      value\r\n                      canEdit\r\n                      canRead\r\n                    }\r\n                    accountNumber {\r\n                      value\r\n                      canEdit\r\n                      canRead\r\n                    }\r\n                  }\r\n                  canEdit\r\n                  canRead\r\n                }\r\n                isoCountry {\r\n                  country\r\n                  alpha2\r\n                  alpha3\r\n                  numeric\r\n                }\r\n              }\r\n            }\r\n          }\r\n          canEdit\r\n          canRead\r\n        }\r\n      }\r\n      universalTemplateFile {\r\n        value {\r\n          id\r\n          createdAt\r\n          canDelete\r\n          type\r\n          name\r\n          createdBy {\r\n            id\r\n          }\r\n          parents {\r\n            id\r\n          }\r\n          mimeType\r\n          size\r\n          modifiedAt\r\n          modifiedBy {\r\n            id\r\n          }\r\n          children {\r\n            total\r\n            hasMore\r\n            items {\r\n              id\r\n            }\r\n          }\r\n          downloadUrl\r\n        }\r\n        canEdit\r\n        canRead\r\n      }\r\n    }\r\n  }\r\n}\r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"count\": {{count}},\r\n        \"page\": {{page}},\r\n        \"sort\": \"status\",\r\n        \"order\": \"^^4##!!(())\",\r\n        \"filter\": {\r\n            \"projectId\": \"{{projectid}}\"\r\n        }\r\n    }\r\n}"
+								"variables": "{\r\n    \"input\": {\r\n        \"count\": {{count}},\r\n        \"page\": {{page}},\r\n        \"sort\": \"status\",\r\n        \"order\": \"^^4##!!(())\"\r\n    }\r\n}"
 							}
 						},
 						"url": {

@@ -4765,7 +4765,7 @@
 								"exec": [
 									"pm.globals.set(\"itemCount\",25);\r",
 									"pm.globals.set(\"page\",1);\r",
-									"pm.globals.set('order', \"DESC\");"
+									"pm.globals.set('order', \"ASC\");"
 								],
 								"type": "text/javascript"
 							}
