@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "35932160-e156-429b-b778-1df44760710f",
+		"_postman_id": "e3db3bbb-4f8c-4d45-8a96-49863b18323f",
 		"name": "Cord_API_V3_TogglePinned",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -146,7 +146,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power)\r\n}\r\n",
+								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power){\r\n    __typename\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"userId\": \"{{rootAdminUserid}}\",\r\n    \"power\": \"GrantPower\"\r\n}"
 							}
 						},
@@ -468,7 +468,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power)\r\n}",
+								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power){\r\n    __typename\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"userId\": \"{{userid}}\",\r\n    \"power\": \"GrantPower\"\r\n}"
 							}
 						},
@@ -586,7 +586,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power)\r\n}\r\n",
+								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power){\r\n    __typename\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"userId\": \"{{userid}}\",\r\n    \"power\": \"CreateProject\"\r\n}"
 							}
 						},

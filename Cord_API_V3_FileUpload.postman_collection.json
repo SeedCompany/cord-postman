@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "57d86d9e-9c11-4905-8676-8c6e738fcc32",
+		"_postman_id": "11614783-ad21-49c0-aff3-de1332655937",
 		"name": "Cord_API_V3_FileUpload",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -146,7 +146,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power)\r\n}\r\n",
+								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power){\r\n    __typename\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"userId\": \"{{rootAdminUserid}}\",\r\n    \"power\": \"GrantPower\"\r\n}"
 							}
 						},
@@ -484,7 +484,7 @@
 							"query": [
 								{
 									"key": "signed",
-									"value": null,
+									"value": "",
 									"disabled": true
 								}
 							]
@@ -540,7 +540,7 @@
 							"query": [
 								{
 									"key": "signed",
-									"value": null,
+									"value": "",
 									"disabled": true
 								}
 							]
@@ -596,7 +596,7 @@
 							"query": [
 								{
 									"key": "signed",
-									"value": null,
+									"value": "",
 									"disabled": true
 								}
 							]
@@ -652,7 +652,7 @@
 							"query": [
 								{
 									"key": "signed",
-									"value": null,
+									"value": "",
 									"disabled": true
 								}
 							]
@@ -705,7 +705,7 @@
 							"query": [
 								{
 									"key": "signed",
-									"value": null,
+									"value": "",
 									"disabled": true
 								}
 							]
@@ -758,7 +758,7 @@
 							"query": [
 								{
 									"key": "signed",
-									"value": null,
+									"value": "",
 									"disabled": true
 								}
 							]
@@ -811,7 +811,7 @@
 							"query": [
 								{
 									"key": "signed",
-									"value": null,
+									"value": "",
 									"disabled": true
 								}
 							]
@@ -864,7 +864,7 @@
 							"query": [
 								{
 									"key": "signed",
-									"value": null,
+									"value": "",
 									"disabled": true
 								}
 							]
@@ -917,7 +917,7 @@
 							"query": [
 								{
 									"key": "signed",
-									"value": null,
+									"value": "",
 									"disabled": true
 								}
 							]
@@ -970,7 +970,7 @@
 							"query": [
 								{
 									"key": "signed",
-									"value": null,
+									"value": "",
 									"disabled": true
 								}
 							]

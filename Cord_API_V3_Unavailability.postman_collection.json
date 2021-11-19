@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "34265d4a-ffed-4aa3-8278-4325334df4b1",
+		"_postman_id": "9bd6198f-dc3d-484d-b7f8-a20946ba7159",
 		"name": "Cord_API_V3_Unavailability",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -146,7 +146,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power)\r\n}\r\n",
+								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power){\r\n    __typename\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"userId\": \"{{rootAdminUserid}}\",\r\n    \"power\": \"GrantPower\"\r\n}"
 							}
 						},
@@ -5257,8 +5257,8 @@
 									"});\r",
 									"\r",
 									"//Test Specific\r",
-									"pm.test(\"Verify that Story is deleted\", function () {\r",
-									"    pm.expect(jsonData.data.deleteUnavailability).to.eql(true);\r",
+									"pm.test(\"Verify that unavailability is deleted\", function () {\r",
+									"    pm.expect(jsonData.data.deleteUnavailability.__typename).to.eql(\"DeleteUnavailabilityOutput\");\r",
 									"});\r",
 									""
 								],
@@ -5282,7 +5282,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteUnavailability($id: ID!) {\r\n  deleteUnavailability(id: $id)\r\n}\r\n",
+								"query": "mutation DeleteUnavailability($id: ID!) {\r\n  deleteUnavailability(id: $id) {\r\n   __typename \r\n  }\r\n}",
 								"variables": "{\r\n    \"id\": \"{{unavailabilityId}}\"\r\n}"
 							}
 						},
@@ -5352,7 +5352,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteUnavailability($id: ID!) {\r\n  deleteUnavailability(id: $id)\r\n}\r\n",
+								"query": "mutation DeleteUnavailability($id: ID!) {\r\n  deleteUnavailability(id: $id) {\r\n   __typename \r\n  }\r\n}",
 								"variables": "{\r\n    \"id\": \"\"\r\n}"
 							}
 						},
@@ -5419,7 +5419,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteUnavailability($id: ID!) {\r\n  deleteUnavailability(id: $id)\r\n}\r\n",
+								"query": "mutation DeleteUnavailability($id: ID!) {\r\n  deleteUnavailability(id: $id) {\r\n   __typename \r\n  }\r\n}",
 								"variables": "{\r\n   \r\n}"
 							}
 						},
@@ -5485,7 +5485,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteUnavailability($id: ID!) {\r\n  deleteUnavailability(id: $id)\r\n}\r\n",
+								"query": "mutation DeleteUnavailability($id: ID!) {\r\n  deleteUnavailability(id: $id) {\r\n   __typename \r\n  }\r\n}",
 								"variables": "{\r\n    \"id1\": \"{{unavailabilityId}}\"\r\n}"
 							}
 						},
@@ -5555,7 +5555,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteUnavailability($id: ID!) {\r\n  deleteUnavailability(id: $id)\r\n}\r\n",
+								"query": "mutation DeleteUnavailability($id: ID!) {\r\n  deleteUnavailability(id: $id) {\r\n   __typename \r\n  }\r\n}",
 								"variables": "{\r\n    \"id\": \"!@#$%^&*\"\r\n}"
 							}
 						},

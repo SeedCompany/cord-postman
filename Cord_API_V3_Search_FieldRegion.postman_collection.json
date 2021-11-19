@@ -147,7 +147,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power)\r\n}\r\n",
+								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power){\r\n    __typename\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"userId\": \"{{rootAdminUserid}}\",\r\n    \"power\": \"GrantPower\"\r\n}"
 							}
 						},

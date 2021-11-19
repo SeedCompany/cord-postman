@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "696cb784-8bd4-4ac6-b933-47776b3afa9d",
+		"_postman_id": "40a72313-1bba-40e5-a9ab-fde78cd1628e",
 		"name": "Cord_API_V3_Story",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -146,7 +146,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power)\r\n}\r\n",
+								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power){\r\n    __typename\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"userId\": \"{{rootAdminUserid}}\",\r\n    \"power\": \"GrantPower\"\r\n}"
 							}
 						},
@@ -665,7 +665,7 @@
 									"    var label = jsonData.data.createStory.story.scriptureReferences.value[0].label;\r",
 									"    var startLabel = jsonData.data.createStory.story.scriptureReferences.value[0].start.label;\r",
 									"    var endLabel = jsonData.data.createStory.story.scriptureReferences.value[0].end.label;\r",
-									"    var expectedLabel = startLabel + \"-\" + endLabel;\r",
+									"    var expectedLabel = startLabel + \"–\" + endLabel;\r",
 									"    pm.expect(label).to.eql(expectedLabel);\r",
 									"});\r",
 									"\r",
@@ -5694,7 +5694,7 @@
 									"\r",
 									"//Test Specific\r",
 									"pm.test(\"Verify that Story is deleted\", function () {\r",
-									"    pm.expect(jsonData.data.deleteStory).to.eql(true);\r",
+									"    pm.expect(jsonData.data.deleteStory.__typename).to.eql(\"DeleteStoryOutput\");\r",
 									"});\r",
 									""
 								],
@@ -5718,7 +5718,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteStory($id: ID!) {\r\n  deleteStory(id: $id)\r\n}\r\n",
+								"query": "mutation DeleteStory($id: ID!) {\r\n  deleteStory(id: $id) {\r\n    __typename\r\n  }\r\n}",
 								"variables": "{\r\n  \"id\": \"{{storyId}}\"\r\n}"
 							}
 						},
@@ -5797,7 +5797,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteStory($id: ID!) {\r\n  deleteStory(id: $id)\r\n}\r\n",
+								"query": "mutation DeleteStory($id: ID!) {\r\n  deleteStory(id: $id) {\r\n    __typename\r\n  }\r\n}",
 								"variables": "{\r\n  \"id\": \"\"\r\n}"
 							}
 						},
@@ -5873,7 +5873,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteStory($id: ID!) {\r\n  deleteStory(id: $id)\r\n}\r\n",
+								"query": "mutation DeleteStory($id: ID!) {\r\n  deleteStory(id: $id) {\r\n    __typename\r\n  }\r\n}",
 								"variables": "{\r\n  \r\n}"
 							}
 						},
@@ -5949,7 +5949,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteStory($id: ID!) {\r\n  deleteStory(id: $id)\r\n}\r\n",
+								"query": "mutation DeleteStory($id: ID!) {\r\n  deleteStory(id: $id) {\r\n    __typename\r\n  }\r\n}",
 								"variables": "{\r\n  \"id1\": \"{{storyId}}\"\r\n}"
 							}
 						},
@@ -6028,7 +6028,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteStory($id: ID!) {\r\n  deleteStory(id: $id)\r\n}\r\n",
+								"query": "mutation DeleteStory($id: ID!) {\r\n  deleteStory(id: $id) {\r\n    __typename\r\n  }\r\n}",
 								"variables": "{\r\n  \"id\": \"!@#$%^&*\"\r\n}"
 							}
 						},
@@ -6102,7 +6102,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteStory($id: ID!) {\r\n  deleteStory(id: $id)\r\n}\r\n",
+								"query": "mutation DeleteStory($id: ID!) {\r\n  deleteStory(id: $id) {\r\n    __typename\r\n  }\r\n}",
 								"variables": "{\r\n  \"id\": \"{{storyId}}\"\r\n}"
 							}
 						},

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1cf4e9b4-801c-4863-991e-e97d2ce0947a",
+		"_postman_id": "5b4b38a8-8bbc-4373-9144-bdc894fa1b65",
 		"name": "Cord_API_V3_Partner",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -146,7 +146,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power)\r\n}\r\n",
+								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power){\r\n    __typename\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"userId\": \"{{rootAdminUserid}}\",\r\n    \"power\": \"GrantPower\"\r\n}"
 							}
 						},
@@ -465,7 +465,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power)\r\n}\r\n",
+								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power){\r\n    __typename\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"userId\": \"{{userid}}\",\r\n    \"power\": \"GrantPower\"\r\n}"
 							}
 						},
@@ -605,7 +605,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power)\r\n}\r\n",
+								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power){\r\n    __typename\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"userId\": \"{{userid}}\",\r\n    \"power\": \"CreateOrganization\"\r\n}"
 							}
 						},
@@ -7999,7 +7999,7 @@
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that partnership is deleted\", function () {",
-									"    pm.expect(jsonData.data.deletePartner).to.eql(true);",
+									"    pm.expect(jsonData.data.deletePartner.__typename).to.eql(\"DeletePartnerOutput\");",
 									"});",
 									""
 								],
@@ -8023,7 +8023,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deletePartner($id : ID!){\r\n  deletePartner(id : $id)\r\n}",
+								"query": "mutation DeletePartner($id: ID!) {\r\n  deletePartner(id: $id) {\r\n    __typename\r\n  }\r\n}",
 								"variables": "{\r\n    \"id\": \"{{partnerid}}\"\r\n}"
 							}
 						},
@@ -8093,7 +8093,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deletePartner($id : ID!){\r\n  deletePartner(id : $id)\r\n}",
+								"query": "mutation DeletePartner($id: ID!) {\r\n  deletePartner(id: $id) {\r\n    __typename\r\n  }\r\n}",
 								"variables": "{\r\n  \"id\": \"\"\r\n}"
 							}
 						},
@@ -8159,7 +8159,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deletePartner($id : ID!){\r\n  deletePartner(id : $id)\r\n}",
+								"query": "mutation DeletePartner($id: ID!) {\r\n  deletePartner(id: $id) {\r\n    __typename\r\n  }\r\n}",
 								"variables": "{\r\n  \r\n}"
 							}
 						},
@@ -8225,7 +8225,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deletePartner($id : ID!){\r\n  deletePartner(id : $id)\r\n}",
+								"query": "mutation DeletePartner($id: ID!) {\r\n  deletePartner(id: $id) {\r\n    __typename\r\n  }\r\n}",
 								"variables": "{\r\n  \"id1\": \"\"\r\n}"
 							}
 						},
@@ -8295,7 +8295,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deletePartner($id : ID!){\r\n  deletePartner(id : $id)\r\n}",
+								"query": "mutation DeletePartner($id: ID!) {\r\n  deletePartner(id: $id) {\r\n    __typename\r\n  }\r\n}",
 								"variables": "{\r\n  \"id\": \"---- @@@ hhkjh 2323\"\r\n}"
 							}
 						},

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "71f97cb2-9102-4dcb-8cc9-171656c1aa1a",
+		"_postman_id": "0e9ff80a-46fd-450b-83db-11577ca6579b",
 		"name": "Cord_API_V3_User",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -146,7 +146,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power)\r\n}\r\n",
+								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power){\r\n    __typename\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"userId\": \"{{rootAdminUserid}}\",\r\n    \"power\": \"GrantPower\"\r\n}"
 							}
 						},
@@ -426,7 +426,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power)\r\n}\r\n",
+								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power){\r\n    __typename\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"userId\": \"{{userid}}\",\r\n    \"power\": \"GrantPower\"\r\n}"
 							}
 						},
@@ -541,7 +541,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power)\r\n}\r\n",
+								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power){\r\n    __typename\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"userId\": \"{{userid}}\",\r\n    \"power\": \"GrantRole\"\r\n}"
 							}
 						},
@@ -6112,7 +6112,7 @@
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that user is deleted\", function () {",
-									"    pm.expect(jsonData.data.deleteUser).to.eql(true);",
+									"    pm.expect(jsonData.data.deleteUser.__typename).to.eql(\"DeleteUserOutput\");",
 									"});"
 								],
 								"type": "text/javascript"
@@ -6142,7 +6142,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation ($id: ID!) {\r\n  deleteUser(id:$id)\r\n}",
+								"query": "mutation DeleteUser($id: ID!) {\r\n  deleteUser(id: $id) {\r\n    __typename\r\n  }\r\n}",
 								"variables": "{\r\n  \"id\": \"{{userid}}\"\r\n}"
 							}
 						},
@@ -6219,7 +6219,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation ($id: ID!) {\r\n  deleteUser(id:$id)\r\n}",
+								"query": "mutation DeleteUser($id: ID!) {\r\n  deleteUser(id: $id) {\r\n    __typename\r\n  }\r\n}",
 								"variables": "{\r\n  \"id\": \"\"\r\n}"
 							}
 						},
@@ -6292,7 +6292,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation ($id: ID!) {\r\n  deleteUser(id:$id)\r\n}",
+								"query": "mutation DeleteUser($id: ID!) {\r\n  deleteUser(id: $id) {\r\n    __typename\r\n  }\r\n}",
 								"variables": "{\r\n \r\n}"
 							}
 						},
@@ -6365,7 +6365,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation ($id: ID!) {\r\n  deleteUser(id:$id)\r\n}",
+								"query": "mutation DeleteUser($id: ID!) {\r\n  deleteUser(id: $id) {\r\n    __typename\r\n  }\r\n}",
 								"variables": "{\r\n  \"id2\": \"{{userid}}\"\r\n}"
 							}
 						},
@@ -6442,7 +6442,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation ($id: ID!) {\r\n  deleteUser(id:$id)\r\n}",
+								"query": "mutation DeleteUser($id: ID!) {\r\n  deleteUser(id: $id) {\r\n    __typename\r\n  }\r\n}",
 								"variables": "{\r\n  \"id\": \"  i n valid  $%^ \"\r\n}"
 							}
 						},

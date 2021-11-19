@@ -25,9 +25,6 @@ newman run Cord_API_V3_Education.postman_collection.json -e integration.postman_
 >> Product
 newman run Cord_API_V3_Product.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
 
->> LiteracyMaterial
-newman run Cord_API_V3_LiteracyMaterial.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
-
 >> Film
 newman run Cord_API_V3_Film.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
 
@@ -36,9 +33,6 @@ newman run Cord_API_V3_Story.postman_collection.json -e integration.postman_envi
 
 >> FileUpload
 newman run Cord_API_V3_FileUpload.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
-
->> Song
-newman run Cord_API_V3_Song.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
 
 >> Unavailability
 newman run Cord_API_V3_Unavailability.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
@@ -73,14 +67,8 @@ newman run Cord_API_V3_Search_Language.postman_collection.json -e integration.po
 >> Search_Film
 newman run Cord_API_V3_Search_Film.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
 
->> Search_LiteracyMaterial
-newman run Cord_API_V3_Search_LiteracyMaterial.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
-
 >> Search_Location
 newman run Cord_API_V3_Search_Location.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
-
->> Search_Song
-newman run Cord_API_V3_Search_Song.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
 
 >> Search_Story
 newman run Cord_API_V3_Search_Story.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "030acae8-8636-4ed5-a89f-a5c3e5c9c04f",
+		"_postman_id": "00d5abe2-9333-42bc-829d-9daf56949ae5",
 		"name": "Cord_API_V3_Location",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -146,7 +146,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power)\r\n}\r\n",
+								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power){\r\n    __typename\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"userId\": \"{{rootAdminUserid}}\",\r\n    \"power\": \"GrantPower\"\r\n}"
 							}
 						},
@@ -5852,7 +5852,7 @@
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that education is deleted\", function () {",
-									"    pm.expect(jsonData.data.deleteLocation).to.eql(true);",
+									"    pm.expect(jsonData.data.deleteLocation.__typename).to.eql(\"DeleteLocationOutput\");",
 									"});"
 								],
 								"type": "text/javascript"
@@ -5884,7 +5884,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteLocation($id: ID!) {\r\n  deleteLocation(id:$id)\r\n}",
+								"query": "mutation DeleteLocation($id: ID!) {\r\n  deleteLocation(id: $id) {\r\n    __typename\r\n  }\r\n}",
 								"variables": "{\r\n    \"id\": \"{{locationid}}\"\r\n}"
 							}
 						},
@@ -5963,7 +5963,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteLocation($id: ID!) {\r\n  deleteLocation(id:$id)\r\n}",
+								"query": "mutation DeleteLocation($id: ID!) {\r\n  deleteLocation(id: $id) {\r\n    __typename\r\n  }\r\n}",
 								"variables": "{\r\n    \"id\": \"\"\r\n}"
 							}
 						},
@@ -6037,7 +6037,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteLocation($id: ID!) {\r\n  deleteLocation(id:$id)\r\n}",
+								"query": "mutation DeleteLocation($id: ID!) {\r\n  deleteLocation(id: $id) {\r\n    __typename\r\n  }\r\n}",
 								"variables": "{\r\n    \r\n}"
 							}
 						},
@@ -6111,7 +6111,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteLocation($id: ID!) {\r\n  deleteLocation(id:$id)\r\n}",
+								"query": "mutation DeleteLocation($id: ID!) {\r\n  deleteLocation(id: $id) {\r\n    __typename\r\n  }\r\n}",
 								"variables": "{\r\n    \"id1\": \"{{locationid}}\"\r\n}"
 							}
 						},
@@ -6190,7 +6190,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteLocation($id: ID!) {\r\n  deleteLocation(id:$id)\r\n}",
+								"query": "mutation DeleteLocation($id: ID!) {\r\n  deleteLocation(id: $id) {\r\n    __typename\r\n  }\r\n}",
 								"variables": "{\r\n    \"id\": \"!@#$%^&*\"\r\n}"
 							}
 						},
@@ -6264,7 +6264,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteLocation($id: ID!) {\r\n  deleteLocation(id:$id)\r\n}",
+								"query": "mutation DeleteLocation($id: ID!) {\r\n  deleteLocation(id: $id) {\r\n    __typename\r\n  }\r\n}",
 								"variables": "{\r\n    \"id\": \"{{locationid}}\"\r\n}"
 							}
 						},

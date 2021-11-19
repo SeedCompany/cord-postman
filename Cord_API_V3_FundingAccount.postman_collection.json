@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "fb17b99d-44ec-4bec-b881-cdfcc25cbb41",
+		"_postman_id": "ef68907d-c1b6-495f-a1a4-2caf2ca7d7d2",
 		"name": "Cord_API_V3_FundingAccount",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -146,7 +146,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power)\r\n}\r\n",
+								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power){\r\n    __typename\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"userId\": \"{{rootAdminUserid}}\",\r\n    \"power\": \"GrantPower\"\r\n}"
 							}
 						},
@@ -3978,7 +3978,7 @@
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that fundingAccount is deleted\", function () {",
-									"    pm.expect(jsonData.data.deleteFundingAccount).to.eql(true);",
+									"    pm.expect(jsonData.data.deleteFundingAccount.__typename).to.eql(\"DeleteFundingAccountOutput\");",
 									"});"
 								],
 								"type": "text/javascript"
@@ -4008,7 +4008,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteFundingAccount($id: ID!) {\n  deleteFundingAccount(id:$id)\n}",
+								"query": "mutation DeleteFundingAccount($id: ID!) {\n  deleteFundingAccount(id: $id) {\n    __typename\n  }\n}",
 								"variables": "{\r\n  \"id\": \"{{fundingAccountid}}\"\r\n}"
 							}
 						},
@@ -4085,7 +4085,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteFundingAccount($id: ID!) {\n  deleteFundingAccount(id:$id)\n}",
+								"query": "mutation DeleteFundingAccount($id: ID!) {\n  deleteFundingAccount(id: $id) {\n    __typename\n  }\n}",
 								"variables": "{\r\n    \"id\": \"\"\r\n}"
 							}
 						},
@@ -4157,7 +4157,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteFundingAccount($id: ID!) {\n  deleteFundingAccount(id:$id)\n}",
+								"query": "mutation DeleteFundingAccount($id: ID!) {\n  deleteFundingAccount(id: $id) {\n    __typename\n  }\n}",
 								"variables": "{\r\n  \r\n}"
 							}
 						},
@@ -4229,7 +4229,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteFundingAccount($id: ID!) {\n  deleteFundingAccount(id:$id)\n}",
+								"query": "mutation DeleteFundingAccount($id: ID!) {\n  deleteFundingAccount(id: $id) {\n    __typename\n  }\n}",
 								"variables": "{\r\n    \"id5\": \"{{fundingAccountid}}\"\r\n}"
 							}
 						},
@@ -4306,7 +4306,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteFundingAccount($id: ID!) {\n  deleteFundingAccount(id:$id)\n}",
+								"query": "mutation DeleteFundingAccount($id: ID!) {\n  deleteFundingAccount(id: $id) {\n    __typename\n  }\n}",
 								"variables": "{\r\n    \"id\": \"!@#$%\"\r\n}"
 							}
 						},
@@ -4380,7 +4380,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteFundingAccount($id: ID!) {\n  deleteFundingAccount(id:$id)\n}",
+								"query": "mutation DeleteFundingAccount($id: ID!) {\n  deleteFundingAccount(id: $id) {\n    __typename\n  }\n}",
 								"variables": "{\r\n    \"id\": \"{{fundingAccountid}}\"\r\n}"
 							}
 						},

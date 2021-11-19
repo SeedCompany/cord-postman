@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2ca60952-d2f8-4c00-a77d-a5d72afddd3d",
+		"_postman_id": "85cabf54-b89e-4ce8-8b61-dc4f66a71d82",
 		"name": "Cord_API_V3_Organization",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -146,7 +146,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power)\r\n}\r\n",
+								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power){\r\n    __typename\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"userId\": \"{{rootAdminUserid}}\",\r\n    \"power\": \"GrantPower\"\r\n}"
 							}
 						},
@@ -443,7 +443,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power)\r\n}\r\n",
+								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power){\r\n    __typename\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"userId\": \"{{userid}}\",\r\n    \"power\": \"GrantPower\"\r\n}"
 							}
 						},
@@ -558,7 +558,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power)\r\n}\r\n",
+								"query": "mutation grantPower($userId: ID!,$power:Power!) {\r\n  grantPower(userId:$userId,power:$power){\r\n    __typename\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"userId\": \"{{userid}}\",\r\n    \"power\": \"CreateOrganization\"\r\n}"
 							}
 						},
@@ -4115,7 +4115,7 @@
 									"",
 									"//Test Specific",
 									"pm.test(\"Verify that organization is deleted\", function () {",
-									"    pm.expect(jsonData.data.deleteOrganization).to.eql(true);",
+									"    pm.expect(jsonData.data.deleteOrganization.__typename).to.eql(\"DeleteOrganizationOutput\");",
 									"});"
 								],
 								"type": "text/javascript"
@@ -4145,7 +4145,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation deleteOrganization($id: ID!) {\n  deleteOrganization(id:$id)\n}",
+								"query": "mutation DeleteOrganization($id: ID!) {\n  deleteOrganization(id: $id) {\n    __typename\n  }\n}",
 								"variables": "{\r\n    \"id\": \"{{organizationid}}\"\r\n}"
 							}
 						},
@@ -4222,7 +4222,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation ($id: ID!) {\n  deleteOrganization(id:$id)\n}",
+								"query": "mutation DeleteOrganization($id: ID!) {\n  deleteOrganization(id: $id) {\n    __typename\n  }\n}",
 								"variables": "{\r\n    \"id\": \"\"\r\n}"
 							}
 						},
@@ -4294,7 +4294,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation ($id: ID!) {\n  deleteOrganization(id:$id)\n}",
+								"query": "mutation DeleteOrganization($id: ID!) {\n  deleteOrganization(id: $id) {\n    __typename\n  }\n}",
 								"variables": "{}"
 							}
 						},
@@ -4366,7 +4366,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation ($id: ID!) {\n  deleteOrganization(id:$id)\n}",
+								"query": "mutation DeleteOrganization($id: ID!) {\n  deleteOrganization(id: $id) {\n    __typename\n  }\n}",
 								"variables": "{\r\n    \"id5\": \"{{organizationid}}\"\r\n}"
 							}
 						},
@@ -4443,7 +4443,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation ($id: ID!) {\n  deleteOrganization(id:$id)\n}",
+								"query": "mutation DeleteOrganization($id: ID!) {\n  deleteOrganization(id: $id) {\n    __typename\n  }\n}",
 								"variables": "{\r\n    \"id\": \"!@#$%\"\r\n}"
 							}
 						},
@@ -4515,7 +4515,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation ($id: ID!) {\n  deleteOrganization(id:$id)\n}",
+								"query": "mutation DeleteOrganization($id: ID!) {\n  deleteOrganization(id: $id) {\n    __typename\n  }\n}",
 								"variables": "{\r\n    \"id\": \"{{organizationid}}\"\r\n}"
 							}
 						},
