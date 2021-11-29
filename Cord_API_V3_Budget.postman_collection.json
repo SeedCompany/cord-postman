@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6dc98997-ef87-42ed-8e65-ecd3a3ac6587",
+		"_postman_id": "98ccf7d7-8aba-4c47-acdc-6291596e4b9d",
 		"name": "Cord_API_V3_Budget",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -5065,14 +5065,12 @@
 									"});",
 									"",
 									"//Test Specific",
-									"pm.test(\"PENDING >> Similar to BUG #776(closed-Sprint 13) for Users (Sort Field allows empty value/unusual characters)\", function () {",
 									"",
-									"    if (jsonData.data) {",
-									"        pm.expect(\"BACKEND\").to.eql(\"PENDING\"); // fail forcefully",
-									"    } else {",
-									"        pm.expect(\"WRITE TEST CASES\").to.eql(\"ERRORS >>> \" + jsonData.errors[0].message);",
-									"    }",
-									"});",
+									"pm.test(\"BUG #776 (Closed) NO LONGER INTERESTED TO BE MONITORED BY TEAM As per Slack Discussion >>(Sort Field allows empty value/unusual characters\", function () {",
+									"",
+									"    pm.expect(true).to.eql(true);",
+									"",
+									"    });",
 									"",
 									"// pm.test(\"Verify that error message is correct\", function () {",
 									"//     var error_message = jsonData.errors[0].message;  ",

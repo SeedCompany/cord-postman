@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f6660c01-b4dd-4ae9-83fd-8f1c8b4bece6",
+		"_postman_id": "eb9b304d-3310-419d-896a-5cc2681a449a",
 		"name": "Cord_API_V3_MoveFileNode",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1174,7 +1174,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation assignOrganizationToUser($input: AssignOrganizationToUserInput!) {\r\n  assignOrganizationToUser(input: $input)\r\n}\r\n",
+								"query": "mutation AssignOrganizationToUser($input: AssignOrganizationToUserInput!) {\r\n  assignOrganizationToUser(input: $input) {\r\n  __typename  \r\n  }\r\n}",
 								"variables": "{\r\n    \"input\": {\r\n        \"request\": {\r\n            \"orgId\": \"{{organizationid}}\",\r\n            \"userId\": \"{{userid}}\",\r\n            \"primary\": true\r\n        }\r\n    }\r\n}"
 							}
 						},

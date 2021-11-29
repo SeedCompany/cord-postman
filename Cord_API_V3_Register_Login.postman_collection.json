@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d9d5b869-51a0-4faf-867e-33a17222aef6",
+		"_postman_id": "ce9a2ec8-85b1-491d-8f1f-4c6677236ef8",
 		"name": "Cord_API_V3_Register_Login",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1870,7 +1870,7 @@
 					"response": []
 				},
 				{
-					"name": "Register Parameter Invalid - phone ??????",
+					"name": "Register Parameter Invalid - phone",
 					"event": [
 						{
 							"listen": "test",
@@ -1879,18 +1879,26 @@
 									"var jsonData = pm.response.json();\r",
 									"\r",
 									"//Common Verification\r",
-									"// pm.test(\"PENDING >> Write Test cases once validation done from backend side BUG ADDED #683 (Phone accepting characters)\", function () {\r",
-									"pm.test(\"PENDING >> BUG ADDED #683(open-Sprint 13) ( Phone field accepting characters )  \", function () {\r",
-									"\r",
-									"    if (jsonData.data) {\r",
-									"        pm.expect(\"BACKEND\").to.eql(\"PENDING\"); // fail forcefully\r",
-									"    } else {\r",
-									"        pm.expect(\"WRITE TEST CASES\").to.eql(\"ERRORS >>> \" + jsonData.errors[0].message);\r",
-									"    }\r",
-									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"// Write validation test cases once validation done from backend side"
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Expected as per Requirement >> BUG ADDED #683 (Closed)(open-Sprint 13) ( Phone field accepting characters )  \", function () {\r",
+									"\r",
+									"    pm.expect(true).to.eql(true);\r",
+									"\r",
+									"    // if (jsonData.data) {\r",
+									"    //     pm.expect(\"BACKEND\").to.eql(\"PENDING\"); // fail forcefully\r",
+									"    // } else {\r",
+									"    //     pm.expect(\"WRITE TEST CASES\").to.eql(\"ERRORS >>> \" + jsonData.errors[0].message);\r",
+									"    // }\r",
+									"\r",
+									"});\r",
+									""
 								],
 								"type": "text/javascript"
 							}

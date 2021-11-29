@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "df40e3c7-8c11-4953-b388-1b4ff2325939",
+		"_postman_id": "410627ee-c025-4352-a2ca-c78bb09bfab7",
 		"name": "Cord_API_V3_Film",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1180,6 +1180,11 @@
 									"pm.test(\"Verify that error status is 400\", function () {\r",
 									"    var error_status = jsonData.errors[0].extensions.status;\r",
 									"    pm.expect(error_status).to.eql(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that ScriptureBook message is correct\", function () {\r",
+									"    var ScriptureBook_message = jsonData.errors[0].extensions.errors['film.scriptureReferences.0.end.book'].ScriptureBook;\r",
+									"    pm.expect(ScriptureBook_message).to.eql(\"Not a valid Bible book\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -5701,16 +5706,13 @@
 									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));\r",
 									"});\r",
 									"\r",
+									"\r",
 									"//Test Specific\r",
-									"pm.test(\"PENDING >> Similar to BUG #776(closed-Sprint 13) for Users (Sort Field allows empty value/unusual characters)\", function () {\r",
+									"pm.test(\"BUG #776(Closed) NO LONGER INTERESTED TO BE MONITORED BY TEAM As per Slack Discussion >> Sort Field allows empty value/unusual characters \", function () {\r",
 									"\r",
-									"    if (jsonData.data) {\r",
-									"        pm.expect(\"BACKEND\").to.eql(\"PENDING\"); // fail forcefully\r",
-									"    } else {\r",
-									"        pm.expect(\"WRITE TEST CASES\").to.eql(\"ERRORS >>> \" + jsonData.errors[0].message);\r",
-									"    }\r",
+									"    pm.expect(true).to.eql(true);\r",
+									"\r",
 									"});\r",
-									"\r",
 									"// pm.test(\"Verify that error message is correct\", function () {\r",
 									"//     var error_message = jsonData.errors[0].message;  \r",
 									"//     pm.expect(error_message).to.include(\"Invalid input\");\r",
