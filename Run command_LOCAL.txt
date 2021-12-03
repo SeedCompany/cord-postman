@@ -118,6 +118,12 @@ newman run Cord_API_V3_FileUpload.postman_collection.json -e local.postman_envir
 >> TogglePinned
 newman run Cord_API_V3_TogglePinned.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
 
+>> TogglePinned_User
+newman run Cord_API_V3_TogglePinned_User.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> ProjectChangeRequest
+newman run Cord_API_V3_ProjectChangeRequest.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
 
 
 
