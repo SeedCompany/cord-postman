@@ -861,85 +861,6 @@
 					"response": []
 				},
 				{
-					"name": "Create EthnoArt Not  Mandatory Field Blank -  ScriptRef start book",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = pm.response.json();\r",
-									"\r",
-									"//Common Verification\r",
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Response time is less than 1000ms\", function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));\r",
-									"});\r",
-									"\r",
-									"//Test Specific\r",
-									"pm.test(\"Verify that error message is correct\", function () {\r",
-									"    var error_message = jsonData.errors[0].message;\r",
-									"    pm.expect(error_message).to.eql(\"Input validation failed\");\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verify that error status is 400\", function () {\r",
-									"    var error_status = jsonData.errors[0].extensions.status;\r",
-									"    pm.expect(error_status).to.eql(400);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verify that ScriptureBook message is correct\", function () {\r",
-									"    var ScriptureBook_message = jsonData.errors[0].extensions.errors['ethnoArt.scriptureReferences.0.start.book'].ScriptureBook;\r",
-									"    pm.expect(ScriptureBook_message).to.eql(\"Not a valid Bible book\");\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "mutation CreateEthnoArt($input: CreateEthnoArtInput!) {\r\n  createEthnoArt(input: $input) {\r\n    ethnoArt {\r\n      id\r\n      canDelete\r\n      createdAt\r\n      name {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      scriptureReferences {\r\n        value {\r\n          label\r\n          totalVerses\r\n          start {\r\n            book\r\n            chapter\r\n            label\r\n            verse\r\n          }\r\n          end {\r\n            book\r\n            chapter\r\n            label\r\n            verse\r\n          }\r\n        }\r\n        canRead\r\n        canEdit\r\n      }\r\n    }\r\n  }\r\n}\r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"ethnoArt\": {\r\n            \"name\": \"{{ethnoArtName}}\",\r\n            \"scriptureReferences\": {\r\n                \"start\": {\r\n                    \"book\": \"\",\r\n                    \"chapter\": {{ethnoArtScriptRefChapterStart}},\r\n                    \"verse\": {{ethnoArtScriptRefVerseStart}}\r\n                },\r\n                \"end\": {\r\n                    \"book\": \"{{ethnoArtScriptRefBookEnd}}\",\r\n                    \"chapter\": {{ethnoArtScriptRefChapterEnd}},\r\n                    \"verse\": {{ethnoArtScriptRefVerseEnd}}\r\n                }\r\n            }\r\n        }\r\n    }\r\n}"
-							}
-						},
-						"url": {
-							"raw": "{{env}}/graphql",
-							"host": [
-								"{{env}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Create EthnoArt Not  Mandatory Field Removed  -  ScriptRef start book",
 					"event": [
 						{
@@ -1104,6 +1025,85 @@
 							"graphql": {
 								"query": "mutation CreateEthnoArt($input: CreateEthnoArtInput!) {\r\n  createEthnoArt(input: $input) {\r\n    ethnoArt {\r\n      id\r\n      canDelete\r\n      createdAt\r\n      name {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      scriptureReferences {\r\n        value {\r\n          label\r\n          totalVerses\r\n          start {\r\n            book\r\n            chapter\r\n            label\r\n            verse\r\n          }\r\n          end {\r\n            book\r\n            chapter\r\n            label\r\n            verse\r\n          }\r\n        }\r\n        canRead\r\n        canEdit\r\n      }\r\n    }\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"input\": {\r\n        \"ethnoArt\": {\r\n            \"name\": \"{{ethnoArtName}}\",\r\n            \"scriptureReferences\": {\r\n                \"start\": {\r\n                    \"book\": \"{{ethnoArtScriptRefBookStart}}\",\r\n                    \"chapter\": {{ethnoArtScriptRefChapterStart}},\r\n                    \"verse\": {{ethnoArtScriptRefVerseStart}}\r\n                },\r\n                \"end\": {\r\n                    \"book\": \"\",\r\n                    \"chapter\": {{ethnoArtScriptRefChapterEnd}},\r\n                    \"verse\": {{ethnoArtScriptRefVerseEnd}}\r\n                }\r\n            }\r\n        }\r\n    }\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{env}}/graphql",
+							"host": [
+								"{{env}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create EthnoArt Not  Mandatory Field Blank -  ScriptRef start book",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"//Common Verification\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));\r",
+									"});\r",
+									"\r",
+									"//Test Specific\r",
+									"pm.test(\"Verify that error message is correct\", function () {\r",
+									"    var error_message = jsonData.errors[0].message;\r",
+									"    pm.expect(error_message).to.eql(\"Input validation failed\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that error status is 400\", function () {\r",
+									"    var error_status = jsonData.errors[0].extensions.status;\r",
+									"    pm.expect(error_status).to.eql(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that ScriptureBook message is correct\", function () {\r",
+									"    var ScriptureBook_message = jsonData.errors[0].extensions.errors['ethnoArt.scriptureReferences.0.start.book'].ScriptureBook;\r",
+									"    pm.expect(ScriptureBook_message).to.eql(\"Not a valid Bible book\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreateEthnoArt($input: CreateEthnoArtInput!) {\r\n  createEthnoArt(input: $input) {\r\n    ethnoArt {\r\n      id\r\n      canDelete\r\n      createdAt\r\n      name {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      scriptureReferences {\r\n        value {\r\n          label\r\n          totalVerses\r\n          start {\r\n            book\r\n            chapter\r\n            label\r\n            verse\r\n          }\r\n          end {\r\n            book\r\n            chapter\r\n            label\r\n            verse\r\n          }\r\n        }\r\n        canRead\r\n        canEdit\r\n      }\r\n    }\r\n  }\r\n}\r\n",
+								"variables": "{\r\n    \"input\": {\r\n        \"ethnoArt\": {\r\n            \"name\": \"{{ethnoArtName}}\",\r\n            \"scriptureReferences\": {\r\n                \"start\": {\r\n                    \"book\": \"\",\r\n                    \"chapter\": {{ethnoArtScriptRefChapterStart}},\r\n                    \"verse\": {{ethnoArtScriptRefVerseStart}}\r\n                },\r\n                \"end\": {\r\n                    \"book\": \"{{ethnoArtScriptRefBookEnd}}\",\r\n                    \"chapter\": {{ethnoArtScriptRefChapterEnd}},\r\n                    \"verse\": {{ethnoArtScriptRefVerseEnd}}\r\n                }\r\n            }\r\n        }\r\n    }\r\n}"
 							}
 						},
 						"url": {

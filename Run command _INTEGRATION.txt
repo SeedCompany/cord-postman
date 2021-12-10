@@ -121,4 +121,6 @@ newman run Cord_API_V3_TogglePinned_User.postman_collection.json -e integration.
 >> ProjectChangeRequest
 newman run Cord_API_V3_ProjectChangeRequest.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
 
+>> TogglePinned_Partner
+newman run Cord_API_V3_TogglePinned_Partner.postman_collection.json -e integration.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
 
