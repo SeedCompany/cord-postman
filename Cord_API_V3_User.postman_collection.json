@@ -5176,7 +5176,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"pm.globals.set(\"itemCount\",10);\r",
+									"pm.globals.set(\"itemCount\",100);\r",
 									"pm.globals.set(\"page\",1);\r",
 									"pm.globals.set('order', \"ASC\");"
 								],

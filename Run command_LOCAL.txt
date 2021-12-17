@@ -127,6 +127,18 @@ newman run Cord_API_V3_ProjectChangeRequest.postman_collection.json -e local.pos
 >> TogglePinned_Partner
 newman run Cord_API_V3_TogglePinned_Partner.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
 
+>> Directory
+newman run Cord_API_V3_Directory.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> MoveFileNode
+newman run Cord_API_V3_MoveFileNode.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> RenameFileNode
+newman run Cord_API_V3_RenameFileNode.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> DeleteFileNode
+newman run Cord_API_V3_DeleteFileNode.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
 
 
 

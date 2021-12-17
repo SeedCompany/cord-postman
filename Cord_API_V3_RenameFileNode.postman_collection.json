@@ -1,12 +1,12 @@
 {
 	"info": {
-		"_postman_id": "eb9b304d-3310-419d-896a-5cc2681a449a",
-		"name": "Cord_API_V3_MoveFileNode",
+		"_postman_id": "5ed20fd7-2bfe-4401-9e4c-a1603fadff0e",
+		"name": "Cord_API_V3_RenameFileNode",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Pre-req ( Session + Register + Login + GrantPower ) for Partnership",
+			"name": "Pre-req ( Session + Register + Login + GrantPower ) for RenameFileNode",
 			"item": [
 				{
 					"name": "Session",
@@ -289,9 +289,6 @@
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"",
-									"var user = JSON.stringify(jsonData.data.login.user);",
-									"pm.globals.set(\"user_data\", user);",
-									"",
 									"var id = jsonData.data.login.user.id;",
 									"pm.globals.set(\"userid\", id);",
 									"",
@@ -535,13 +532,17 @@
 								"exec": [
 									"var jsonData = pm.response.json();\r",
 									"\r",
-									"// Saving data for future use (create fieldRegion)\r",
 									"var fieldZoneId = jsonData.data.createFieldZone.fieldZone.id;\r",
+									"// Saving data for future use (create fieldRegion)\r",
 									"pm.globals.set(\"fieldZoneId\", fieldZoneId);\r",
 									"\r",
-									"\r",
 									"var directorId = jsonData.data.createFieldZone.fieldZone.director.value.id;\r",
-									"pm.globals.set(\"directorId\", directorId);"
+									"\r",
+									"// Saving data for future use (create fieldRegion)\r",
+									"pm.globals.set(\"directorId\", directorId);\r",
+									"\r",
+									"\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -599,9 +600,9 @@
 							"script": {
 								"exec": [
 									"var jsonData = pm.response.json();\r",
-									"\r",
-									"var fieldRegionId = jsonData.data.createFieldRegion.fieldRegion.id;\r",
-									"pm.globals.set(\"fieldRegionId\", fieldRegionId);"
+									" var fieldRegionId = jsonData.data.createFieldRegion.fieldRegion.id;\r",
+									"    // Saving data for future use\r",
+									"    pm.globals.set(\"fieldRegionId\", fieldRegionId);"
 								],
 								"type": "text/javascript"
 							}
@@ -879,6 +880,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"",
 									"var jsonData = pm.response.json();",
 									"",
 									"var id = jsonData.data.createPartner.partner.id;",
@@ -1008,7 +1010,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation createPartner($input: CreatePartnerInput!) {\r\n  createPartner(input: $input) {\r\n    partner {\r\n      id\r\n      createdAt\r\n      canDelete\r\n      modifiedAt\r\n      types {\r\n        value\r\n        canEdit\r\n        canRead\r\n      }\r\n      financialReportingTypes {\r\n        value\r\n        canEdit\r\n        canRead\r\n      }\r\n      pmcEntityCode {\r\n        value\r\n        canEdit\r\n        canRead\r\n      }\r\n      globalInnovationsClient {\r\n        value\r\n        canEdit\r\n        canRead\r\n      }\r\n      active {\r\n        value\r\n        canEdit\r\n        canRead\r\n      }\r\n      address {\r\n        value\r\n        canEdit\r\n        canRead\r\n      }\r\n      organization {\r\n        value {\r\n          id\r\n          createdAt\r\n          canDelete\r\n          avatarLetters\r\n          name {\r\n            value\r\n            canRead\r\n            canEdit\r\n          }\r\n          address {\r\n            value\r\n            canRead\r\n            canEdit\r\n          }\r\n          locations {\r\n            total\r\n            hasMore\r\n            canRead\r\n            canCreate\r\n            items {\r\n              id\r\n              createdAt\r\n              canDelete\r\n              name {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              type {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n               \r\n              isoAlpha3 {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              fundingAccount {\r\n                value {\r\n                  id\r\n                  createdAt\r\n                  canDelete\r\n                  name {\r\n                    value\r\n                    canEdit\r\n                    canRead\r\n                  }\r\n                  accountNumber {\r\n                    value\r\n                    canEdit\r\n                    canRead\r\n                  }\r\n                }\r\n                canEdit\r\n                canRead\r\n              }\r\n              isoCountry {\r\n                country\r\n                alpha2\r\n                alpha3\r\n                numeric\r\n              }\r\n            }\r\n          }\r\n        }\r\n        canEdit\r\n        canRead\r\n      }\r\n      pointOfContact {\r\n        value {\r\n          id\r\n          fullName\r\n          firstName\r\n          avatarLetters\r\n          createdAt\r\n          email {\r\n            canRead\r\n            canEdit\r\n            value\r\n          }\r\n          realFirstName {\r\n            canRead\r\n            canEdit\r\n            value\r\n          }\r\n          realLastName {\r\n            canRead\r\n            canEdit\r\n            value\r\n          }\r\n          displayFirstName {\r\n            canRead\r\n            canEdit\r\n            value\r\n          }\r\n          displayLastName {\r\n            canRead\r\n            canEdit\r\n            value\r\n          }\r\n          phone {\r\n            canRead\r\n            canEdit\r\n            value\r\n          }\r\n          about {\r\n            canRead\r\n            canEdit\r\n            value\r\n          }\r\n          status {\r\n            canRead\r\n            canEdit\r\n            value\r\n          }\r\n          title {\r\n            canRead\r\n            canEdit\r\n            value\r\n          }\r\n          roles {\r\n            canRead\r\n            canEdit\r\n            value\r\n          }\r\n          timezone {\r\n            canRead\r\n            canEdit\r\n            value {\r\n              name\r\n              lat\r\n              long\r\n              countries {\r\n                code\r\n                name\r\n                zones {\r\n                  name\r\n                  lat\r\n                  long\r\n                  countries {\r\n                    code\r\n                  }\r\n                }\r\n              }\r\n            }\r\n          }\r\n          unavailabilities {\r\n            total\r\n            hasMore\r\n            canCreate\r\n            canRead\r\n            items {\r\n              id\r\n              createdAt\r\n              canDelete\r\n              start\r\n              end\r\n              description {\r\n                value\r\n                canRead\r\n                canEdit\r\n              }\r\n            }\r\n          }\r\n          organizations {\r\n            total\r\n            hasMore\r\n            canCreate\r\n            canRead\r\n            items {\r\n              id\r\n              createdAt\r\n              canDelete\r\n              avatarLetters\r\n              name {\r\n                value\r\n                canRead\r\n                canEdit\r\n              }\r\n              address {\r\n                value\r\n                canRead\r\n                canEdit\r\n              }\r\n              locations {\r\n                total\r\n                hasMore\r\n                canRead\r\n                canCreate\r\n                items {\r\n                  id\r\n                  createdAt\r\n                  canDelete\r\n                  name {\r\n                    value\r\n                    canEdit\r\n                    canRead\r\n                  }\r\n                  type {\r\n                    value\r\n                    canEdit\r\n                    canRead\r\n                  }\r\n                   \r\n                  isoAlpha3 {\r\n                    value\r\n                    canEdit\r\n                    canRead\r\n                  }\r\n                  fundingAccount {\r\n                    value {\r\n                      id\r\n                      createdAt\r\n                      canDelete\r\n                      name {\r\n                        value\r\n                        canEdit\r\n                        canRead\r\n                      }\r\n                      accountNumber {\r\n                        value\r\n                        canEdit\r\n                        canRead\r\n                      }\r\n                    }\r\n                    canEdit\r\n                    canRead\r\n                  }\r\n                  isoCountry {\r\n                    country\r\n                    alpha2\r\n                    alpha3\r\n                    numeric\r\n                  }\r\n                }\r\n              }\r\n            }\r\n          }\r\n          education {\r\n            canRead\r\n            total\r\n            hasMore\r\n            canCreate\r\n            items {\r\n              id\r\n              createdAt\r\n              canDelete\r\n              degree {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              major {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              institution {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n            }\r\n          }\r\n          partners {\r\n            canCreate\r\n            canRead\r\n            hasMore\r\n            total\r\n            items {\r\n              id\r\n              createdAt\r\n              canDelete\r\n              modifiedAt\r\n              types {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              financialReportingTypes {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              pmcEntityCode {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              globalInnovationsClient {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              active {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              address {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              organization {\r\n                value {\r\n                  id\r\n                  createdAt\r\n                  canDelete\r\n                  avatarLetters\r\n                  name {\r\n                    value\r\n                    canRead\r\n                    canEdit\r\n                  }\r\n                  address {\r\n                    value\r\n                    canRead\r\n                    canEdit\r\n                  }\r\n                  locations {\r\n                    total\r\n                    hasMore\r\n                    canRead\r\n                    canCreate\r\n                    items {\r\n                      id\r\n                      createdAt\r\n                      canDelete\r\n                      name {\r\n                        value\r\n                        canEdit\r\n                        canRead\r\n                      }\r\n                      type {\r\n                        value\r\n                        canEdit\r\n                        canRead\r\n                      }\r\n                       \r\n                      isoAlpha3 {\r\n                        value\r\n                        canEdit\r\n                        canRead\r\n                      }\r\n                      fundingAccount {\r\n                        value {\r\n                          id\r\n                          createdAt\r\n                          canDelete\r\n                          name {\r\n                            value\r\n                            canEdit\r\n                            canRead\r\n                          }\r\n                          accountNumber {\r\n                            value\r\n                            canEdit\r\n                            canRead\r\n                          }\r\n                        }\r\n                        canEdit\r\n                        canRead\r\n                      }\r\n                      isoCountry {\r\n                        country\r\n                        alpha2\r\n                        alpha3\r\n                        numeric\r\n                      }\r\n                    }\r\n                  }\r\n                }\r\n                canEdit\r\n                canRead\r\n              }\r\n              pointOfContact {\r\n                canEdit\r\n                canRead\r\n                value {\r\n                  id\r\n                }\r\n              }\r\n            }\r\n          }\r\n          locations {\r\n            canRead\r\n            total\r\n            hasMore\r\n            canCreate\r\n            items {\r\n              id\r\n              createdAt\r\n              canDelete\r\n               \r\n              name {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              type {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              isoAlpha3 {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              isoCountry {\r\n                country\r\n                alpha2\r\n                alpha3\r\n                numeric\r\n              }\r\n              fundingAccount {\r\n                value {\r\n                  id\r\n                  createdAt\r\n                  canDelete\r\n                  name {\r\n                    value\r\n                    canEdit\r\n                    canRead\r\n                  }\r\n                  accountNumber {\r\n                    value\r\n                    canEdit\r\n                    canRead\r\n                  }\r\n                }\r\n                canEdit\r\n                canRead\r\n              }\r\n            }\r\n          }\r\n          knownLanguages {\r\n            proficiency\r\n            language {\r\n              id\r\n            }\r\n          }\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n",
+								"query": "mutation createPartner($input: CreatePartnerInput!) {\r\n  createPartner(input: $input) {\r\n    partner {\r\n      id\r\n      pinned\r\n      sensitivity\r\n      createdAt\r\n      canDelete\r\n      modifiedAt\r\n      types {\r\n        value\r\n        canEdit\r\n        canRead\r\n      }\r\n      financialReportingTypes {\r\n        value\r\n        canEdit\r\n        canRead\r\n      }\r\n      pmcEntityCode {\r\n        value\r\n        canEdit\r\n        canRead\r\n      }\r\n      globalInnovationsClient {\r\n        value\r\n        canEdit\r\n        canRead\r\n      }\r\n      active {\r\n        value\r\n        canEdit\r\n        canRead\r\n      }\r\n      address {\r\n        value\r\n        canEdit\r\n        canRead\r\n      }\r\n      organization {\r\n        value {\r\n          id\r\n          createdAt\r\n          canDelete\r\n          avatarLetters\r\n          name {\r\n            value\r\n            canRead\r\n            canEdit\r\n          }\r\n          address {\r\n            value\r\n            canRead\r\n            canEdit\r\n          }\r\n          locations {\r\n            total\r\n            hasMore\r\n            canRead\r\n            canCreate\r\n            items {\r\n              id\r\n              createdAt\r\n              canDelete\r\n              name {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              type {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n               \r\n              isoAlpha3 {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              fundingAccount {\r\n                value {\r\n                  id\r\n                  createdAt\r\n                  canDelete\r\n                  name {\r\n                    value\r\n                    canEdit\r\n                    canRead\r\n                  }\r\n                  accountNumber {\r\n                    value\r\n                    canEdit\r\n                    canRead\r\n                  }\r\n                }\r\n                canEdit\r\n                canRead\r\n              }\r\n              isoCountry {\r\n                country\r\n                alpha2\r\n                alpha3\r\n                numeric\r\n              }\r\n            }\r\n          }\r\n        }\r\n        canEdit\r\n        canRead\r\n      }\r\n      pointOfContact {\r\n        value {\r\n          id\r\n          fullName\r\n          firstName\r\n          avatarLetters\r\n          createdAt\r\n          email {\r\n            canRead\r\n            canEdit\r\n            value\r\n          }\r\n          realFirstName {\r\n            canRead\r\n            canEdit\r\n            value\r\n          }\r\n          realLastName {\r\n            canRead\r\n            canEdit\r\n            value\r\n          }\r\n          displayFirstName {\r\n            canRead\r\n            canEdit\r\n            value\r\n          }\r\n          displayLastName {\r\n            canRead\r\n            canEdit\r\n            value\r\n          }\r\n          phone {\r\n            canRead\r\n            canEdit\r\n            value\r\n          }\r\n          about {\r\n            canRead\r\n            canEdit\r\n            value\r\n          }\r\n          status {\r\n            canRead\r\n            canEdit\r\n            value\r\n          }\r\n          title {\r\n            canRead\r\n            canEdit\r\n            value\r\n          }\r\n          roles {\r\n            canRead\r\n            canEdit\r\n            value\r\n          }\r\n          timezone {\r\n            canRead\r\n            canEdit\r\n            value {\r\n              name\r\n              lat\r\n              long\r\n              countries {\r\n                code\r\n                name\r\n                zones {\r\n                  name\r\n                  lat\r\n                  long\r\n                  countries {\r\n                    code\r\n                  }\r\n                }\r\n              }\r\n            }\r\n          }\r\n          unavailabilities {\r\n            total\r\n            hasMore\r\n            canCreate\r\n            canRead\r\n            items {\r\n              id\r\n              createdAt\r\n              canDelete\r\n              start\r\n              end\r\n              description {\r\n                value\r\n                canRead\r\n                canEdit\r\n              }\r\n            }\r\n          }\r\n          organizations {\r\n            total\r\n            hasMore\r\n            canCreate\r\n            canRead\r\n            items {\r\n              id\r\n              createdAt\r\n              canDelete\r\n              avatarLetters\r\n              name {\r\n                value\r\n                canRead\r\n                canEdit\r\n              }\r\n              address {\r\n                value\r\n                canRead\r\n                canEdit\r\n              }\r\n              locations {\r\n                total\r\n                hasMore\r\n                canRead\r\n                canCreate\r\n                items {\r\n                  id\r\n                  createdAt\r\n                  canDelete\r\n                  name {\r\n                    value\r\n                    canEdit\r\n                    canRead\r\n                  }\r\n                  type {\r\n                    value\r\n                    canEdit\r\n                    canRead\r\n                  }\r\n                   \r\n                  isoAlpha3 {\r\n                    value\r\n                    canEdit\r\n                    canRead\r\n                  }\r\n                  fundingAccount {\r\n                    value {\r\n                      id\r\n                      createdAt\r\n                      canDelete\r\n                      name {\r\n                        value\r\n                        canEdit\r\n                        canRead\r\n                      }\r\n                      accountNumber {\r\n                        value\r\n                        canEdit\r\n                        canRead\r\n                      }\r\n                    }\r\n                    canEdit\r\n                    canRead\r\n                  }\r\n                  isoCountry {\r\n                    country\r\n                    alpha2\r\n                    alpha3\r\n                    numeric\r\n                  }\r\n                }\r\n              }\r\n            }\r\n          }\r\n          education {\r\n            canRead\r\n            total\r\n            hasMore\r\n            canCreate\r\n            items {\r\n              id\r\n              createdAt\r\n              canDelete\r\n              degree {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              major {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              institution {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n            }\r\n          }\r\n          partners {\r\n            canCreate\r\n            canRead\r\n            hasMore\r\n            total\r\n            items {\r\n              id\r\n              createdAt\r\n              canDelete\r\n              modifiedAt\r\n              types {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              financialReportingTypes {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              pmcEntityCode {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              globalInnovationsClient {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              active {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              address {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              organization {\r\n                value {\r\n                  id\r\n                  createdAt\r\n                  canDelete\r\n                  avatarLetters\r\n                  name {\r\n                    value\r\n                    canRead\r\n                    canEdit\r\n                  }\r\n                  address {\r\n                    value\r\n                    canRead\r\n                    canEdit\r\n                  }\r\n                  locations {\r\n                    total\r\n                    hasMore\r\n                    canRead\r\n                    canCreate\r\n                    items {\r\n                      id\r\n                      createdAt\r\n                      canDelete\r\n                      name {\r\n                        value\r\n                        canEdit\r\n                        canRead\r\n                      }\r\n                      type {\r\n                        value\r\n                        canEdit\r\n                        canRead\r\n                      }\r\n                       \r\n                      isoAlpha3 {\r\n                        value\r\n                        canEdit\r\n                        canRead\r\n                      }\r\n                      fundingAccount {\r\n                        value {\r\n                          id\r\n                          createdAt\r\n                          canDelete\r\n                          name {\r\n                            value\r\n                            canEdit\r\n                            canRead\r\n                          }\r\n                          accountNumber {\r\n                            value\r\n                            canEdit\r\n                            canRead\r\n                          }\r\n                        }\r\n                        canEdit\r\n                        canRead\r\n                      }\r\n                      isoCountry {\r\n                        country\r\n                        alpha2\r\n                        alpha3\r\n                        numeric\r\n                      }\r\n                    }\r\n                  }\r\n                }\r\n                canEdit\r\n                canRead\r\n              }\r\n              pointOfContact {\r\n                canEdit\r\n                canRead\r\n                value {\r\n                  id\r\n                }\r\n              }\r\n            }\r\n          }\r\n          locations {\r\n            canRead\r\n            total\r\n            hasMore\r\n            canCreate\r\n            items {\r\n              id\r\n              createdAt\r\n              canDelete\r\n               \r\n              name {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              type {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              isoAlpha3 {\r\n                value\r\n                canEdit\r\n                canRead\r\n              }\r\n              isoCountry {\r\n                country\r\n                alpha2\r\n                alpha3\r\n                numeric\r\n              }\r\n              fundingAccount {\r\n                value {\r\n                  id\r\n                  createdAt\r\n                  canDelete\r\n                  name {\r\n                    value\r\n                    canEdit\r\n                    canRead\r\n                  }\r\n                  accountNumber {\r\n                    value\r\n                    canEdit\r\n                    canRead\r\n                  }\r\n                }\r\n                canEdit\r\n                canRead\r\n              }\r\n            }\r\n          }\r\n          knownLanguages {\r\n            proficiency\r\n            language {\r\n              id\r\n            }\r\n          }\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n",
 								"variables": "{\r\n    \"input\": {\r\n        \"partner\": {\r\n            \"organizationId\": \"{{organizationid}}\",\r\n            \"types\": \"{{partnerType}}\",\r\n            \"financialReportingTypes\": \"{{financialReportingTypes}}\",\r\n            \"pmcEntityCode\": \"{{pmcEntityCode}}\",\r\n            \"globalInnovationsClient\": false,\r\n            \"active\": false,\r\n            \"address\": \"{{partnerAddress}}\"\r\n        }\r\n    }\r\n}"
 							}
 						},
@@ -1345,7 +1347,7 @@
 					"response": []
 				},
 				{
-					"name": "Pre-req for MoveFileNode ( Create Partnership Success )",
+					"name": "Pre-req for RenameFileNode ( Create Partnership Success )",
 					"event": [
 						{
 							"listen": "test",
@@ -1377,7 +1379,7 @@
 									"\r",
 									"// pm.globals.set(\"agreementName\", \"agreementName_\" + moment().format(\"DDMMYYYYhhmmss\"));\r",
 									"\r",
-									"// pm.globals.set(\"mouName\", \"mouName_\" + moment().format(\"DDMMYYYYhhmmss\"));\r",
+									"pm.globals.set(\"mouName\", \"mouName_\" + moment().format(\"DDMMYYYYhhmmss\"));\r",
 									"\r",
 									"var mouEnd = pm.variables.replaceIn('{{$randomDateFuture}}')\r",
 									"pm.globals.set(\"mouEnd\", moment(mouEnd).format(\"YYYY-MM-DD\"));\r",
@@ -1443,10 +1445,10 @@
 			]
 		},
 		{
-			"name": "MoveFileNode",
+			"name": "RenameFileNode",
 			"item": [
 				{
-					"name": "MoveFileNode Success",
+					"name": "RenameFileNode Success",
 					"event": [
 						{
 							"listen": "test",
@@ -1468,149 +1470,41 @@
 									"});\r",
 									"\r",
 									"//Test Specific\r",
-									"pm.test(\"Verify that moveFileNode\", function () {\r",
-									"    var mouId = jsonData.data.moveFileNode.id;\r",
+									"pm.test(\"Verify that renameFileNode is not null \", function () {\r",
+									"    var mouId = jsonData.data.renameFileNode.id;\r",
 									"    pm.expect(mouId).to.not.eql(null);\r",
 									"    pm.expect(mouId).to.not.eql(\"\");\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Verify that moveFileNode's createdAt is in Specific time format\", function () {\r",
-									"    var time = jsonData.data.moveFileNode.createdAt;\r",
+									"pm.test(\"Verify that renameFileNode's createdAt is in Specific time format\", function () {\r",
+									"    var time = jsonData.data.renameFileNode.createdAt;\r",
 									"    var isValidTime = moment(time, \"YYYY-MM-DDTHH:mm:ss.SSSZ\", true).isValid();\r",
 									"    pm.expect(isValidTime).to.eql(true);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Verify that moveFileNode's canDelete \", function () {\r",
-									"    var canDelete = jsonData.data.moveFileNode.canDelete;\r",
+									"pm.test(\"Verify that renameFileNode's canDelete \", function () {\r",
+									"    var canDelete = jsonData.data.renameFileNode.canDelete;\r",
 									"    pm.expect(canDelete).to.eql(true);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Verify that moveFileNode's type \", function () {\r",
-									"    var type = jsonData.data.moveFileNode.type;\r",
+									"pm.test(\"Verify that renameFileNode's type \", function () {\r",
+									"    var type = jsonData.data.renameFileNode.type;\r",
 									"    pm.expect(type).to.eql('File');\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Verify that moveFileNode's name \", function () {\r",
-									"    var name = jsonData.data.moveFileNode.name;\r",
-									"    pm.expect(name).to.eql(pm.globals.get('mouName'));\r",
+									"pm.test(\"Verify that renameFileNode's name \", function () {\r",
+									"    var name = jsonData.data.renameFileNode.name;\r",
+									"    pm.expect(name).to.eql(pm.globals.get('renameMouName'));\r",
 									"});\r",
 									"\r",
 									"/**\r",
-									" * moveFileNode > createdBy - User data - start\r",
+									" * renameFileNode > createdBy - User data - start\r",
 									" */\r",
-									"pm.test(\"Verifying moveFileNode user ID is not blank or null\", function () {\r",
-									"    var id = jsonData.data.moveFileNode.createdBy.id;\r",
+									"pm.test(\"Verifying renameFileNode user ID is not blank or null\", function () {\r",
+									"    var id = jsonData.data.renameFileNode.createdBy.id;\r",
 									"    pm.expect(id).to.not.eql(null);\r",
 									"    pm.expect(id).to.not.eql(\"\");\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verifying moveFileNode createdBy UserID\", function () {\r",
-									"    var id = jsonData.data.moveFileNode.createdBy.id;\r",
-									"    pm.expect(id).to.eql(pm.globals.get('userid'));\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verifying mou createdBy User createdAt\", function () {\r",
-									"    var createdAt = jsonData.data.moveFileNode.createdBy.createdAt;\r",
-									"\r",
-									"    pm.expect(createdAt).to.eql(user_data.createdAt);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verifying mou createdBy User email\", function () {\r",
-									"    var email = jsonData.data.moveFileNode.createdBy.email.value;\r",
-									"    pm.expect(email).to.eql(user_data.email.value);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verifying mou createdBy User realFirstName\", function () {\r",
-									"    var realFirstName = jsonData.data.moveFileNode.createdBy.realFirstName.value;\r",
-									"    pm.expect(realFirstName).to.eql(user_data.realFirstName.value);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verifying mou createdBy User realLastName\", function () {\r",
-									"    var realLastName = jsonData.data.moveFileNode.createdBy.realLastName.value;\r",
-									"    pm.expect(realLastName).to.eql(user_data.realLastName.value);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verifying mou createdBy User displayFirstName\", function () {\r",
-									"    var displayFirstName = jsonData.data.moveFileNode.createdBy.displayFirstName.value;\r",
-									"    pm.expect(displayFirstName).to.eql(user_data.displayFirstName.value);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verifying mou createdBy User displayLastName\", function () {\r",
-									"    var displayLastName = jsonData.data.moveFileNode.createdBy.displayLastName.value;\r",
-									"    pm.expect(displayLastName).to.eql(user_data.displayLastName.value);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verifying mou createdBy User phone\", function () {\r",
-									"    var phone = jsonData.data.moveFileNode.createdBy.phone.value;\r",
-									"    pm.expect(phone).to.eql(user_data.phone.value);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verifying mou createdBy User about\", function () {\r",
-									"    var about = jsonData.data.moveFileNode.createdBy.about.value;\r",
-									"    pm.expect(about).to.eql(user_data.about.value);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verifying mou createdBy User status\", function () {\r",
-									"    var status = jsonData.data.moveFileNode.createdBy.status.value;\r",
-									"    pm.expect(status).to.eql(user_data.status.value);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verifying mou createdBy User fullName\", function () {\r",
-									"    var fullName = jsonData.data.moveFileNode.createdBy.fullName;\r",
-									"    pm.expect(fullName).to.eql(user_data.fullName);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verifying mou createdBy User roles \", function () {\r",
-									"    var roles = jsonData.data.moveFileNode.createdBy.roles.value[0];\r",
-									"    pm.expect(roles).to.eql(user_data.roles.value[0]);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verifying mou createdBy User firstName \", function () {\r",
-									"    var firstName = jsonData.data.moveFileNode.createdBy.firstName;\r",
-									"    pm.expect(firstName).to.eql(user_data.firstName);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verifying mou createdBy User title \", function () {\r",
-									"    var title = jsonData.data.moveFileNode.createdBy.title;\r",
-									"    pm.expect(title).to.eql(user_data.title);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verifying mou createdBy User timezone name\", function () {\r",
-									"    var name = jsonData.data.moveFileNode.createdBy.timezone.value.name;\r",
-									"    pm.expect(name).to.eql(user_data.timezone.value.name);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verifying mou createdBy User timezone lat\", function () {\r",
-									"    var lat = jsonData.data.moveFileNode.createdBy.timezone.value.lat;\r",
-									"    pm.expect(lat).to.eql(user_data.timezone.value.lat);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verifying mou createdBy User timezone long\", function () {\r",
-									"    var long = jsonData.data.moveFileNode.createdBy.timezone.value.long;\r",
-									"    pm.expect(long).to.eql(user_data.timezone.value.long);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verifying mou createdBy User avatarLetters\", function () {\r",
-									"    var avatarLetters = jsonData.data.moveFileNode.createdBy.avatarLetters;\r",
-									"    pm.expect(avatarLetters).to.eql(user_data.avatarLetters);\r",
-									"});\r",
-									"\r",
-									"\r",
-									"\r",
-									"\r",
-									"\r",
-									"\r",
-									"\r",
-									"\r",
-									"\r",
-									"\r",
-									"\r",
-									"\r",
-									"\r",
-									"\r",
-									"\r",
-									"\r",
-									""
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -1619,6 +1513,9 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
+									"const moment = require('moment');\r",
+									"\r",
+									"pm.globals.set(\"renameMouName\", \"renameMouName\" + moment().format(\"DDMMYYYYhhmmss\"));\r",
 									""
 								],
 								"type": "text/javascript"
@@ -1641,8 +1538,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation moveFileNode($input: MoveFileInput!) {\r\n  moveFileNode(input: $input) {\r\n    id\r\n    createdAt\r\n    canDelete\r\n    type\r\n    name\r\n    createdBy {\r\n      id\r\n      createdAt\r\n        canDelete\r\n      email {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      realFirstName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      realLastName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      displayFirstName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      displayLastName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      phone {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      about {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      status {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      roles {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      title {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      fullName\r\n      firstName\r\n      avatarLetters\r\n      timezone {\r\n        value {\r\n          name\r\n          lat\r\n          long\r\n          countries {\r\n            code\r\n            name\r\n            zones {\r\n              name\r\n            }\r\n          }\r\n        }\r\n        canRead\r\n        canEdit\r\n      }\r\n      unavailabilities {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      organizations {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      partners {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      education {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      locations {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      knownLanguages {\r\n        proficiency\r\n        language {\r\n          id\r\n        }\r\n      }\r\n    }\r\n    parents {\r\n      id\r\n    }\r\n  }\r\n}\r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"id\": \"{{mouId}}\",\r\n        \"parentId\": \"{{userid}}\",\r\n        \"name\": \"{{mouName}}\"\r\n    }\r\n}"
+								"query": "mutation RenameFileNode($input: RenameFileInput!) {\r\n  renameFileNode(input: $input) {\r\n    id\r\n    name\r\n    type\r\n    canDelete\r\n    createdAt\r\n    createdBy {\r\n      id\r\n    }\r\n    parents {\r\n      id\r\n      name\r\n      type\r\n      canDelete\r\n      createdAt\r\n      createdBy {\r\n        id\r\n      }\r\n      parents {\r\n        id\r\n      }\r\n    }\r\n  }\r\n}",
+								"variables": "{\r\n    \"input\": {\r\n        \"id\": \"{{mouId}}\",\r\n        \"name\": \"{{renameMouName}}\"\r\n    }\r\n}"
 							}
 						},
 						"url": {
@@ -1658,7 +1555,7 @@
 					"response": []
 				},
 				{
-					"name": "MoveFileNode Mandatory Field Blank - Id",
+					"name": "RenameFileNode Mandatory Field Blank - Id",
 					"event": [
 						{
 							"listen": "test",
@@ -1721,8 +1618,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation moveFileNode($input: MoveFileInput!) {\r\n  moveFileNode(input: $input) {\r\n    id\r\n    createdAt\r\n    canDelete\r\n    type\r\n    name\r\n    createdBy {\r\n      id\r\n      createdAt\r\n      canDelete\r\n      email {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      realFirstName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      realLastName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      displayFirstName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      displayLastName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      phone {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      about {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      status {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      roles {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      title {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      fullName\r\n      firstName\r\n      avatarLetters\r\n      timezone {\r\n        value {\r\n          name\r\n          lat\r\n          long\r\n          countries {\r\n            code\r\n            name\r\n            zones {\r\n              name\r\n            }\r\n          }\r\n        }\r\n        canRead\r\n        canEdit\r\n      }\r\n      unavailabilities {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      organizations {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      partners {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      education {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      locations {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      knownLanguages {\r\n        proficiency\r\n        language {\r\n          id\r\n        }\r\n      }\r\n    }\r\n    parents {\r\n      id\r\n    }\r\n  }\r\n}\r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"id\": \"\",\r\n        \"parentId\": \"{{userid}}\",\r\n        \"name\": \"{{mouName}}\"\r\n    }\r\n}"
+								"query": "mutation RenameFileNode($input: RenameFileInput!) {\r\n  renameFileNode(input: $input) {\r\n    id\r\n    name\r\n    type\r\n    canDelete\r\n    createdAt\r\n    createdBy {\r\n      id\r\n    }\r\n    parents {\r\n      id\r\n      name\r\n      type\r\n      canDelete\r\n      createdAt\r\n      createdBy {\r\n        id\r\n      }\r\n      parents {\r\n        id\r\n      }\r\n    }\r\n  }\r\n}",
+								"variables": "{\r\n    \"input\": {\r\n        \"id\": \"\",\r\n        \"name\": \"{{mouName}}\"\r\n    }\r\n}"
 							}
 						},
 						"url": {
@@ -1738,7 +1635,7 @@
 					"response": []
 				},
 				{
-					"name": "MoveFileNode Mandatory Field Removed -  Id",
+					"name": "RenameFileNode Mandatory Field Removed -  Id",
 					"event": [
 						{
 							"listen": "test",
@@ -1795,8 +1692,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation moveFileNode($input: MoveFileInput!) {\r\n  moveFileNode(input: $input) {\r\n    id\r\n    createdAt\r\n    canDelete\r\n    type\r\n    name\r\n    createdBy {\r\n      id\r\n      createdAt\r\n      canDelete\r\n      email {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      realFirstName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      realLastName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      displayFirstName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      displayLastName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      phone {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      about {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      status {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      roles {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      title {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      fullName\r\n      firstName\r\n      avatarLetters\r\n      timezone {\r\n        value {\r\n          name\r\n          lat\r\n          long\r\n          countries {\r\n            code\r\n            name\r\n            zones {\r\n              name\r\n            }\r\n          }\r\n        }\r\n        canRead\r\n        canEdit\r\n      }\r\n      unavailabilities {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      organizations {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      partners {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      education {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      locations {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      knownLanguages {\r\n        proficiency\r\n        language {\r\n          id\r\n        }\r\n      }\r\n    }\r\n    parents {\r\n      id\r\n    }\r\n  }\r\n}\r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"parentId\": \"{{userid}}\",\r\n        \"name\": \"{{mouName}}\"\r\n    }\r\n}"
+								"query": "mutation RenameFileNode($input: RenameFileInput!) {\r\n  renameFileNode(input: $input) {\r\n    id\r\n    name\r\n    type\r\n    canDelete\r\n    createdAt\r\n    createdBy {\r\n      id\r\n    }\r\n    parents {\r\n      id\r\n      name\r\n      type\r\n      canDelete\r\n      createdAt\r\n      createdBy {\r\n        id\r\n      }\r\n      parents {\r\n        id\r\n      }\r\n    }\r\n  }\r\n}",
+								"variables": "{\r\n    \"input\": {\r\n        \"name\": \"{{renameMouName}}\"\r\n    }\r\n}"
 							}
 						},
 						"url": {
@@ -1812,7 +1709,316 @@
 					"response": []
 				},
 				{
-					"name": "MoveFileNode Mandatory Field Blank - parentId",
+					"name": "RenameFileNode Mandatory Field Blank - Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"//Common Verification\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Expected as per Requirement >> BUG ADDED #2311 (open)(Null name accepting for file rename)\", function () {\r",
+									"\r",
+									"    pm.expect(true).to.eql(false);\r",
+									"});\r",
+									"\r",
+									"//Test Specific\r",
+									"// pm.test(\"Verify that ID error message is correct\", function () {\r",
+									"//     var ID = jsonData.errors[0].message;\r",
+									"//     pm.expect(ID).to.eql(\"Input validation failed\")\r",
+									"// });\r",
+									"\r",
+									"// pm.test(\"Verify that error message is correct\", function () {\r",
+									"//     var ID = jsonData.errors[0].extensions.errors['parentId'].IsId;\r",
+									"//     pm.expect(ID).to.eql(\"Invalid ID\")\r",
+									"// });\r",
+									"\r",
+									"// pm.test(\"Verify that error status is 400\", function () {\r",
+									"//     var error_status = jsonData.errors[0].extensions.status;\r",
+									"//     pm.expect(error_status).to.eql(400);\r",
+									"// });\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation RenameFileNode($input: RenameFileInput!) {\r\n  renameFileNode(input: $input) {\r\n    id\r\n    name\r\n    type\r\n    canDelete\r\n    createdAt\r\n    createdBy {\r\n      id\r\n    }\r\n    parents {\r\n      id\r\n      name\r\n      type\r\n      canDelete\r\n      createdAt\r\n      createdBy {\r\n        id\r\n      }\r\n      parents {\r\n        id\r\n      }\r\n    }\r\n  }\r\n}",
+								"variables": "{\r\n    \"input\": {\r\n        \"id\": \"{{mouId}}\",\r\n        \"name\": \"\"\r\n    }\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{env}}/graphql",
+							"host": [
+								"{{env}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RenameFileNode Mandatory Field Removed - Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"//Common Verification\r",
+									"pm.test(\"Status code is 400 Bad Request\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));\r",
+									"});\r",
+									"\r",
+									"//Test Specific\r",
+									"pm.test(\"Verify that error message is correct\", function () {\r",
+									"    var error_message = jsonData.errors[0].message;\r",
+									"    pm.expect(error_message).to.include(\" Field \\\"name\\\" of required type \\\"String!\\\" was not provided.\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {\r",
+									"    var error_code = jsonData.errors[0].extensions.code;\r",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation RenameFileNode($input: RenameFileInput!) {\r\n  renameFileNode(input: $input) {\r\n    id\r\n    name\r\n    type\r\n    canDelete\r\n    createdAt\r\n    createdBy {\r\n      id\r\n    }\r\n    parents {\r\n      id\r\n      name\r\n      type\r\n      canDelete\r\n      createdAt\r\n      createdBy {\r\n        id\r\n      }\r\n      parents {\r\n        id\r\n      }\r\n    }\r\n  }\r\n}",
+								"variables": "{\r\n    \"input\": {\r\n        \"id\": \"{{mouId}}\"\r\n    }\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{env}}/graphql",
+							"host": [
+								"{{env}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RenameFileNode Parameter Mismatch - Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"//Common Verification\r",
+									"pm.test(\"Status code is 400 Bad Request\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));\r",
+									"});\r",
+									"\r",
+									"//Test Specific\r",
+									"pm.test(\"Verify that error message is correct\", function () {\r",
+									"    var error_message = jsonData.errors[0].message;\r",
+									"    pm.expect(error_message).to.include(\"Field \\\"id\\\" of required type \\\"ID!\\\" was not provided.\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {\r",
+									"    var error_code = jsonData.errors[0].extensions.code;\r",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation RenameFileNode($input: RenameFileInput!) {\r\n  renameFileNode(input: $input) {\r\n    id\r\n    name\r\n    type\r\n    canDelete\r\n    createdAt\r\n    createdBy {\r\n      id\r\n    }\r\n    parents {\r\n      id\r\n      name\r\n      type\r\n      canDelete\r\n      createdAt\r\n      createdBy {\r\n        id\r\n      }\r\n      parents {\r\n        id\r\n      }\r\n    }\r\n  }\r\n}",
+								"variables": "{\r\n    \"input\": {\r\n        \"id1\": \"{{mouId}}\",\r\n        \"name\": \"{{renameMouName}}\"\r\n    }\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{env}}/graphql",
+							"host": [
+								"{{env}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RenameFileNode Parameter Mismatch - name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"//Common Verification\r",
+									"pm.test(\"Status code is 400 Bad Request\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));\r",
+									"});\r",
+									"\r",
+									"//Test Specific\r",
+									"pm.test(\"Verify that error message is correct\", function () {\r",
+									"    var error_message = jsonData.errors[0].message;\r",
+									"    pm.expect(error_message).to.include(\"Field \\\"name\\\" of required type \\\"String!\\\" was not provided.\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {\r",
+									"    var error_code = jsonData.errors[0].extensions.code;\r",
+									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation RenameFileNode($input: RenameFileInput!) {\r\n  renameFileNode(input: $input) {\r\n    id\r\n    name\r\n    type\r\n    canDelete\r\n    createdAt\r\n    createdBy {\r\n      id\r\n    }\r\n    parents {\r\n      id\r\n      name\r\n      type\r\n      canDelete\r\n      createdAt\r\n      createdBy {\r\n        id\r\n      }\r\n      parents {\r\n        id\r\n      }\r\n    }\r\n  }\r\n}",
+								"variables": "{\r\n    \"input\": {\r\n        \"id\": \"{{mouId}}\",\r\n        \"name1\": \"{{renameMouName}}\"\r\n    }\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{env}}/graphql",
+							"host": [
+								"{{env}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RenameFileNode Parameter Invalid - Id",
 					"event": [
 						{
 							"listen": "test",
@@ -1836,7 +2042,7 @@
 									"});\r",
 									"\r",
 									"pm.test(\"Verify that error message is correct\", function () {\r",
-									"    var ID = jsonData.errors[0].extensions.errors['parentId'].IsId;\r",
+									"    var ID = jsonData.errors[0].extensions.errors['id'].IsId;\r",
 									"    pm.expect(ID).to.eql(\"Invalid ID\")\r",
 									"});\r",
 									"\r",
@@ -1875,543 +2081,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation moveFileNode($input: MoveFileInput!) {\r\n  moveFileNode(input: $input) {\r\n    id\r\n    createdAt\r\n    canDelete\r\n    type\r\n    name\r\n    createdBy {\r\n      id\r\n      createdAt\r\n      canDelete\r\n      email {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      realFirstName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      realLastName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      displayFirstName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      displayLastName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      phone {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      about {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      status {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      roles {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      title {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      fullName\r\n      firstName\r\n      avatarLetters\r\n      timezone {\r\n        value {\r\n          name\r\n          lat\r\n          long\r\n          countries {\r\n            code\r\n            name\r\n            zones {\r\n              name\r\n            }\r\n          }\r\n        }\r\n        canRead\r\n        canEdit\r\n      }\r\n      unavailabilities {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      organizations {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      partners {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      education {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      locations {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      knownLanguages {\r\n        proficiency\r\n        language {\r\n          id\r\n        }\r\n      }\r\n    }\r\n    parents {\r\n      id\r\n    }\r\n  }\r\n}\r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"id\": \"{{mouId}}\",\r\n        \"parentId\": \"\",\r\n        \"name\": \"{{mouName}}\"\r\n    }\r\n}"
-							}
-						},
-						"url": {
-							"raw": "{{env}}/graphql",
-							"host": [
-								"{{env}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "MoveFileNode Mandatory Field Removed - parentId",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = pm.response.json();\r",
-									"\r",
-									"//Common Verification\r",
-									"pm.test(\"Status code is 400 Bad Request\", function () {\r",
-									"    pm.response.to.have.status(400);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));\r",
-									"});\r",
-									"\r",
-									"//Test Specific\r",
-									"pm.test(\"Verify that error message is correct\", function () {\r",
-									"    var error_message = jsonData.errors[0].message;\r",
-									"    pm.expect(error_message).to.include(\" of required type \\\"ID!\\\" was not provided.\");\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {\r",
-									"    var error_code = jsonData.errors[0].extensions.code;\r",
-									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "mutation moveFileNode($input: MoveFileInput!) {\r\n  moveFileNode(input: $input) {\r\n    id\r\n    createdAt\r\n    canDelete\r\n    type\r\n    name\r\n    createdBy {\r\n      id\r\n      createdAt\r\n      canDelete\r\n      email {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      realFirstName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      realLastName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      displayFirstName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      displayLastName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      phone {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      about {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      status {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      roles {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      title {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      fullName\r\n      firstName\r\n      avatarLetters\r\n      timezone {\r\n        value {\r\n          name\r\n          lat\r\n          long\r\n          countries {\r\n            code\r\n            name\r\n            zones {\r\n              name\r\n            }\r\n          }\r\n        }\r\n        canRead\r\n        canEdit\r\n      }\r\n      unavailabilities {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      organizations {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      partners {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      education {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      locations {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      knownLanguages {\r\n        proficiency\r\n        language {\r\n          id\r\n        }\r\n      }\r\n    }\r\n    parents {\r\n      id\r\n    }\r\n  }\r\n}\r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"id\": \"{{mouId}}\",\r\n        \"name\": \"{{mouName}}\"\r\n    }\r\n}"
-							}
-						},
-						"url": {
-							"raw": "{{env}}/graphql",
-							"host": [
-								"{{env}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "MoveFileNode Mandatory Field Removed - Name",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = pm.response.json();\r",
-									"\r",
-									"//Common Verification\r",
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));\r",
-									"});\r",
-									"\r",
-									"//Test Specific\r",
-									"pm.test(\"Verify that moveFileNode\", function () {\r",
-									"    var mouId = jsonData.data.moveFileNode.id;\r",
-									"    pm.expect(mouId).to.not.eql(null);\r",
-									"    pm.expect(mouId).to.not.eql(\"\");\r",
-									"});\r",
-									"\r",
-									"\r",
-									"pm.test(\"Verify that moveFileNode name is equal to previous value\", function () {\r",
-									"   var name = jsonData.data.moveFileNode.name;\r",
-									"    pm.expect(name).to.eql(pm.globals.get('mouName'));\r",
-									"});\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "mutation moveFileNode($input: MoveFileInput!) {\r\n  moveFileNode(input: $input) {\r\n    id\r\n    createdAt\r\n    canDelete\r\n    type\r\n    name\r\n    createdBy {\r\n      id\r\n      createdAt\r\n      canDelete\r\n      email {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      realFirstName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      realLastName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      displayFirstName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      displayLastName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      phone {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      about {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      status {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      roles {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      title {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      fullName\r\n      firstName\r\n      avatarLetters\r\n      timezone {\r\n        value {\r\n          name\r\n          lat\r\n          long\r\n          countries {\r\n            code\r\n            name\r\n            zones {\r\n              name\r\n            }\r\n          }\r\n        }\r\n        canRead\r\n        canEdit\r\n      }\r\n      unavailabilities {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      organizations {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      partners {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      education {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      locations {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      knownLanguages {\r\n        proficiency\r\n        language {\r\n          id\r\n        }\r\n      }\r\n    }\r\n    parents {\r\n      id\r\n    }\r\n  }\r\n}\r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"id\": \"{{mouId}}\",\r\n        \"parentId\": \"{{userid}}\"\r\n    }\r\n}"
-							}
-						},
-						"url": {
-							"raw": "{{env}}/graphql",
-							"host": [
-								"{{env}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "MoveFileNode Parameter Mismatch - Id",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = pm.response.json();\r",
-									"\r",
-									"//Common Verification\r",
-									"pm.test(\"Status code is 400 Bad Request\", function () {\r",
-									"    pm.response.to.have.status(400);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));\r",
-									"});\r",
-									"\r",
-									"//Test Specific\r",
-									"pm.test(\"Verify that error message is correct\", function () {\r",
-									"    var error_message = jsonData.errors[1].message;\r",
-									"    pm.expect(error_message).to.include(\"is not defined by type \\\"MoveFileInput\\\". Did you mean \\\"id\\\"?\");\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {\r",
-									"    var error_code = jsonData.errors[0].extensions.code;\r",
-									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "mutation moveFileNode($input: MoveFileInput!) {\r\n  moveFileNode(input: $input) {\r\n    id\r\n    createdAt\r\n    canDelete\r\n    type\r\n    name\r\n    createdBy {\r\n      id\r\n      createdAt\r\n      canDelete\r\n      email {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      realFirstName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      realLastName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      displayFirstName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      displayLastName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      phone {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      about {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      status {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      roles {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      title {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      fullName\r\n      firstName\r\n      avatarLetters\r\n      timezone {\r\n        value {\r\n          name\r\n          lat\r\n          long\r\n          countries {\r\n            code\r\n            name\r\n            zones {\r\n              name\r\n            }\r\n          }\r\n        }\r\n        canRead\r\n        canEdit\r\n      }\r\n      unavailabilities {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      organizations {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      partners {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      education {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      locations {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      knownLanguages {\r\n        proficiency\r\n        language {\r\n          id\r\n        }\r\n      }\r\n    }\r\n    parents {\r\n      id\r\n    }\r\n  }\r\n}\r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"id1\": \"{{mouId}}\",\r\n        \"parentId\": \"{{userid}}\",\r\n        \"name\": \"{{mouName}}\"\r\n    }\r\n}"
-							}
-						},
-						"url": {
-							"raw": "{{env}}/graphql",
-							"host": [
-								"{{env}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "MoveFileNode Parameter Mismatch - parentId",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = pm.response.json();\r",
-									"\r",
-									"//Common Verification\r",
-									"pm.test(\"Status code is 400 Bad Request\", function () {\r",
-									"    pm.response.to.have.status(400);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));\r",
-									"});\r",
-									"\r",
-									"//Test Specific\r",
-									"pm.test(\"Verify that error message is correct\", function () {\r",
-									"    var error_message = jsonData.errors[0].message;\r",
-									"    pm.expect(error_message).to.include(\" of required type \\\"ID!\\\" was not provided.\");\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {\r",
-									"    var error_code = jsonData.errors[0].extensions.code;\r",
-									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "mutation moveFileNode($input: MoveFileInput!) {\r\n  moveFileNode(input: $input) {\r\n    id\r\n    createdAt\r\n    canDelete\r\n    type\r\n    name\r\n    createdBy {\r\n      id\r\n      createdAt\r\n      canDelete\r\n      email {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      realFirstName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      realLastName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      displayFirstName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      displayLastName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      phone {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      about {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      status {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      roles {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      title {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      fullName\r\n      firstName\r\n      avatarLetters\r\n      timezone {\r\n        value {\r\n          name\r\n          lat\r\n          long\r\n          countries {\r\n            code\r\n            name\r\n            zones {\r\n              name\r\n            }\r\n          }\r\n        }\r\n        canRead\r\n        canEdit\r\n      }\r\n      unavailabilities {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      organizations {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      partners {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      education {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      locations {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      knownLanguages {\r\n        proficiency\r\n        language {\r\n          id\r\n        }\r\n      }\r\n    }\r\n    parents {\r\n      id\r\n    }\r\n  }\r\n}\r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"id\": \"{{mouId}}\",\r\n        \"parentId1\": \"{{userid}}\",\r\n        \"name\": \"{{mouName}}\"\r\n    }\r\n}"
-							}
-						},
-						"url": {
-							"raw": "{{env}}/graphql",
-							"host": [
-								"{{env}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "MoveFileNode Parameter Mismatch - Name",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = pm.response.json();\r",
-									"\r",
-									"//Common Verification\r",
-									"pm.test(\"Status code is 400 Bad Request\", function () {\r",
-									"    pm.response.to.have.status(400);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));\r",
-									"});\r",
-									"\r",
-									"//Test Specific\r",
-									"pm.test(\"Verify that error message is correct\", function () {\r",
-									"    var error_message = jsonData.errors[0].message;\r",
-									"    pm.expect(error_message).to.include(\"is not defined by type \\\"MoveFileInput\\\".\");\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verify that error code is BAD_USER_INPUT\", function () {\r",
-									"    var error_code = jsonData.errors[0].extensions.code;\r",
-									"    pm.expect(error_code).to.eql(pm.globals.get('badRequestErrorCode'));\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "mutation moveFileNode($input: MoveFileInput!) {\r\n  moveFileNode(input: $input) {\r\n    id\r\n    createdAt\r\n    canDelete\r\n    type\r\n    name\r\n    createdBy {\r\n      id\r\n      createdAt\r\n      canDelete\r\n      email {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      realFirstName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      realLastName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      displayFirstName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      displayLastName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      phone {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      about {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      status {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      roles {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      title {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      fullName\r\n      firstName\r\n      avatarLetters\r\n      timezone {\r\n        value {\r\n          name\r\n          lat\r\n          long\r\n          countries {\r\n            code\r\n            name\r\n            zones {\r\n              name\r\n            }\r\n          }\r\n        }\r\n        canRead\r\n        canEdit\r\n      }\r\n      unavailabilities {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      organizations {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      partners {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      education {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      locations {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      knownLanguages {\r\n        proficiency\r\n        language {\r\n          id\r\n        }\r\n      }\r\n    }\r\n    parents {\r\n      id\r\n    }\r\n  }\r\n}\r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"id\": \"{{mouId}}\",\r\n        \"parentId\": \"{{userid}}\",\r\n        \"name1\": \"{{mouName}}\"\r\n    }\r\n}"
-							}
-						},
-						"url": {
-							"raw": "{{env}}/graphql",
-							"host": [
-								"{{env}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "MoveFileNode Parameter Invalid - Id",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = pm.response.json();\r",
-									"\r",
-									"//Common Verification\r",
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));\r",
-									"});\r",
-									"\r",
-									"//Test Specific\r",
-									"pm.test(\"Verify that error message is correct\", function () {\r",
-									"    var error_message = jsonData.errors[0].message;\r",
-									"    pm.expect(error_message).to.eql(\"Input validation failed\");\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verify that ID error message is correct\", function () {\r",
-									"    var error_partnershipId = jsonData.errors[0].extensions.errors.id.IsId;\r",
-									"    pm.expect(error_partnershipId).to.eql(\"Invalid ID\");\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verify that error status is 400\", function () {\r",
-									"    var error_status = jsonData.errors[0].extensions.status;\r",
-									"    pm.expect(error_status).to.eql(400);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "mutation moveFileNode($input: MoveFileInput!) {\r\n  moveFileNode(input: $input) {\r\n    id\r\n    createdAt\r\n    canDelete\r\n    type\r\n    name\r\n    createdBy {\r\n      id\r\n      createdAt\r\n      canDelete\r\n      email {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      realFirstName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      realLastName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      displayFirstName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      displayLastName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      phone {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      about {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      status {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      roles {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      title {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      fullName\r\n      firstName\r\n      avatarLetters\r\n      timezone {\r\n        value {\r\n          name\r\n          lat\r\n          long\r\n          countries {\r\n            code\r\n            name\r\n            zones {\r\n              name\r\n            }\r\n          }\r\n        }\r\n        canRead\r\n        canEdit\r\n      }\r\n      unavailabilities {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      organizations {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      partners {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      education {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      locations {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      knownLanguages {\r\n        proficiency\r\n        language {\r\n          id\r\n        }\r\n      }\r\n    }\r\n    parents {\r\n      id\r\n    }\r\n  }\r\n}\r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"id\": \"%@@#\",\r\n        \"parentId\": \"{{userid}}\",\r\n        \"name\": \"{{mouName}}\"\r\n    }\r\n}"
-							}
-						},
-						"url": {
-							"raw": "{{env}}/graphql",
-							"host": [
-								"{{env}}"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "MoveFileNode Parameter Invalid - parentId",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = pm.response.json();\r",
-									"\r",
-									"//Common Verification\r",
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Response time is less than \" + pm.globals.get('responseTime') + \" which is \" + pm.response.responseTime, function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(Number(pm.globals.get('responseTime')));\r",
-									"});\r",
-									"\r",
-									"//Test Specific\r",
-									"pm.test(\"Verify that error message is correct\", function () {\r",
-									"    var error_message = jsonData.errors[0].message;\r",
-									"    pm.expect(error_message).to.eql(\"Input validation failed\");\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verify that ID error message is correct\", function () {\r",
-									"    var error_partnershipId = jsonData.errors[0].extensions.errors.parentId.IsId;\r",
-									"    pm.expect(error_partnershipId).to.eql(\"Invalid ID\");\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Verify that error status is 400\", function () {\r",
-									"    var error_status = jsonData.errors[0].extensions.status;\r",
-									"    pm.expect(error_status).to.eql(400);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "mutation moveFileNode($input: MoveFileInput!) {\r\n  moveFileNode(input: $input) {\r\n    id\r\n    createdAt\r\n    canDelete\r\n    type\r\n    name\r\n    createdBy {\r\n      id\r\n      createdAt\r\n      canDelete\r\n      email {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      realFirstName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      realLastName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      displayFirstName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      displayLastName {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      phone {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      about {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      status {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      roles {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      title {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      fullName\r\n      firstName\r\n      avatarLetters\r\n      timezone {\r\n        value {\r\n          name\r\n          lat\r\n          long\r\n          countries {\r\n            code\r\n            name\r\n            zones {\r\n              name\r\n            }\r\n          }\r\n        }\r\n        canRead\r\n        canEdit\r\n      }\r\n      unavailabilities {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      organizations {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      partners {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      education {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      locations {\r\n        total\r\n        hasMore\r\n        items {\r\n          id\r\n        }\r\n        canRead\r\n        canCreate\r\n      }\r\n      knownLanguages {\r\n        proficiency\r\n        language {\r\n          id\r\n        }\r\n      }\r\n    }\r\n    parents {\r\n      id\r\n    }\r\n  }\r\n}\r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"id\": \"{{mouId}}\",\r\n        \"parentId\": \"%@#@$$\",\r\n        \"name\": \"{{mouName}}\"\r\n    }\r\n}"
+								"query": "mutation RenameFileNode($input: RenameFileInput!) {\r\n  renameFileNode(input: $input) {\r\n    id\r\n    name\r\n    type\r\n    canDelete\r\n    createdAt\r\n    createdBy {\r\n      id\r\n    }\r\n    parents {\r\n      id\r\n      name\r\n      type\r\n      canDelete\r\n      createdAt\r\n      createdBy {\r\n        id\r\n      }\r\n      parents {\r\n        id\r\n      }\r\n    }\r\n  }\r\n}",
+								"variables": "{\r\n    \"input\": {\r\n        \"id\": \"%@@#\",\r\n        \"name\": \"{{renameMouName}}\"\r\n    }\r\n}"
 							}
 						},
 						"url": {
