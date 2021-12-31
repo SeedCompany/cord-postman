@@ -72,11 +72,6 @@
 			"enabled": true
 		},
 		{
-			"key": "ceremonyid",
-			"value": "",
-			"enabled": true
-		},
-		{
 			"key": "ceremonyId",
 			"value": "",
 			"enabled": true
@@ -419,61 +414,6 @@
 		{
 			"key": "languageTags",
 			"value": "",
-			"enabled": true
-		},
-		{
-			"key": "literacyMaterial_data",
-			"value": "{\"id\":\"a7_v86OA-6\",\"createdAt\":\"2020-08-06T11:30:32.335+05:30\",\"name\":{\"value\":\"LiteracyMaterialName06082020113032\",\"canRead\":true,\"canEdit\":true},\"scriptureReferences\":{\"canEdit\":true,\"canRead\":true,\"value\":[]}}",
-			"enabled": true
-		},
-		{
-			"key": "literacyMaterialId",
-			"value": "a7_v86OA-6",
-			"enabled": true
-		},
-		{
-			"key": "literacyMaterialName",
-			"value": "LiteracyMaterialName07082020065429",
-			"enabled": true
-		},
-		{
-			"key": "literacyMaterialScriptRefBookEnd",
-			"value": "LiteracyMaterialScriptureReferencesBookEnd07082020065429",
-			"enabled": true
-		},
-		{
-			"key": "literacyMaterialScriptRefBookStart",
-			"value": "LiteracyMaterialScriptureReferencesBookStart07082020065429",
-			"enabled": true
-		},
-		{
-			"key": "literacyMaterialScriptRefChapterEnd",
-			"value": 28,
-			"enabled": true
-		},
-		{
-			"key": "literacyMaterialScriptRefChapterStart",
-			"value": 8,
-			"enabled": true
-		},
-		{
-			"key": "literacyMaterialScriptRefLabelEnd",
-			"value": "",
-			"enabled": true
-		},
-		{
-			"key": "literacyMaterialScriptRefLabelStart",
-			"value": "",
-			"enabled": true
-		},
-		{
-			"key": "literacyMaterialScriptRefVerseEnd",
-			"value": 279,
-			"enabled": true
-		},
-		{
-			"key": "literacyMaterialScriptRefVerseStart",
-			"value": 143,
 			"enabled": true
 		},
 		{
@@ -996,61 +936,6 @@
 			"enabled": true
 		},
 		{
-			"key": "song_data",
-			"value": "{\"id\":\"_e2RjMxUZ\",\"createdAt\":\"2020-08-11T15:11:53.484+05:30\",\"name\":{\"value\":\"SongName11082020031153\",\"canEdit\":true,\"canRead\":true},\"scriptureReferences\":{\"value\":[],\"canEdit\":true,\"canRead\":true}}",
-			"enabled": true
-		},
-		{
-			"key": "songId",
-			"value": "_e2RjMxUZ",
-			"enabled": true
-		},
-		{
-			"key": "songName",
-			"value": "SongName11082020031134",
-			"enabled": true
-		},
-		{
-			"key": "songScriptRefBookEnd",
-			"value": "",
-			"enabled": true
-		},
-		{
-			"key": "songScriptRefBookStart",
-			"value": "",
-			"enabled": true
-		},
-		{
-			"key": "songScriptRefChapterEnd",
-			"value": "",
-			"enabled": true
-		},
-		{
-			"key": "songScriptRefChapterStart",
-			"value": "",
-			"enabled": true
-		},
-		{
-			"key": "songScriptRefLabelEnd",
-			"value": "",
-			"enabled": true
-		},
-		{
-			"key": "songScriptRefLabelStart",
-			"value": "",
-			"enabled": true
-		},
-		{
-			"key": "songScriptRefVerseEnd",
-			"value": "",
-			"enabled": true
-		},
-		{
-			"key": "songScriptRefVerseStart",
-			"value": "",
-			"enabled": true
-		},
-		{
 			"key": "sort",
 			"value": "status",
 			"enabled": true
@@ -1291,17 +1176,7 @@
 			"enabled": true
 		},
 		{
-			"key": "LiteracyMaterialType",
-			"value": "",
-			"enabled": true
-		},
-		{
 			"key": "storyType",
-			"value": "",
-			"enabled": true
-		},
-		{
-			"key": "SongType",
 			"value": "",
 			"enabled": true
 		},
@@ -1621,11 +1496,6 @@
 			"enabled": true
 		},
 		{
-			"key": "",
-			"value": "",
-			"enabled": false
-		},
-		{
 			"key": "ethnoArtName",
 			"value": "",
 			"enabled": true
@@ -1744,10 +1614,45 @@
 			"key": "renameMouName",
 			"value": "",
 			"enabled": true
+		},
+		{
+			"key": "placeholderDescription",
+			"value": "placeholderDescription20122021112226",
+			"enabled": true
+		},
+		{
+			"key": "directScriptureProductId",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "directScriptureProduct_data",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "uploadPeriodicReportName",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "uploadPeriodicReportid",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "uploadPeriodicReport_data",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "reportFileID",
+			"value": "",
+			"enabled": true
 		}
 	],
 	"name": "Globals",
 	"_postman_variable_scope": "globals",
-	"_postman_exported_at": "2021-12-17T12:34:55.138Z",
-	"_postman_exported_using": "Postman/9.5.0"
+	"_postman_exported_at": "2021-12-31T13:09:23.754Z",
+	"_postman_exported_using": "Postman/9.7.1"
 }

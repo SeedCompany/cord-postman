@@ -22,9 +22,6 @@ newman run Cord_API_V3_Language.postman_collection.json -e local.postman_environ
 >> Education
 newman run Cord_API_V3_Education.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
 
->> Product
-newman run Cord_API_V3_Product.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
-
 >> LiteracyMaterial
 newman run Cord_API_V3_LiteracyMaterial.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
 
@@ -115,8 +112,8 @@ newman run Cord_API_V3_ProjectApproval.postman_collection.json -e local.postman_
 >> FileUpload
 newman run Cord_API_V3_FileUpload.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
 
->> TogglePinned
-newman run Cord_API_V3_TogglePinned.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+>> TogglePinned_Project
+newman run Cord_API_V3_TogglePinned_Project.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
 
 >> TogglePinned_User
 newman run Cord_API_V3_TogglePinned_User.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
@@ -138,6 +135,15 @@ newman run Cord_API_V3_RenameFileNode.postman_collection.json -e local.postman_e
 
 >> DeleteFileNode
 newman run Cord_API_V3_DeleteFileNode.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> DerivativeScriptureProduct
+newman run Cord_API_V3_DerivativeScriptureProduct.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> DirectScriptureProduct
+newman run Cord_API_V3_DirectScriptureProduct.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
+
+>> OtherProduct
+newman run Cord_API_V3_OtherProduct.postman_collection.json -e local.postman_environment.json -g MyWorkspace.postman_globals.json -r htmlextra --delay-request 1000
 
 
 
