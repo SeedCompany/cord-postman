@@ -9989,7 +9989,7 @@
 					"response": []
 				},
 				{
-					"name": "Update DerivativeProduct Mandatory Field Removed - scriptureRef start chapter ??",
+					"name": "Update DerivativeProduct Mandatory Field Removed - scriptureRef start chapter",
 					"event": [
 						{
 							"listen": "test",
@@ -10015,7 +10015,7 @@
 									"\r",
 									"pm.test(\"Verify that product scriptureReferences chapters are same as previous value\", function () {\r",
 									"    var scriptureReferencesChapters = jsonData.data.updateDerivativeScriptureProduct.product.scriptureReferences.value[0].start.chapter;\r",
-									"    pm.expect(scriptureReferencesChapters).to.eql(pm.globals.get('productScriptRefChapterStart'));   \r",
+									"    pm.expect(scriptureReferencesChapters).to.eql(1);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -10064,7 +10064,7 @@
 					"response": []
 				},
 				{
-					"name": "Update DerivativeProduct Mandatory Field Removed - scriptureRef Start Verses??",
+					"name": "Update DerivativeProduct Mandatory Field Removed - scriptureRef Start Verses",
 					"event": [
 						{
 							"listen": "test",
@@ -10090,7 +10090,7 @@
 									"\r",
 									"pm.test(\"Verify that product scriptureReferences verses are same as previous value\", function () {\r",
 									"    var scriptureReferencesVerses = jsonData.data.updateDerivativeScriptureProduct.product.scriptureReferences.value[0].start.verse;\r",
-									"    pm.expect(scriptureReferencesVerses).to.eql(pm.globals.get('productScriptRefVerseStart'));   \r",
+									"    pm.expect(scriptureReferencesVerses).to.eql(1);   \r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -10292,7 +10292,7 @@
 					"response": []
 				},
 				{
-					"name": "Update DerivativeProduct Mandatory Field Removed - scriptureRef End Chapter ??",
+					"name": "Update DerivativeProduct Mandatory Field Removed - scriptureRef End Chapter",
 					"event": [
 						{
 							"listen": "test",
@@ -10317,8 +10317,8 @@
 									"});\r",
 									"\r",
 									"pm.test(\"Verify that product scriptureReferences chapter are same as previous value\", function () {\r",
-									"    var scriptureReferencesChapters = jsonData.data.updateDerivativeScriptureProduct.product.scriptureReferences.value[0].end.verse;\r",
-									"    pm.expect(scriptureReferencesChapters).to.eql(pm.globals.get('productScriptRefChapterEnd'));   \r",
+									"    var scriptureReferencesChapters = jsonData.data.updateDerivativeScriptureProduct.product.scriptureReferences.value[0].end.chapter;\r",
+									"    pm.expect(scriptureReferencesChapters).to.eql(50);   \r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -10367,7 +10367,7 @@
 					"response": []
 				},
 				{
-					"name": "Update DerivativeProduct Mandatory Field Removed - scriptureRef End Verses ??",
+					"name": "Update DerivativeProduct Mandatory Field Removed - scriptureRef End Verses",
 					"event": [
 						{
 							"listen": "test",
@@ -10392,8 +10392,8 @@
 									"});\r",
 									"\r",
 									"pm.test(\"Verify that product scriptureReferences chapter are same as previous value\", function () {\r",
-									"    var scriptureReferencesChapters = jsonData.data.updateDerivativeScriptureProduct.product.scriptureReferences.value[0].end.verse;\r",
-									"    pm.expect(scriptureReferencesChapters).to.eql(pm.globals.get('productScriptRefChapterEnd'));   \r",
+									"    var scriptureReferencesVerses = jsonData.data.updateDerivativeScriptureProduct.product.scriptureReferences.value[0].end.verse;\r",
+									"    pm.expect(scriptureReferencesVerses).to.eql(26);   \r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -10426,7 +10426,7 @@
 							"mode": "graphql",
 							"graphql": {
 								"query": "mutation UpdateDerivativeScriptureProduct(\r\n  $input: UpdateDerivativeScriptureProduct!\r\n  $reportId: ID!\r\n) {\r\n  updateDerivativeScriptureProduct(input: $input) {\r\n    product {\r\n      id\r\n      createdAt\r\n      canDelete\r\n      approach\r\n      availableSteps\r\n      sensitivity\r\n      label\r\n      category\r\n      engagement {\r\n        id\r\n      }\r\n      mediums {\r\n        value\r\n        canEdit\r\n        canRead\r\n      }\r\n      purposes {\r\n        value\r\n        canEdit\r\n        canRead\r\n      }\r\n      methodology {\r\n        value\r\n        canEdit\r\n        canRead\r\n      }\r\n      steps {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      scriptureReferences {\r\n        value {\r\n          start {\r\n            book\r\n            chapter\r\n            verse\r\n            label\r\n          }\r\n          end {\r\n            book\r\n            chapter\r\n            verse\r\n            label\r\n          }\r\n          label\r\n          totalVerses\r\n        }\r\n        canEdit\r\n        canRead\r\n      }\r\n      describeCompletion {\r\n        value\r\n        canEdit\r\n        canRead\r\n      }\r\n      progressOfCurrentReportDue {\r\n        steps {\r\n          completed {\r\n            value\r\n            canRead\r\n            canEdit\r\n          }\r\n          step\r\n        }\r\n        report {\r\n          id\r\n          canDelete\r\n          createdAt\r\n          cumulativeSummary {\r\n            actual\r\n            planned\r\n            variance\r\n          }\r\n          due\r\n          end\r\n          fiscalYearSummary {\r\n            variance\r\n            planned\r\n            actual\r\n          }\r\n          periodSummary {\r\n            variance\r\n            planned\r\n            actual\r\n          }\r\n          progress {\r\n            report {\r\n              id\r\n            }\r\n          }\r\n          receivedDate {\r\n            value\r\n            canRead\r\n            canEdit\r\n          }\r\n          reportFile {\r\n            value {\r\n              id\r\n            }\r\n            canRead\r\n            canEdit\r\n          }\r\n\r\n          skippedReason {\r\n            value\r\n            canRead\r\n            canEdit\r\n          }\r\n          start\r\n          type\r\n        }\r\n      }\r\n      progressStepMeasurement {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      progressTarget {\r\n        value\r\n        canRead\r\n        canEdit\r\n      }\r\n      progressReport(reportId: $reportId) {\r\n        report {\r\n          id\r\n        }\r\n        steps {\r\n          completed {\r\n            value\r\n            canRead\r\n            canEdit\r\n          }\r\n          step\r\n        }\r\n        product {\r\n          id\r\n        }\r\n      }\r\n      progressReports {\r\n        report {\r\n          id\r\n        }\r\n        steps {\r\n          completed {\r\n            value\r\n            canRead\r\n            canEdit\r\n          }\r\n          step\r\n        }\r\n        product {\r\n          id\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n",
-								"variables": "{\r\n    \"input\": {\r\n        \"id\": \"{{derivativeScriptureProductId}}\",\r\n        \"mediums\": \"{{productMediums}}\",\r\n        \"produces\": \"{{filmId}}\",\r\n        \"methodology\": \"{{productMethodologyType}}\",\r\n        \"steps\": {{productStepsArray}},\r\n        \"progressStepMeasurement\": \"Number\",\r\n        \"describeCompletion\": \"{{describeCompletion}}\",\r\n        \"progressTarget\": {{progressTarget}},\r\n        \"scriptureReferencesOverride\": {\r\n            \"start\": {\r\n                \"book\": \"{{productScriptRefBookStart}}\",\r\n                \"chapter\": {{productScriptRefChapterStart}},\r\n                \"verse\": {{productScriptRefVerseStart}}\r\n            },\r\n            \"end\": {\r\n                \"chapter\": {{productScriptRefChapterEnd}},\r\n                \"book\": \"{{productScriptRefBookEnd}}\"\r\n            }\r\n        }\r\n    },\r\n    \"reportId\": \"{{reoprtId}}\"\r\n}"
+								"variables": "{\r\n    \"input\": {\r\n        \"id\": \"{{derivativeScriptureProductId}}\",\r\n        \"mediums\": \"{{productMediums}}\",\r\n        \"produces\": \"{{filmId}}\",\r\n        \"methodology\": \"{{productMethodologyType}}\",\r\n        \"steps\": {{productStepsArray}},\r\n        \"progressStepMeasurement\": \"Number\",\r\n        \"describeCompletion\": \"{{describeCompletion}}\",\r\n        \"progressTarget\": {{progressTarget}},\r\n        \"scriptureReferencesOverride\": {\r\n            \"start\": {\r\n                \"book\": \"Genesis\",\r\n                \"chapter\": 4,\r\n                \"verse\": 4\r\n            },\r\n            \"end\": {\r\n                \"chapter\": 4,\r\n                \"book\": \"Genesis\"\r\n            }\r\n        }\r\n    },\r\n    \"reportId\": \"{{reoprtId}}\"\r\n}"
 							}
 						},
 						"url": {
