@@ -3658,7 +3658,6 @@
 									"    return randomArray;\r",
 									"}\r",
 									"\r",
-									"\r",
 									"// generate random id from characters\r",
 									"function makeid(lower, caps, mix, length) {\r",
 									"    var result = '';\r",
